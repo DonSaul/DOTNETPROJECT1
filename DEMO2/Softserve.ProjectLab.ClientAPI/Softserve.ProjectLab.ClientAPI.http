@@ -1,0 +1,6 @@
+@Softserve.ProjectLab.ClientAPI_HostAddress = http://localhost:5200
+
+GET {{Softserve.ProjectLab.ClientAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
