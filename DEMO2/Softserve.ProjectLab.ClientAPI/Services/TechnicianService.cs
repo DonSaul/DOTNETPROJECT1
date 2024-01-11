@@ -30,7 +30,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         public async Task<Technician> GetTechnicianAsync(int technicianId)
         {
             HttpResponseMessage response = await _client.GetAsync($"/api/Technician/{technicianId}");
-
+            // test
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
