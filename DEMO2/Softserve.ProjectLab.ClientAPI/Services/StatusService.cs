@@ -13,7 +13,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             _client = httpClientFactory.CreateClient("apiClient");
         }
 
-
         public async Task<Status[]> GetStatusesAsync()
         {
             HttpResponseMessage response = await _client.GetAsync("/api/Status");
@@ -29,5 +28,4 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             return statuses;
         }
     }
-
 }

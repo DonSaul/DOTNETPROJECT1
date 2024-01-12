@@ -7,53 +7,49 @@ using System.Net;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class WorkOrderController : Controller
     {
-        private readonly IWorkOrderService _workOrderService;
+        private readonly HttpConnector _httpConnector;
 
-        public WorkOrderController(IWorkOrderService workOrderService)
+        public WorkOrderController()
         {
-            _workOrderService = workOrderService;
+            _httpConnector = new HttpConnector();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<string> Get()
         {
+            string url = ApiUrls.GetAllWorkOrders;
+
             try
             {
-                WorkOrder[] workOrders = await _workOrderService.GetWorkOrdersAsync();
-                return Ok(workOrders);
+                string data = await _httpConnector.Get(url);
+                return data;
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
-                return BadRequest(ex.Message);
+                Console.WriteLine(ex.Message);
+                return null;
             }
         }
         
         [HttpGet("{workOrderName}")]
-        public async Task<IActionResult> Get(string workOrderName)
+        public async Task<string> Get(string workOrderName)
         {
+            string url = ApiUrls.GetWorkOrderByName;
+
             try
             {
-                WorkOrder workOrder = await _workOrderService.GetWorkOrderAsync(workOrderName);
-                if (workOrder == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(workOrder);
+                string data = await _httpConnector.Get(url + workOrderName);
+                return data;
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Console.WriteLine(ex.Message);
+                return null;
             }
         }
-
-
-
     }
-
 }

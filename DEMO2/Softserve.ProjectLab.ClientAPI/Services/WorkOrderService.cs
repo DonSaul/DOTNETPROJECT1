@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Softserve.ProjectLab.ClientAPI.Controllers;
 using Softserve.ProjectLab.ClientAPI.Models;
 using System.Net;
 
 namespace Softserve.ProjectLab.ClientAPI.Services
 {
-
     public class WorkOrderService : IWorkOrderService
     {
         private readonly HttpClient _client;
@@ -18,10 +18,9 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             _technicianService = technicianService;
             _workTypeService = workTypeService;
         }
-
         public async Task<WorkOrder[]> GetWorkOrdersAsync()
         {
-            HttpResponseMessage response = await _client.GetAsync("/api/WorkOrder");
+            HttpResponseMessage response = await _client.GetAsync(ApiUrls.GetAllWorkOrders);
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -35,7 +34,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         }
         public async Task<WorkOrder> GetWorkOrderAsync(string workOrderName)
         {
-            HttpResponseMessage response = await _client.GetAsync($"/api/WorkOrder/{workOrderName}");
+            HttpResponseMessage response = await _client.GetAsync(ApiUrls.GetWorkOrderByName + workOrderName);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
