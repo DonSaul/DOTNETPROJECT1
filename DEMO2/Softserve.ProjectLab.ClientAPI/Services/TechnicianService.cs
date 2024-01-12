@@ -46,7 +46,21 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
             return technician;
         }
+        public async Task<Technician[]> GetTechnicianByNameAsync(string technicianName)
+        {
+            // Tareas: 
+            // [ x ] Implementar TechnicianController
+            // [ x ] retornar Technicians y Technician by ID
 
+            // Implementar búsqueda de technician por nombre 
+            // Dos personas con el mismo nombre?
+            // opción 1: retornar todos los técnicos con el mismo nombre
+            // Conseguir las WorkOrders del technician
+
+
+            throw new NotImplementedException("La búsqueda de técnicos por nombre aún no está implementada.");
+
+        }
     }
 
 }
