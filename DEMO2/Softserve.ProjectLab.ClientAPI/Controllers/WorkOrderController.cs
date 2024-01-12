@@ -7,7 +7,6 @@ using System.Net;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class WorkOrderController : Controller
@@ -51,9 +50,5 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-
     }
-
 }
