@@ -11,44 +11,43 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
     [ApiController]
     public class WorkOrderController : Controller
     {
-        private readonly HttpConnector _httpConnector;
+        private readonly IWorkOrderService _workOrderService;
 
-        public WorkOrderController()
+        public WorkOrderController(IWorkOrderService workOrderService)
         {
-            _httpConnector = new HttpConnector();
+            _workOrderService = workOrderService;
         }
 
         [HttpGet]
-        public async Task<string> Get()
+        public async Task<IActionResult> Get()
         {
-            string url = ApiUrls.GetAllWorkOrders;
-
             try
             {
-                string data = await _httpConnector.Get(url);
-                return data;
+                WorkOrder[] workOrders = await _workOrderService.GetWorkOrdersAsync();
+                return Ok(workOrders);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return null;
+                return BadRequest(ex.Message);
             }
         }
         
         [HttpGet("{workOrderName}")]
-        public async Task<string> Get(string workOrderName)
+        public async Task<IActionResult> Get(string workOrderName)
         {
-            string url = ApiUrls.GetWorkOrderByName;
-
             try
             {
-                string data = await _httpConnector.Get(url + workOrderName);
-                return data;
+                WorkOrder workOrder = await _workOrderService.GetWorkOrderAsync(workOrderName);
+                if (workOrder == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(workOrder);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return null;
+                return BadRequest(ex.Message);
             }
         }
     }

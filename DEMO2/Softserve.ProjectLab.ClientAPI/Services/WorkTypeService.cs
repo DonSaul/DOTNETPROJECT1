@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Softserve.ProjectLab.ClientAPI.Controllers;
 using Softserve.ProjectLab.ClientAPI.Models;
 using System.Net;
 
@@ -6,26 +7,16 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 {
     public class WorkTypeService : IWorkTypeService
     {
-        private readonly HttpClient _client;
+        private readonly ApiConnector _apiConnector;
 
-        public WorkTypeService(IHttpClientFactory httpClientFactory)
+        public WorkTypeService(ApiConnector apiConnector)
         {
-            _client = httpClientFactory.CreateClient("apiClient");
+            _apiConnector = apiConnector;
         }
 
         public async Task<WorkType[]> GetWorkTypesAsync()
         {
-            HttpResponseMessage response = await _client.GetAsync("/api/WorkType");
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception("Error al obtener los tipos de trabajo");
-            }
-
-            string body = await response.Content.ReadAsStringAsync();
-            WorkType[] workTypes = JsonConvert.DeserializeObject<WorkType[]>(body);
-
-            return workTypes;
+            return await _apiConnector.GetAsync<WorkType[]>(ApiUrls.GetWorkType);
         }
     }
 
