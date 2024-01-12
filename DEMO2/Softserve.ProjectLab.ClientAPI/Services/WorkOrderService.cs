@@ -25,7 +25,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception("Error al obtener las órdenes de trabajo");
+                throw new Exception("Error retrieving work orders");
             }
 
             string body = await response.Content.ReadAsStringAsync();
@@ -44,7 +44,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception($"Error al obtener la orden de trabajo con el nombre: {workOrderName}");
+                throw new Exception($"Error retrieving work order with name: {workOrderName}");
             }
 
             string body = await response.Content.ReadAsStringAsync();
@@ -53,14 +53,23 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             return workOrder;
         }
 
-        public async Task<WorkOrderDetails[]> GetWorkOrdersAsync(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
+        public async Task<List<WorkOrderDetails>> GetWorkOrdersAsync(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
         {
-            WorkOrder[] workOrders = await GetWorkOrdersAsync();
-            Status[] statuses = await _statusService.GetStatusesAsync();
-            Technician[] technicians = await _technicianService.GetTechniciansAsync();
-            WorkType[] workTypes = await _workTypeService.GetWorkTypesAsync();
 
-            // Usa LINQ para unir las órdenes de trabajo con los estados, los técnicos y los tipos de trabajo
+            var workOrdersTask = GetWorkOrdersAsync();
+            var techniciansTask = _technicianService.GetTechniciansAsync();
+            var statusesTask = _statusService.GetStatusesAsync();
+            var workTypesTask = _workTypeService.GetWorkTypesAsync();
+
+            await Task.WhenAll(workOrdersTask, statusesTask, techniciansTask, workTypesTask);
+
+            var workOrders = workOrdersTask.Result;
+            var technicians = techniciansTask.Result;
+            var statuses = statusesTask.Result;
+            var workTypes = workTypesTask.Result;
+
+            //LINQ to join work orders with statuses, technicians, and work types
+
             var query = from wo in workOrders
                         join tech in technicians on wo.TechnicianId equals tech.TechnicianId
                         join wt in workTypes on wo.WorkTypeId equals wt.Id
@@ -80,7 +89,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                             StartTime = wo.StartTime.HasValue ? (DateTimeOffset)wo.StartTime.Value : (DateTimeOffset?)null
                         };
 
-            return query.ToArray();
+            return query.ToList();
 
         }
 
