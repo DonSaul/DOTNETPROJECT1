@@ -65,20 +65,23 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                         join tech in technicians on wo.TechnicianId equals tech.TechnicianId
                         join wt in workTypes on wo.WorkTypeId equals wt.Id
                         join st in statuses on wo.StatusId equals st.Id
-                        where (wo.StartTime >= startTime && wo.EndTime <= endTime) &&
-                              (wt.Name == "all" || wo.WorkTypeId == wt.Id) &&
-                              (st.Name == "all" || wo.StatusId == st.Id)
+                        where (wo.StartTime.HasValue && wo.EndTime.HasValue &&
+                               (DateTimeOffset)wo.StartTime.Value >= startTime &&
+                               (DateTimeOffset)wo.EndTime.Value <= endTime) &&
+                              (workType == "all" || wt.Name == workType) &&
+                              (status == "all" || st.Name == status)
                         select new WorkOrderDetails
                         {
                             WorkOrderName = wo.WorkOrderName,
                             Technician = tech.Name,
                             WorkType = wt.Name,
                             Status = st.Name,
-                            EndTime = wo.EndTime,
-                            StartTime = wo.StartTime
+                            EndTime = wo.EndTime.HasValue ? (DateTimeOffset)wo.EndTime.Value : (DateTimeOffset?)null,
+                            StartTime = wo.StartTime.HasValue ? (DateTimeOffset)wo.StartTime.Value : (DateTimeOffset?)null
                         };
 
             return query.ToArray();
+
         }
 
 
