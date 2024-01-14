@@ -7,7 +7,6 @@ using System.Net;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class WorkOrderController : Controller
@@ -51,6 +50,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("filter")]
         public async Task<IActionResult> Get(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
         {
@@ -67,5 +67,4 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
 
 
     }
-
 }

@@ -1,56 +1,30 @@
 ﻿using Newtonsoft.Json;
+using Softserve.ProjectLab.ClientAPI.Config;
 using Softserve.ProjectLab.ClientAPI.Models;
 using System.Net;
 
 namespace Softserve.ProjectLab.ClientAPI.Services
 {
-
     public class WorkOrderService : IWorkOrderService
     {
-        private readonly HttpClient _client;
+        private readonly ApiConnector _apiConnector;
         private readonly IStatusService _statusService;
         private readonly ITechnicianService _technicianService;
         private readonly IWorkTypeService _workTypeService;
-        public WorkOrderService(IHttpClientFactory httpClientFactory, IStatusService statusService, ITechnicianService technicianService, IWorkTypeService workTypeService)
+        public WorkOrderService(ApiConnector apiConnector, IHttpClientFactory httpClientFactory, IStatusService statusService, ITechnicianService technicianService, IWorkTypeService workTypeService)
         {
-            _client = httpClientFactory.CreateClient("apiClient");
+            _apiConnector = apiConnector;
             _statusService = statusService;
             _technicianService = technicianService;
             _workTypeService = workTypeService;
         }
-
         public async Task<WorkOrder[]> GetWorkOrdersAsync()
         {
-            HttpResponseMessage response = await _client.GetAsync("/api/WorkOrder");
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception("Error retrieving work orders");
-            }
-
-            string body = await response.Content.ReadAsStringAsync();
-            WorkOrder[] workOrders = JsonConvert.DeserializeObject<WorkOrder[]>(body);
-
-            return workOrders;
+            return await _apiConnector.GetAsync<WorkOrder[]>(ApiUrls.GetAllWorkOrders);
         }
         public async Task<WorkOrder> GetWorkOrderAsync(string workOrderName)
         {
-            HttpResponseMessage response = await _client.GetAsync($"/api/WorkOrder/{workOrderName}");
-
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return null;
-            }
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception($"Error retrieving work order with name: {workOrderName}");
-            }
-
-            string body = await response.Content.ReadAsStringAsync();
-            WorkOrder workOrder = JsonConvert.DeserializeObject<WorkOrder>(body);
-
-            return workOrder;
+            return await _apiConnector.GetAsync<WorkOrder>(ApiUrls.GetWorkOrderByName + workOrderName);
         }
 
         public async Task<List<WorkOrderDetails>> GetWorkOrdersAsync(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
