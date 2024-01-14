@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Softserve.ProjectLab.ClientAPI.Controllers;
+using Softserve.ProjectLab.ClientAPI.Config;
 using Softserve.ProjectLab.ClientAPI.Models;
 using System.Net;
 
@@ -24,8 +24,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         }
         public async Task<WorkOrder> GetWorkOrderAsync(string workOrderName)
         {
-            //devuelve 404, lo modificamos pero no deserializa el JSON.
-            return await _apiConnector.GetAsync<WorkOrder>(ApiUrls.GetWorkOrderByName);
+            return await _apiConnector.GetAsync<WorkOrder>(ApiUrls.GetWorkOrderByName + workOrderName);
         }
 
         public async Task<WorkOrderDetails[]> GetWorkOrdersAsync(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)

@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Softserve.ProjectLab.ClientAPI.Controllers;
+using Softserve.ProjectLab.ClientAPI.Config;
 using Softserve.ProjectLab.ClientAPI.Models;
 using System.Net;
 
