@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Softserve.ProjectLab.ClientAPI.Config;
+﻿using Softserve.ProjectLab.ClientAPI.Config;
 using Softserve.ProjectLab.ClientAPI.Models;
-using System.Net;
 
 namespace Softserve.ProjectLab.ClientAPI.Services
 {
@@ -68,7 +65,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
         }
 
-        public async Task<FileResult> GetWorkOrderReportCSV()
+        public async Task<List<ReportData>> GetWorkOrderReports()
         {
             var workOrdersTask = GetWorkOrdersAsync();
             var techniciansTask = _technicianService.GetTechniciansAsync();
@@ -100,7 +97,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                             CreatedDate = wo.CreatedDate,
                             Duration = wo.EndTime.Value - wo.StartTime.Value,
                         };
-            return null;
+            return query.ToList();
         }
 
     }

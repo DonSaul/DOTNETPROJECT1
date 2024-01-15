@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Softserve.ProjectLab.ClientAPI.Models;
 using Softserve.ProjectLab.ClientAPI.Services;
 using System.Net;
+using System.Text;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
 {
@@ -58,6 +59,34 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             {
                 var workOrders = await _workOrderService.GetWorkOrdersAsync(startTime, endTime, workType, status);
                 return Ok(workOrders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("csvreport")]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var reports = await _workOrderService.GetWorkOrderReports();
+                var csvWriter = new StringBuilder();
+                csvWriter.AppendLine("WorkOrderName,TechnicianName,WorkType,Status,EndTime,StartTime,CreatedDate,Duration");
+                foreach (var reportData in reports)
+                {
+                    csvWriter.AppendLine(reportData.WorkOrderName + "," +
+                                         reportData.TechnicianName + "," +
+                                         reportData.WorkType + "," +
+                                         reportData.Status + "," +
+                                         reportData.EndTime + "," +
+                                         reportData.StartTime + "," +
+                                         reportData.CreatedDate + "," +
+                                         reportData.Duration);
+                }
+
+                return File(Encoding.UTF8.GetBytes(csvWriter.ToString()), "text/csv", "work_orders.csv");
             }
             catch (Exception ex)
             {
