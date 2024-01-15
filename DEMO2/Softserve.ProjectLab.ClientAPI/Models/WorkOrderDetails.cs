@@ -6,7 +6,7 @@
         public string Technician { get; set; }
         public string WorkType { get; set; }
         public string Status { get; set; }
-        public DateTime? EndTime { get; set; }
-        public DateTime? StartTime { get; set; }
+        public DateTimeOffset? EndTime { get; set; }
+        public DateTimeOffset? StartTime { get; set; }
     }
 }

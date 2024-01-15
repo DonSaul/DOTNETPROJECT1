@@ -1,4 +1,4 @@
-﻿namespace Softserve.ProjectLab.ClientAPI.Controllers
+﻿namespace Softserve.ProjectLab.ClientAPI.Config
 {
     public static class ApiUrls
     {
