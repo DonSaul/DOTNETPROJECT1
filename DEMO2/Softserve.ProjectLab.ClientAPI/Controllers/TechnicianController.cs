@@ -48,5 +48,23 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("TechnicianByName/{technicianName}")]
+        public async Task<IActionResult> Get(string technicianName)
+        {
+            try
+            {
+                Technician[] technicians = await _technicianService.GetTechnicianByNameAsync(technicianName);
+                if (technicians == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(technicians);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
  }
