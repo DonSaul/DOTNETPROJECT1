@@ -69,8 +69,8 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                             where (wo.StartTime.HasValue && wo.EndTime.HasValue &&
                                    (DateTimeOffset)wo.StartTime.Value >= startTime &&
                                    (DateTimeOffset)wo.EndTime.Value <= endTime) &&
-                                  (workType == "all" || wt.Name == workType) &&
-                                  (status == "all" || st.Name == status)
+                                  (workType == "all" || wt.Name.Equals(workType, StringComparison.OrdinalIgnoreCase)) &&
+                                  (status == "all" || st.Name.Equals(status, StringComparison.OrdinalIgnoreCase))
                             select new WorkOrderDetails
                             {
                                 WorkOrderName = wo.WorkOrderName,
