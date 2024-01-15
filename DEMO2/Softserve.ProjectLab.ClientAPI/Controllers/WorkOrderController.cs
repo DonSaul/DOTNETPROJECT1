@@ -7,7 +7,6 @@ using System.Net;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class WorkOrderController : Controller
@@ -24,7 +23,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
         {
             try
             {
-                WorkOrder[] workOrders = await _workOrderService.GetWorkOrdersAsync();
+                var workOrders = await _workOrderService.GetWorkOrdersAsync();
                 return Ok(workOrders);
             }
             catch (Exception ex)
@@ -38,7 +37,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
         {
             try
             {
-                WorkOrder workOrder = await _workOrderService.GetWorkOrderAsync(workOrderName);
+                var workOrder = await _workOrderService.GetWorkOrderAsync(workOrderName);
                 if (workOrder == null)
                 {
                     return NotFound();
@@ -52,8 +51,20 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             }
         }
 
+        [HttpGet("filter")]
+        public async Task<IActionResult> Get(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
+        {
+            try
+            {
+                var workOrders = await _workOrderService.GetWorkOrdersAsync(startTime, endTime, workType, status);
+                return Ok(workOrders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
     }
-
 }

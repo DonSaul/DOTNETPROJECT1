@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Softserve.ProjectLab.ClientAPI.Config;
 using Softserve.ProjectLab.ClientAPI.Models;
 using System.Net;
 
@@ -8,30 +9,30 @@ namespace Softserve.ProjectLab.ClientAPI.Services
     {
         private readonly HttpClient _client;
         private readonly IServiceProvider _serviceProvider;
+        private readonly ApiConnector _apiConnector;
 
-        public TechnicianService(IHttpClientFactory httpClientFactory, IServiceProvider serviceProvider)
+        public TechnicianService(IHttpClientFactory httpClientFactory, IServiceProvider serviceProvider, ApiConnector apiConnector)
         {
             _client = httpClientFactory.CreateClient("apiClient");
             _serviceProvider = serviceProvider;
-        }
+            _apiConnector = apiConnector;
 
+        }
         public async Task<Technician[]> GetTechniciansAsync()
         {
-            HttpResponseMessage response = await _client.GetAsync("/api/Technician");
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception("Error al obtener los técnicos");
-            }
-
-            string body = await response.Content.ReadAsStringAsync();
-            Technician[] technicians = JsonConvert.DeserializeObject<Technician[]>(body);
-
-            return technicians;
+            return await _apiConnector.GetAsync<Technician[]>(ApiUrls.GetAllTechnicians);
         }
         public async Task<Technician> GetTechnicianAsync(int technicianId)
         {
-            HttpResponseMessage response = await _client.GetAsync($"/api/Technician/{technicianId}");
+
+            Technician technician = await _apiConnector.GetAsync<Technician>(ApiUrls.GetTechnicianById);
+
+            return technician;
+            /*
+             
+             <<<<<<< HEAD
+            
+            HttpResponseMessage response = 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 return null;
@@ -43,9 +44,10 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             }
 
             string body = await response.Content.ReadAsStringAsync();
-            Technician technician = JsonConvert.DeserializeObject<Technician>(body);
-
-            return technician;
+=======
+            return await _apiConnector.GetAsync<Technician>(ApiUrls.GetTechnicianById);
+>>>>>>> main-desarrollo
+            */
         }
         public async Task<TechnicianDetails[]> GetTechnicianByNameAsync(string technicianName)
         {

@@ -6,7 +6,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
     {
         Task<WorkOrder[]> GetWorkOrdersAsync();
         Task<WorkOrder> GetWorkOrderAsync(string WorkOrderName);
-        Task<WorkOrderDetails[]> GetWorkOrdersAsync(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status);
+        Task<List<WorkOrderDetails>> GetWorkOrdersAsync(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status);
 
     }
 }
