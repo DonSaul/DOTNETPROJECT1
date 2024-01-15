@@ -40,8 +40,8 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                  6. [ x ] Dar formato a la respuesta en base a lo solicitado
                  7. [   ] Preguntar por el idioma en las respuestas, probablemente Inglés
                  8. [   ] Implementación de casos
-                 9. [   ] lunes 15-01-2023: Merge con main-desarrollo
-                10. [   ] Investigar posibles optimizaciones
+                 9. [ x ] lunes 15-01-2023: Merge con main-desarrollo
+                10. [ x ] Investigar posibles optimizaciones
                     
 
              Caso 1: Búsqueda de persona cuyo nombre es único en los registros
@@ -58,7 +58,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             Caso 3: Nombre no encontrado
                 Tenemos como alternativas retornar el arreglo vacío o un mensaje de nombre no encontrado 
                 - Testing: 
-                    [  ] Probar con un string aleatorio, por ejemplo "asdf asdf"
+                    [ x ] Probar con un string aleatorio, por ejemplo "asdf asdf"
 
             Caso 4: Fallo de conexión durante la solicitud (Sprint 3)
                 - Testing:
