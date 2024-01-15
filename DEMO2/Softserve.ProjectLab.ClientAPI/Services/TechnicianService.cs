@@ -7,16 +7,13 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 {
     public class TechnicianService : ITechnicianService
     {
-        private readonly HttpClient _client;
         private readonly IServiceProvider _serviceProvider;
         private readonly ApiConnector _apiConnector;
 
-        public TechnicianService(IHttpClientFactory httpClientFactory, IServiceProvider serviceProvider, ApiConnector apiConnector)
+        public TechnicianService(IServiceProvider serviceProvider, ApiConnector apiConnector)
         {
-            _client = httpClientFactory.CreateClient("apiClient");
             _serviceProvider = serviceProvider;
             _apiConnector = apiConnector;
-
         }
         public async Task<Technician[]> GetTechniciansAsync()
         {
@@ -25,29 +22,9 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         public async Task<Technician> GetTechnicianAsync(int technicianId)
         {
 
-            Technician technician = await _apiConnector.GetAsync<Technician>(ApiUrls.GetTechnicianById);
+            Technician technician = await _apiConnector.GetAsync<Technician>(ApiUrls.GetTechnicianById + technicianId);
 
             return technician;
-            /*
-             
-             <<<<<<< HEAD
-            
-            HttpResponseMessage response = 
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return null;
-            }
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception($"Error al obtener el técnico con el ID: {technicianId}");
-            }
-
-            string body = await response.Content.ReadAsStringAsync();
-=======
-            return await _apiConnector.GetAsync<Technician>(ApiUrls.GetTechnicianById);
->>>>>>> main-desarrollo
-            */
         }
         public async Task<TechnicianDetails[]> GetTechnicianByNameAsync(string technicianName)
         {
@@ -67,10 +44,10 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 10. [   ] Investigar posibles optimizaciones
                     
 
-            Caso 1: Búsqueda de persona cuyo nombre es único en los registros
+             Caso 1: Búsqueda de persona cuyo nombre es único en los registros
                 Retornar a la persona en conjunto con sus work Orders
                 - Testing:
-                    [ x ] Como la respuesta ya provee a técnicos con nombres únicos, basta con testear desde la Interfaz Swagger  
+                    [ x ] Testear desde la Interfaz Swagger  
             
 
             Caso 2: Dos personas con el mismo nombre
@@ -115,7 +92,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             // Obtener la lista de todos los técnicos y WorkOrders
           
             // Filtrar los técnicos por el nombre usando LINQ
-            // FIX: Hacer TechnicianDetails Una clase Heredada
             var filteredTechnicians = technicians
                 .Where(t => t.Name.Equals(technicianName, StringComparison.OrdinalIgnoreCase))
                 .Select(tech => new TechnicianDetails
@@ -123,8 +99,11 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                     TechnicianId = tech.TechnicianId,
                     Technician = tech.Name,
                     Address = tech.Address,
+                    
                     // Anidar las WorkOrders correspondientes
-                    WorkOrders = workOrders.Where(wo => wo.TechnicianId == tech.TechnicianId).ToArray()
+                    WorkOrders = workOrders
+                        .Where(wo => wo.TechnicianId == tech.TechnicianId)
+                        .ToArray()
                 })
                 .ToArray();
 
