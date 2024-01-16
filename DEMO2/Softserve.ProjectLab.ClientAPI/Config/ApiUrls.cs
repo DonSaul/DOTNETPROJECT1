@@ -9,5 +9,6 @@
         public static string GetAllWorkOrders { get; } = "/api/WorkOrder";
         public static string GetWorkOrderByName { get; } = "/api/WorkOrder/";
         public static string GetWorkType { get; } = "/api/WorkType";
+        public static string ExportWorkOrderReportsToCsv { get; } = "/api/Reports/export-csv";
     }
 }
