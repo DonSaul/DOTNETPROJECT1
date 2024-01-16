@@ -67,8 +67,8 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                             join wt in workTypes on wo.WorkTypeId equals wt.Id
                             join st in statuses on wo.StatusId equals st.Id
                             where (wo.StartTime.HasValue && wo.EndTime.HasValue &&
-                                   (DateTimeOffset)wo.StartTime.Value >= startTime &&
-                                   (DateTimeOffset)wo.EndTime.Value <= endTime) &&
+                                   wo.StartTime.Value >= startTime &&
+                                   wo.EndTime.Value <= endTime) &&
                                   (workType == "all" || wt.Name.Equals(workType, StringComparison.OrdinalIgnoreCase)) &&
                                   (status == "all" || st.Name.Equals(status, StringComparison.OrdinalIgnoreCase))
                             select new WorkOrderDetails
@@ -76,9 +76,10 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                                 WorkOrderName = wo.WorkOrderName,
                                 Technician = tech.Name,
                                 WorkType = wt.Name,
-                                Status = st.Name,
-                                EndTime = wo.EndTime.HasValue ? (DateTimeOffset)wo.EndTime.Value : (DateTimeOffset?)null,
-                                StartTime = wo.StartTime.HasValue ? (DateTimeOffset)wo.StartTime.Value : (DateTimeOffset?)null
+                              /*//Verify that this is not needed
+                                Status = st.Name,*/
+                                EndTime = wo.EndTime.HasValue ? wo.EndTime.Value : (DateTimeOffset?)null,
+                                StartTime = wo.StartTime.HasValue ? wo.StartTime.Value : (DateTimeOffset?)null
                             };
 
                 return query.ToList();
