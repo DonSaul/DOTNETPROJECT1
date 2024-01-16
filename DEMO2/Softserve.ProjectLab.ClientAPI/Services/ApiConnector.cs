@@ -10,7 +10,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
         public ApiConnector(IHttpClientFactory httpClientFactory)
         {
-            _client = httpClientFactory.CreateClient("apiClient");
+            _client = httpClientFactory.CreateClient("apiClient") ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
         public async Task<T> GetAsync<T>(string endpoint)

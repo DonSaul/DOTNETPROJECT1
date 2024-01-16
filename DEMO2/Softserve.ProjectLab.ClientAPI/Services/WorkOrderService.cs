@@ -13,7 +13,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         private readonly IWorkTypeService _workTypeService;
         public WorkOrderService(ApiConnector apiConnector, IHttpClientFactory httpClientFactory, IStatusService statusService, ITechnicianService technicianService, IWorkTypeService workTypeService)
         {
-            _apiConnector = apiConnector;
+            _apiConnector = apiConnector ?? throw new ArgumentNullException(nameof(apiConnector));
             _statusService = statusService;
             _technicianService = technicianService;
             _workTypeService = workTypeService;
