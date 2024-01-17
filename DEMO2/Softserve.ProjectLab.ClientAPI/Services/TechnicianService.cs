@@ -9,6 +9,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ApiConnector _apiConnector;
+        
 
         public TechnicianService(IServiceProvider serviceProvider, ApiConnector apiConnector)
         {
@@ -65,47 +66,76 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                     [  ]
 
             */
-            Technician[] technicians = await GetTechniciansAsync();
+            //Technician[] technicians = await GetTechniciansAsync();
             var workOrderService = _serviceProvider.GetService(typeof(IWorkOrderService)) as IWorkOrderService;
-            WorkOrder[] workOrders = await workOrderService.GetWorkOrdersAsync();
-            /*
-                Test 1: Technicians con el mismo nombre 
+            var statusService = _serviceProvider.GetService(typeof(IStatusService)) as IStatusService;
+            var workTypeService = _serviceProvider.GetService(typeof(IWorkTypeService)) as IWorkTypeService;
+           
 
-                Technician[] testTechnicians = new Technician[]
-                {
-                    new Technician { Name = "Mauricio Sepulveda", TechnicianId = 1, Address = "Carlos Condell 5806, Valparaiso" },
-                    new Technician { Name = "Natalia Henriquez", TechnicianId = 2, Address = "Diego Portales 3666, Valparaiso" },
-                    new Technician { Name = "Natalia Henriquez", TechnicianId = 3, Address = "Arturo Prat 1861, Santiago" },
-                    new Technician { Name = "Ramon Sepulveda", TechnicianId = 4, Address = "Av. Matucana 9075, Santiago" },
-                    new Technician { Name = "Gabriel Rivas", TechnicianId = 5, Address = "Aníbal Pinto 578, Valparaiso" },
-                    new Technician { Name = "Diego Ardiles", TechnicianId = 6, Address = "Calle Blanco 7259, Santiago" },
-                };
+            var workOrdersTask = workOrderService.GetWorkOrdersAsync();
+            var techniciansTask = GetTechniciansAsync();
+            var statusesTask = statusService.GetStatusesAsync();
+            var workTypesTask = workTypeService.GetWorkTypesAsync();
 
-                // Filtrar los técnicos por el nombre usando LINQ
-                var filteredTestTechnicians = testTechnicians.Where(
-                        t => t.Name.Equals(technicianName, StringComparison.OrdinalIgnoreCase)).ToArray();
+            await Task.WhenAll(workOrdersTask, statusesTask, techniciansTask, workTypesTask);
 
-                return filteredTestTechnicians;
-            */
+            var workOrders = workOrdersTask.Result;
+            var technicians = techniciansTask.Result;
+            var statuses = statusesTask.Result;
+            var workTypes = workTypesTask.Result;
+
+            
+           //   Test 1: Technicians con el mismo nombre 
+           //
+           //     Technician[] testTechnicians = new Technician[]
+           //     {
+           //         new Technician { Name = "Mauricio Sepulveda", TechnicianId = 1, Address = "Carlos Condell 5806, Valparaiso" },
+           //         new Technician { Name = "Natalia Henriquez", TechnicianId = 2, Address = "Diego Portales 3666, Valparaiso" },
+           //         new Technician { Name = "Natalia Henriquez", TechnicianId = 3, Address = "Arturo Prat 1861, Santiago" },
+           //         new Technician { Name = "Ramon Sepulveda", TechnicianId = 4, Address = "Av. Matucana 9075, Santiago" },
+           //         new Technician { Name = "Gabriel Rivas", TechnicianId = 5, Address = "Aníbal Pinto 578, Valparaiso" },
+           //         new Technician { Name = "Diego Ardiles", TechnicianId = 6, Address = "Calle Blanco 7259, Santiago" },
+           //     };
+           //
+           //     // Filtrar los técnicos por el nombre usando LINQ
+           //     var filteredTestTechnicians = testTechnicians.Where(
+           //             t => t.Name.Equals(technicianName, StringComparison.OrdinalIgnoreCase)).ToArray();
+           //
+           //     return filteredTestTechnicians;
+   
 
 
             // Obtener la lista de todos los técnicos y WorkOrders
-          
+
             // Filtrar los técnicos por el nombre usando LINQ
             var filteredTechnicians = technicians
+                //testTechnicians
                 .Where(t => t.Name.Equals(technicianName, StringComparison.OrdinalIgnoreCase))
                 .Select(tech => new TechnicianDetails
                 {
                     TechnicianId = tech.TechnicianId,
                     Technician = tech.Name,
                     Address = tech.Address,
-                    
+
                     // Anidar las WorkOrders correspondientes
-                    WorkOrders = workOrders
-                        .Where(wo => wo.TechnicianId == tech.TechnicianId)
-                        .ToArray()
-                })
-                .ToArray();
+                    WorkOrders =  //workOrders
+                                  //.Where(wo => wo.Technician == tech.Name)                 
+                                  //.ToArray()
+                                   workOrders
+                                  .Where(wo => wo.TechnicianId == tech.TechnicianId)
+                                  .Select(w => new WorkOrderDetails
+                                  {
+                                      WorkOrderName = w.WorkOrderName,
+                                      Technician =    tech.Name,
+                                      WorkType =      workTypes.Where(wt => wt.Id == w.WorkTypeId).First().Name,
+                                      Status =        statuses.Where(s => s.Id == w.StatusId).First().Name,
+                                      EndTime =       w.EndTime.HasValue ? (DateTimeOffset) w.EndTime.Value : (DateTimeOffset?)null,
+                                      StartTime =     w.StartTime.HasValue ? (DateTimeOffset) w.StartTime.Value : (DateTimeOffset?)null
+
+                                  }).ToArray()
+
+
+                }).ToArray();
 
             return filteredTechnicians;
 
