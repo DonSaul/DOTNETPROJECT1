@@ -39,7 +39,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                  4. [ x ] Preguntar a Hector por los Technicians con el mismo nombre
                  5. [ x ] Conseguir las WorkOrders del technician
                  6. [ x ] Dar formato a la respuesta en base a lo solicitado
-                 7. [   ] Preguntar por el idioma en las respuestas, probablemente Inglés
+                 7. [ x ] Preguntar por el idioma en las respuestas, probablemente Inglés
                  8. [   ] Implementación de casos
                  9. [ x ] lunes 15-01-2023: Merge con main-desarrollo
                 10. [ x ] Investigar posibles optimizaciones
@@ -57,7 +57,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                     [ x ] Implementación de array con Ténicos que compartan el mismo nombre
 
             Caso 3: Nombre no encontrado
-                Tenemos como alternativas retornar el arreglo vacío o un mensaje de nombre no encontrado 
+                Retorna un arreglo vacío
                 - Testing: 
                     [ x ] Probar con un string aleatorio, por ejemplo "asdf asdf"
 
@@ -86,22 +86,17 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
             
            //   Test 1: Technicians con el mismo nombre 
-           //
-           //     Technician[] testTechnicians = new Technician[]
-           //     {
-           //         new Technician { Name = "Mauricio Sepulveda", TechnicianId = 1, Address = "Carlos Condell 5806, Valparaiso" },
-           //         new Technician { Name = "Natalia Henriquez", TechnicianId = 2, Address = "Diego Portales 3666, Valparaiso" },
-           //         new Technician { Name = "Natalia Henriquez", TechnicianId = 3, Address = "Arturo Prat 1861, Santiago" },
-           //         new Technician { Name = "Ramon Sepulveda", TechnicianId = 4, Address = "Av. Matucana 9075, Santiago" },
-           //         new Technician { Name = "Gabriel Rivas", TechnicianId = 5, Address = "Aníbal Pinto 578, Valparaiso" },
-           //         new Technician { Name = "Diego Ardiles", TechnicianId = 6, Address = "Calle Blanco 7259, Santiago" },
-           //     };
-           //
-           //     // Filtrar los técnicos por el nombre usando LINQ
-           //     var filteredTestTechnicians = testTechnicians.Where(
-           //             t => t.Name.Equals(technicianName, StringComparison.OrdinalIgnoreCase)).ToArray();
-           //
-           //     return filteredTestTechnicians;
+           /*
+                Technician[] testTechnicians = new Technician[]
+                {
+                    new Technician { Name = "Mauricio Sepulveda", TechnicianId = 1, Address = "Carlos Condell 5806, Valparaiso" },
+                    new Technician { Name = "Natalia Henriquez", TechnicianId = 2, Address = "Diego Portales 3666, Valparaiso" },
+                    new Technician { Name = "Natalia Henriquez", TechnicianId = 3, Address = "Arturo Prat 1861, Santiago" },
+                    new Technician { Name = "Ramon Sepulveda", TechnicianId = 4, Address = "Av. Matucana 9075, Santiago" },
+                    new Technician { Name = "Gabriel Rivas", TechnicianId = 5, Address = "Aníbal Pinto 578, Valparaiso" },
+                    new Technician { Name = "Diego Ardiles", TechnicianId = 6, Address = "Calle Blanco 7259, Santiago" },
+                };
+           */
    
 
 
@@ -131,7 +126,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                                       Status =        statuses.Where(s => s.Id == w.StatusId).First().Name,
                                       EndTime =       w.EndTime.HasValue ? (DateTimeOffset) w.EndTime.Value : (DateTimeOffset?)null,
                                       StartTime =     w.StartTime.HasValue ? (DateTimeOffset) w.StartTime.Value : (DateTimeOffset?)null
-
                                   }).ToArray()
 
 
