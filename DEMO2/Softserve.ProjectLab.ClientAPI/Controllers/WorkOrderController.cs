@@ -18,7 +18,9 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             _workOrderService = workOrderService;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
+        [ProducesResponseType(typeof(List<WorkOrder>), StatusCodes.Status200OK)]
+        [Produces("application/json")]
         public async Task<IActionResult> Get()
         {
             try
@@ -33,6 +35,8 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
         }
         
         [HttpGet("{workOrderName}")]
+        [ProducesResponseType(typeof(WorkOrder), StatusCodes.Status200OK)]
+        [Produces("application/json")]
         public async Task<IActionResult> Get(string workOrderName)
         {
             try
@@ -51,7 +55,9 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             }
         }
 
-        [HttpGet("filter")]
+        [HttpGet]
+        [ProducesResponseType(typeof(List<WorkOrderDetails>), StatusCodes.Status200OK)]
+        [Produces("application/json")]
         public async Task<IActionResult> Get(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
         {
             try
