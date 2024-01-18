@@ -42,7 +42,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                  6. [ x ] Dar formato a la respuesta en base a lo solicitado     
                  7. [ x ] Preguntar por el idioma en las respuestas, probablemente Inglés                 
                 
-                10. [   ] Implementación de casos
+                 8. [   ] Implementación de casos
                     
 
              Case 1: Search for a person whose name is unique in the records
