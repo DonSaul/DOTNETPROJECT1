@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Softserve.ProjectLab.ClientAPI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using Softserve.ProjectLab.ClientAPI.Services;
-using System.Net;
 using System.Text;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
