@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Softserve.ProjectLab.ClientAPI.Models;
 using Softserve.ProjectLab.ClientAPI.Services;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             _workOrderService = workOrderService;
         }
 
-        [HttpGet("all")]
+        [HttpGet]
         [ProducesResponseType(typeof(List<WorkOrder>), StatusCodes.Status200OK)]
         [Produces("application/json")]
         public async Task<IActionResult> Get()
@@ -52,21 +53,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(List<WorkOrderDetails>), StatusCodes.Status200OK)]
-        [Produces("application/json")]
-        public async Task<IActionResult> Get(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
-        {
-            try
-            {
-                var workOrders = await _workOrderService.GetWorkOrdersAsync(startTime, endTime, workType, status);
-                return Ok(workOrders);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+
 
         [HttpGet("export-csv")]
         public async Task<IActionResult> ExportWorkOrderReportsToCsv()

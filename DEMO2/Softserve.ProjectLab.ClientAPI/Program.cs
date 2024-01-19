@@ -21,6 +21,7 @@ builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<ITechnicianService, TechnicianService>();
 builder.Services.AddScoped<IWorkTypeService, WorkTypeService>();
+builder.Services.AddScoped<IWorkOrderDetailsService, WorkOrderDetailsService>();
 
 var app = builder.Build();
 
