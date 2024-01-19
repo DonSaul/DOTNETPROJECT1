@@ -9,11 +9,13 @@ namespace Softserve.ProjectLab.ClientAPI.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ApiConnector _apiConnector;
+       // private readonly ApiSettings _apiSettings;
 
         public TechnicianService(IServiceProvider serviceProvider, ApiConnector apiConnector)
         {
             _serviceProvider = serviceProvider;
-            _apiConnector = apiConnector;
+            _apiConnector = apiConnector ?? throw new ArgumentNullException(nameof(apiConnector));
+            //_apiSettings = apiSettings ?? throw new ArgumentNullException(nameof(apiSettings));
         }
         public async Task<Technician[]> GetTechniciansAsync()
         {

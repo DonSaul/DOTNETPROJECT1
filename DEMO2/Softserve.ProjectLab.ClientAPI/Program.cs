@@ -1,11 +1,9 @@
 using Softserve.ProjectLab.ClientAPI.Services;
+using Softserve.ProjectLab.ClientAPI.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -14,6 +12,11 @@ builder.Services.AddHttpClient("apiClient", client =>
 {
     client.BaseAddress = new Uri("http://localhost"); // URL for  API
 });
+
+//builder.Configuration.AddJsonFile("appsettings.json", optional: false);
+
+//// Configure API keys or tokens
+//builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 
 // This is where you would register your custom services
 builder.Services.AddScoped<ApiConnector>();
