@@ -6,7 +6,7 @@
         public string Technician { get; set; }
         public string Address { get; set; }
 
-        public WorkOrder[] WorkOrders { get; set; }
+        public WorkOrderDetails[] WorkOrders { get; set; }
 
     }
 }

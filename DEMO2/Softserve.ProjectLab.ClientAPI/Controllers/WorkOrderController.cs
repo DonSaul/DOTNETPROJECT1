@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using Softserve.ProjectLab.ClientAPI.Models;
 using Softserve.ProjectLab.ClientAPI.Services;
-using System.Net;
+using System.Text;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
 {
@@ -54,6 +52,37 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
+        [HttpGet("export-csv")]
+        public async Task<IActionResult> ExportWorkOrderReportsToCsv()
+        {
+            try
+            {
+                var reports = await _workOrderService.GetWorkOrderReports();
+                var csvWriter = new StringBuilder();
+                csvWriter.AppendLine("WorkOrderName,TechnicianName,WorkType,Status,EndTime,StartTime,CreatedDate,Duration");
+                foreach (var reportData in reports)
+                {
+                    csvWriter.AppendLine(reportData.WorkOrderName + "," +
+                                         reportData.TechnicianName + "," +
+                                         reportData.WorkType + "," +
+                                         reportData.Status + "," +
+                                         reportData.EndTime + "," +
+                                         reportData.StartTime + "," +
+                                         reportData.CreatedDate + "," +
+                                         reportData.Duration);
+                }
+
+                return File(Encoding.UTF8.GetBytes(csvWriter.ToString()), "text/csv", "work_orders.csv");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }
