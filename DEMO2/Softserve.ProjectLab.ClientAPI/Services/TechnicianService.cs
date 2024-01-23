@@ -30,20 +30,19 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         public async Task<TechnicianDetails[]> GetTechnicianByNameAsync(string technicianName)
         {
             /*
-            Implementación de búsqueda de technician por nombre 
+            Implementation of technician search by name
 
-            Tareas: 
-                 1. [ x ] Implementar TechnicianController
-                 2. [ x ] Agregar función a ITechnicianService
-                 3. [ x ] Implementar Technicians y Technician by ID en Controllers
-                 4. [ x ] Preguntar a Hector por los Technicians con el mismo nombre
-                 5. [ x ] Conseguir las WorkOrders del technician
-                 
-                 6. [ x ] Dar formato a la respuesta en base a lo solicitado     
-                 7. [ x ] Preguntar por el idioma en las respuestas, probablemente Inglés                 
-                
-                 8. [   ] Implementación de casos
-                    
+            Tasks:
+                1. [ x ] Implement TechnicianController
+                2. [ x ] Add function to ITechnicianService
+                3. [ x ] Implement Technicians and Technician by ID in Controllers
+                4. [ x ] Ask Hector about Technicians with the same name
+                5. [ x ] Retrieve WorkOrders of the technician
+
+                6. [ x ] Format the response according to the request
+                7. [ x ] Ask about the language for responses, probably English
+
+                8. [   ] Implementation of cases                    
 
              Case 1: Search for a person whose name is unique in the records
                 Return the person along with their work orders
@@ -59,7 +58,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             Caso 3: Name not found
                 Return an empty array
                 - Testing: 
-                    [ x ] Test with a random string, for example "asdf asdf"
+                    [ x ] Test with a random string, for example "Lorem Ipsum"
 
             Caso 4: Connection failure during request (Sprint 3)
                 - Testing:
