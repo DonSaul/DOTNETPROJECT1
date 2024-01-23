@@ -11,7 +11,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
         public StatusService(ApiConnector apiConnector)
         {
-            _apiConnector = apiConnector;
+            _apiConnector = apiConnector ?? throw new ArgumentNullException(nameof(apiConnector));
         }
 
         public async Task<Status[]> GetStatusesAsync()

@@ -82,7 +82,5 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
     }
 }
