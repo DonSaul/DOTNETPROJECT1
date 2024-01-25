@@ -8,9 +8,9 @@ namespace Softserve.ProjectLab.ClientAPI.Services
     public class TechnicianService : ITechnicianService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ApiConnector _apiConnector;
+        private readonly IApiConnector _apiConnector;
 
-        public TechnicianService(IServiceProvider serviceProvider, ApiConnector apiConnector)
+        public TechnicianService(IServiceProvider serviceProvider, IApiConnector apiConnector)
         {
             _serviceProvider = serviceProvider;
             _apiConnector = apiConnector ?? throw new ArgumentNullException(nameof(apiConnector));
