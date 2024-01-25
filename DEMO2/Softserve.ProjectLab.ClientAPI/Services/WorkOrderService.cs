@@ -5,11 +5,11 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 {
     public class WorkOrderService : IWorkOrderService
     {
-        private readonly ApiConnector _apiConnector;
+        private readonly IApiConnector _apiConnector;
         private readonly IStatusService _statusService;
         private readonly ITechnicianService _technicianService;
         private readonly IWorkTypeService _workTypeService;
-        public WorkOrderService(ApiConnector apiConnector, IHttpClientFactory httpClientFactory, IStatusService statusService, ITechnicianService technicianService, IWorkTypeService workTypeService)
+        public WorkOrderService(IApiConnector apiConnector, IHttpClientFactory httpClientFactory, IStatusService statusService, ITechnicianService technicianService, IWorkTypeService workTypeService)
         {
             _apiConnector = apiConnector ?? throw new ArgumentNullException(nameof(apiConnector));
             _statusService = statusService;

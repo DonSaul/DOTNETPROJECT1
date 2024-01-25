@@ -16,7 +16,7 @@ builder.Services.AddHttpClient("apiClient", client =>
 });
 
 // This is where you would register your custom services
-builder.Services.AddScoped<ApiConnector>();
+builder.Services.AddScoped<IApiConnector, ApiConnector>();
 builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<ITechnicianService, TechnicianService>();
