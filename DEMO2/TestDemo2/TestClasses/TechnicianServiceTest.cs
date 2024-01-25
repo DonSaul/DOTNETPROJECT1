@@ -70,6 +70,7 @@ public class TechnicianServiceTest
         Assert.IsNotNull(resultTechnician);
         Assert.AreEqual("Pablo Ardiles", resultTechnician.Name);
         Assert.IsNotNull(resultTechnicianNonExistent);
+        Assert.Fail("Error: the return type is " + resultTechnicianNonExistent.GetType());
     }
 
     [TestMethod]
@@ -117,8 +118,8 @@ public class TechnicianServiceTest
         Assert.IsNotNull(resultTechnicians);
         Assert.IsNotNull(resultTechnicians2);
         Assert.IsNotNull(resultTechniciansNonExistent);
-        Assert.AreEqual(0, resultTechniciansNonExistent.Length);
+        Assert.AreEqual(0, resultTechniciansNonExistent.Count);
         Assert.IsNotNull(resultTechniciansNoInputText);
-        Assert.AreEqual(0, resultTechniciansNoInputText.Length);
+        Assert.AreEqual(0, resultTechniciansNoInputText.Count);
     }
 }
