@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Softserve.ProjectLab.ClientAPI.Models.WorkOrder>
+
+@{
+	ViewData["Title"] = "List";
+}
+
+<h1>Work Orders</h1>
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+<div style="height:70vh; overflow:auto;">
+	<table class="table">
+		<thead style="position:sticky; background-color: #f0f0f0; top: 0px; border:0px solid">
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.WorkOrderName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.TechnicianId)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StatusId)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Duration)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.CreatedDate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StartTime)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.EndTime)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.WorkTypeId)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.WorkOrderName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.TechnicianId)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StatusId)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Duration)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.CreatedDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StartTime)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.EndTime)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.WorkTypeId)
+					</td>
+					<td>
+						@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+						@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+						@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
