@@ -7,7 +7,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         Task<Technician[]> GetTechniciansAsync();
         Task<Technician> GetTechnicianAsync(int technicianId);
 
-        Task<TechnicianDetails[]> GetTechnicianByNameAsync(string technicianName);
+        Task<List<TechnicianDetails>> GetTechnicianByNameAsync(string technicianName);
     }
 
 }
