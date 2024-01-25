@@ -1,4 +1,4 @@
-# .NET Project LAB API -  Bootcamp
+# .NET Project LAB API
 
 ## Contents
 1. [Introduction](#introduction) <br>
