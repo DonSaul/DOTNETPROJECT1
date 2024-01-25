@@ -53,7 +53,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
         {
             try
             {
-                TechnicianDetails[] technicians = await _technicianService.GetTechnicianByNameAsync(technicianName);
+               List<TechnicianDetails> technicians = await _technicianService.GetTechnicianByNameAsync(technicianName);
                 if (technicians == null)
                 {
                     return NotFound();
