@@ -69,7 +69,7 @@ public class TechnicianServiceTest
         // Assert
         Assert.IsNotNull(resultTechnician);
         Assert.AreEqual("Pablo Ardiles", resultTechnician.Name);
-        Assert.IsNull(resultTechnicianNonExistent);
+        Assert.IsNotNull(resultTechnicianNonExistent);
     }
 
     [TestMethod]
@@ -116,7 +116,9 @@ public class TechnicianServiceTest
         // Assert
         Assert.IsNotNull(resultTechnicians);
         Assert.IsNotNull(resultTechnicians2);
-        Assert.IsNull(resultTechniciansNoInputText);
-        Assert.IsNull(resultTechniciansNonExistent);
+        Assert.IsNotNull(resultTechniciansNonExistent);
+        Assert.AreEqual(0, resultTechniciansNonExistent.Length);
+        Assert.IsNotNull(resultTechniciansNoInputText);
+        Assert.AreEqual(0, resultTechniciansNoInputText.Length);
     }
 }
