@@ -42,6 +42,25 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Searches for technicians by name and returns a list of matching technicians.
+        /// </summary>
+        /// <param name="technicianName">The name of the technician to search for.</param>
+        /// <returns>A list of TechnicianDetails objects matching the search criteria.</returns>
+        /// <example>
+        /// Here are some examples demonstrating how the function works with different inputs:
+        ///    Input: "Mauricio Sepulveda"  Output: Details for "Mauricio Sepulveda"
+        ///    Input: "mauricio"            Output: All technicians named "Mauricio"
+        ///    Input: "  Arturo"            Output: Details for "Arturo" (handles extra spaces)
+        ///    Input: "Sepulveda Mauricio"  Output: Empty list (unordered names not allowed)
+        ///    Input: "mau"                 Output: Empty list (partial name searches not allowed)
+        /// </example>
+        /// <remarks>
+        /// This function handles various search cases including full name search, first name only, last name only,
+        /// case insensitivity, special characters, and exact matches while excluding partial name searches, 
+        /// unordered names, and typing errors. It also handles extra spaces and returns an empty list for non-existent names.
+        /// </remarks>
         public async Task<List<TechnicianDetails> > GetTechnicianByNameAsync(string technicianName)
         {
             /*
@@ -70,7 +89,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
             Case 6: Unorderded Names
                 - Ex: "Sepulveda Mauricio"
-                - Method Not Allowed, so it souhld return an empty List 
+                - Method Not Allowed, so it should return an empty List 
 
             Case 7: Special Characters
                 - Ex: "O'Higgins", "François", "Jürgen"
@@ -88,9 +107,13 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 - Ex: "gabeel" instead of "gabriel" and "gabiel" instead of "gabriel"
                 - Result: Empty List, not allowed
 
+            Case 11: Extra Spaces
+                - Ex: "  Arturo", " Mauricio   Sepulveda  "
+                - Result: Search for terms on string, "Arturo" and "Mauricio Sepulveda" respectively
+
             Case 11: Partial Name Search
                 - Ex: "mau"
-                - Result: this metdhod is not allowed, so it will return an Empty List,
+                - Result: this method is not allowed, so it will return an Empty List,
 
             Case 12: Partial Name and Last Name Search
                 - Ex: "mau sep"
@@ -101,11 +124,10 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 - Result: Error response 400
             */
 
-
-
-
-
             /* Handles NUll, Empty string ("") and WhiteSpaces, returning empty array */
+
+            //technicianName = " Arturo";
+            
             if (string.IsNullOrWhiteSpace(technicianName))
             {
                 return new List<TechnicianDetails>();
@@ -145,11 +167,55 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 */
 
 
-                var normalizedSearchTerms = technicianName.ToLowerInvariant().Split(' ');
 
+
+             
+                var searchTerms = technicianName.Trim().ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+
+                var filteredTechnicians = 
+                    technicians
+                    //testTechnicians
+                .Where(t => {
+                    var techNameWords = t.Name.ToLowerInvariant().Split(' ');
+                    int searchTermIndex = 0;
+                    foreach (var word in techNameWords)
+                    {
+                        if (word.Equals(searchTerms[searchTermIndex]))
+                        {
+                            searchTermIndex++;
+                            if (searchTermIndex == searchTerms.Length)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                })
+                .Select(tech => new TechnicianDetails
+                {
+                    TechnicianId = tech.TechnicianId,
+                    Technician = tech.Name,
+                    Address = tech.Address,
+                    // Añadir detalles adicionales según sea necesario
+                    WorkOrders = workOrders
+                                        .Where(wo => wo.TechnicianId == tech.TechnicianId)
+                                        .Select(w => new WorkOrderDetails
+                                        {
+                                            WorkOrderName = w.WorkOrderName,
+                                            Technician = tech.Name,
+                                            WorkType = workTypes.Where(wt => wt.Id == w.WorkTypeId).First().Name,
+                                            //     Status =        statuses.Where(s => s.Id == w.StatusId).First().Name,
+                                            EndTime = w.EndTime.HasValue ? (DateTimeOffset)w.EndTime.Value : (DateTimeOffset?)null,
+                                            StartTime = w.StartTime.HasValue ? (DateTimeOffset)w.StartTime.Value : (DateTimeOffset?)null
+                                        }).ToArray()
+                }).ToList();
+
+                return filteredTechnicians;
 
                 // Filter technicians by name using LINQ
                 /*
+                var normalizedSearchTerms = technicianName.Trim().ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 var filteredTechnicians = technicians
                     .Where(t => searchTerms.All(term => t.Name.ToLower().Contains(term)))
                     .Select(tech => new TechnicianDetails
@@ -172,36 +238,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                                       }).ToArray()
                     }).ToList();
                     */
-                var searchTerms = technicianName.ToLowerInvariant().Split(' ');
-
-
-                var filteredTechnicians = technicians
-
-             .Where(t => {
-                 var techNameWords = t.Name.ToLowerInvariant().Split(' ');
-                 int searchTermIndex = 0;
-                 foreach (var word in techNameWords)
-                 {
-                     if (word.Equals(searchTerms[searchTermIndex]))
-                     {
-                         searchTermIndex++;
-                         if (searchTermIndex == searchTerms.Length)
-                         {
-                             return true;
-                         }
-                     }
-                 }
-                 return false;
-             })
-             .Select(tech => new TechnicianDetails
-             {
-                 TechnicianId = tech.TechnicianId,
-                 Technician = tech.Name,
-                 Address = tech.Address,
-                 // Añadir detalles adicionales según sea necesario
-             }).ToList();
-
-                return filteredTechnicians;
             }
             catch (Exception ex)
             {
