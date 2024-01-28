@@ -51,56 +51,56 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 - Example: "Mauricio Sepulveda"
                 - Results: Returns Technician Details for "Mauricio Sepulveda".
 
-            Case 2: Two people with the same name
+            Case 2: Search by First Name
                 - Example: "mauricio"
                 - Result: Returns a list of all people with a name similar to "Mauricio"
 
-            Case 3: Name not found
-                - Example: "1234"
-                - Result: Returns an Empty List
+            Case 3: Search by Last Name
+                - Example: "Sepulveda"
+                - Result: Returns a list of all people with Sepulveda on their Last names
 
-            Case 4: Capitalization
+            Case 4: Accent Marks Not present
+                - Ex: "Natalia Henriquez"
+                - Result:Must return Technician's with name "Natalia Henriquez". "Natalia Henríquez" will be excluded, 
+                   due to Accent Difference to preserve exact results
+            
+            Case 5: Capitalization
                 - Ex: "mauricio sepulveda"
                 - Result: Returns "Mauricio Sepulveda", to handle case-insensitivity.
 
-            Case 5: Accent Marks
-                - Ex: "Natalia Henriquez"
-                - Result: "Natalia Henríquez"
-
-            Case 6: Inversed Accent Marks
-                - Ex: "Natalia Henríquez"
-                - Result: "Natalia Henriquez" (In case the name was saved without accent mark)
+            Case 6: Unorderded Names
+                - Ex: "Sepulveda Mauricio"
+                - Method Not Allowed, so it souhld return an empty List 
 
             Case 7: Special Characters
                 - Ex: "O'Higgins", "François", "Jürgen"
                 - Result: Technicians with special characters on their names
-                - How much to cover(?) (Could be English Names)
 
-            Case 8: Empty Search
+            Case 8: Name not found
+                - Example: "1234"
+                - Result: Returns an Empty List
+
+            Case 9: Empty Search, Null string or WhiteSpaces only
                 - Ex: ""
-                - Result: []
+                - Result: Returns Empty List
 
-            Case 9: Typing Errors
+            Case 10: Typing Errors
                 - Ex: "gabeel" instead of "gabriel" and "gabiel" instead of "gabriel"
-                    - Result: When the closer match is gabriel, should return an Empty List
-            
-            Case 10: Unorderded Names
-                - Ex: "Sepulveda Mauricio"
-                - Returns the profile of "Mauricio Sepulveda", showing the system's ability to handle name components in any order.
+                - Result: Empty List, not allowed
 
             Case 11: Partial Name Search
                 - Ex: "mau"
-                - Result: Returns "Mauricio Sepulveda" and other similar names, demonstrating partial match capabilities.
+                - Result: this metdhod is not allowed, so it will return an Empty List,
 
             Case 12: Partial Name and Last Name Search
                 - Ex: "mau sep"
-                - Result:Result: Returns "Mauricio Sepulveda" and other similar names, demonstrating partial match capabilities.
+                - Result: Not allowed method, so it will return an Empty List
 
             Case 13: Error Connection
                 - Ex: When the connection to Docker is turned Off
                 - Result: Error response 400
             */
-            
+
 
 
 
@@ -140,17 +140,18 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                          new Technician { Name = "Natalia Henriquez", TechnicianId = 3, Address = "Arturo Prat 1861, Santiago" },
                          new Technician { Name = "Ramon Sepulveda", TechnicianId = 4, Address = "Av. Matucana 9075, Santiago" },
                          new Technician { Name = "Gabriel Rivas", TechnicianId = 5, Address = "Aníbal Pinto 578, Valparaiso" },
-                         new Technician { Name = "Diego Ardiles", TechnicianId = 6, Address = "Calle Blanco 7259, Santiago" },
+                         new Technician { Name = "Diego O'Higgins", TechnicianId = 6, Address = "Calle Blanco 7259, Santiago" },
                      };
                 */
 
 
-                var normalizedSearchTerms = RemoveDiacritics(technicianName).ToLower().Split(' ');
+                var normalizedSearchTerms = technicianName.ToLowerInvariant().Split(' ');
 
 
                 // Filter technicians by name using LINQ
+                /*
                 var filteredTechnicians = technicians
-                    .Where(t => normalizedSearchTerms.All(term => RemoveDiacritics(t.Name).ToLower().Contains(term)))
+                    .Where(t => searchTerms.All(term => t.Name.ToLower().Contains(term)))
                     .Select(tech => new TechnicianDetails
                     {
                         TechnicianId = tech.TechnicianId,
@@ -170,6 +171,35 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                                           StartTime = w.StartTime.HasValue ? (DateTimeOffset)w.StartTime.Value : (DateTimeOffset?)null
                                       }).ToArray()
                     }).ToList();
+                    */
+                var searchTerms = technicianName.ToLowerInvariant().Split(' ');
+
+
+                var filteredTechnicians = technicians
+
+             .Where(t => {
+                 var techNameWords = t.Name.ToLowerInvariant().Split(' ');
+                 int searchTermIndex = 0;
+                 foreach (var word in techNameWords)
+                 {
+                     if (word.Equals(searchTerms[searchTermIndex]))
+                     {
+                         searchTermIndex++;
+                         if (searchTermIndex == searchTerms.Length)
+                         {
+                             return true;
+                         }
+                     }
+                 }
+                 return false;
+             })
+             .Select(tech => new TechnicianDetails
+             {
+                 TechnicianId = tech.TechnicianId,
+                 Technician = tech.Name,
+                 Address = tech.Address,
+                 // Añadir detalles adicionales según sea necesario
+             }).ToList();
 
                 return filteredTechnicians;
             }
@@ -180,42 +210,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             }
         }
 
-        /// <summary>
-        /// Removes diacritics (like accents) from a string.
-        /// </summary>
-        /// <param name="text">The string from which to remove diacritics.</param>
-        /// <returns>A string without diacritics.</returns>
-        /// <example>
-        /// Here are some examples demonstrating how the function works with different inputs:
-        ///    Input: "Françoise"  Output: "Francoise"
-        ///    Input: "Åke"        Output: "Ake"
-        ///    Input: "München"    Output: "Munchen"
-        /// </example>
-        private static string RemoveDiacritics(string text)
-        {
-            // Normalizes the string into the canonical decomposition form,
-            // where diacritics are separated from their base characters.
-            var normalizedString = text.Normalize(NormalizationForm.FormD);
-
-            // StringBuilder is used to construct the new string without diacritics.
-            var stringBuilder = new StringBuilder();
-
-            foreach (var c in normalizedString)
-            {
-                // Gets the Unicode category of the character.
-                // This helps to identify if it's a diacritic.
-                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
-
-                // If the character is not a diacritic (non-spacing mark),
-                // it is added to the StringBuilder.
-                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
-                {
-                    stringBuilder.Append(c);
-                }
-            }
-
-            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
-        }
     }
 
 }
