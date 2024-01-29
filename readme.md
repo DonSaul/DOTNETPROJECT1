@@ -4,17 +4,16 @@
 1. [Introduction](#1-introduction) 
 2. [Getting Started](#2-getting-started) <br>
    2.1. [Prerequisites](#21-prerequisites) <br>
-   2.2. [Installation Guide](#22-installation-guide) <br>
-   2.3. [Initial Setup and Configuration](#23-initial-setup-and-configuration) 
+   2.2. [Initial Setup and Configuration](#22-initial-setup-and-configuration) 
 3. [Basic Usage](#3-basic-usage) <br>
    3.1. [Running the Application](#31-running-the-application) <br>
    3.2. [Basic Operations and Examples](#32-basic-operations-and-examples) 
 4. [Project Architecture](#4-project-architecture) <br>
-   4.1. [Model-View-Controller (MVC)](#41-model-view-controller) <br>
+   4.1. [Model-View-Controller (MVC)](#41-model-view-controller-mvc-pattern) <br>
    4.2. [Service Pattern](#42-service-pattern) <br>
-   4.3. [Dependency Injection](#43-dependeny-injection) 
+   4.3. [Dependency Injection](#43-dependency-injection) 
 5. [Security Features and Best Practices](#5-security-features-and-best-practices) <br>  
-6. [Advanced Funcionalities](#6-advanced-functionalities) <br>
+6. [Advanced Functionalities](#6-advanced-functionalities) <br>
    6.1. [API Connection](#61-api-connection) <br>
    6.2. [Work Order Filtering](#62-work-order-filtering) <br>
    6.3. [Search Technician By Name](#63-search-technician-by-name) <br>
@@ -111,7 +110,7 @@ The dependency injection pattern is used to provide object dependencies to the o
 
 # 5. Security features and best practices
 
-# 6. Advanced Features
+# 6. Advanced functionalities
 ## 6.1 API Connection
 ## 6.2 Work Order Filtering
 This function is designed to retrieve detailed information about work orders based on specific criteria like time period, work type, and status. It leverages data from multiple sources to present a comprehensive view of each work order.
