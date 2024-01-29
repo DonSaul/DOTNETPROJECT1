@@ -49,7 +49,7 @@ Before starting the project, it's important to set up the right development envi
 This tool is used for creating and managing containers that bundle applications and services. In this project, Docker is key for setting up a connection to the Work Orders API. To get started, download and install Docker Desktop from the [official Docker Desktop Download website](https://www.docker.com/products/docker-desktop), making sure it's compatible with your operating system. Post-installation, running `docker --version` in the command line is recommended to verify the setup.
 ### .NET SDK Version 8.0:
 Crucial for application development using .NET
-technology, .NET SDK Version 8.0 can be obtained from Microsoft's official .NET downloads page [official Docker Desktop Download website](https://dotnet.microsoft.com/es-es/download/dotnet/8.0). After installation, executing `dotnet --version` in the command line is advisable to confirm successful installation.
+technology, .NET SDK Version 8.0 can be obtained from Microsoft's official .NET downloads page [.NET Version 8 Download](https://dotnet.microsoft.com/es-es/download/dotnet/8.0). After installation, executing `dotnet --version` in the command line is advisable to confirm successful installation.
 
 ## 2.2 Initial Setup and Configuration
 ### Docker Setup
@@ -97,7 +97,7 @@ Here are some examples of how you can interact with the API:
 
 
 # 4. Project Architecture
-The project uses the MVC, Service, and Dependency Injection design patterns.
+The project uses the MVC, Service and Dependency Injection design patterns.
 ## 4.1 Model-View-Controller (MVC) Pattern
 The MVC pattern was chosen because it helps separate the application logic, making code management and maintenance easier. This pattern is used to divide an application into three interconnected parts: the model, the view, and the controller.
 - The model contains the application data.
@@ -137,7 +137,16 @@ var query = workOrders
             .Join(technicians, ...)
             .Join(workTypes, ...)
             .Join(statuses, ...)
-            .Where(wo => wo.StartTime.HasValue && ...)
+            .Where(
+                wo.StartTime.HasValue &&
+                wo.EndTime.HasValue &&
+                wo.StartTime.Value >= startTime &&
+                wo.EndTime.Value <= endTime &&
+                (workType == "all" || wt.Name.Equals (workType,StringComparison.OrdinalIgnoreCase)) &&                  
+               (status == "all" || st.Name.Equals(status,StringComparison.OrdinalIgnoreCase))
+
+                
+             )
             .Select(wo => new WorkOrderDetails { ... });
 
 ``` 
