@@ -1,27 +1,25 @@
 # .NET Project LAB API
 
 ## Contents
-1. [Introduction](#introduction) <br>
-2. [Getting Started](#getting-started) <br>
-   2.1. [Prerequisites](#prerequisites) <br>
+1. [Introduction](#1.-introduction) 
+2. [Getting Started](#2.-getting-started) <br>
+   2.1. [Prerequisites](#2.1-prerequisites) <br>
    2.2. [Installation Guide](#installation-guide) <br>
-   2.3. [Initial Setup and Configuration](#initial-setup-and-configuration) <br>
+   2.3. [Initial Setup and Configuration](#initial-setup-and-configuration) 
 3. [Basic Usage](#basic-usage) <br>
    3.1. [Running the Application](#running-the-application) <br>
-   3.2. [Basic Operations and Examples](#basic-operations-and-examples) <br>
-4. Project Architecture
+   3.2. [Basic Operations and Examples](#basic-operations-and-examples) 
+4. Project Architecture <br>
    4.1. [Model-View-Controller (MVC)](#model-view-controller) <br>
    4.2. [Service Pattern](#service-pattern) <br>
-   4.3. [Dependency Intejection](#dependeny-injection) <br>
-
-5. [Security Features and Best Practices](#authentication-and-security) <br>
-   
+   4.3. [Dependency Intejection](#dependeny-injection) 
+5. [Security Features and Best Practices](#authentication-and-security) <br>  
 6. [Advanced Funcionalities](#advanced-features) <br>
    6.1. [API Connection](#detailed-guide-on-advanced-modules) <br>
    6.2. [Work Order Filtering](#work-order-filtering) <br>
    6.3. [Search Technician By Name](#search-technician-by-name) <br>
    6.4. [Report Generation](#report-generation)<br>
-   6.4. [Testing](#testing)<br>
+   6.4. [Testing](#testing) <br>
    6.4. [Frontend](#frontend)<br>
 7. [Error Handling](#error-handling) <br>
    7.1 [Try Catches](#try-catches)<br>
@@ -111,7 +109,7 @@ The service pattern is used to encapsulate business logic in-service classes. Se
 ## 4.3 Dependency Injection
 The dependency injection pattern is used to provide object dependencies to the objects that need them. Dependency injection allows for looser coupling and more modular code.
 
-## 5. Security features and best practices
+# 5. Security features and best practices
 
 # 6. Advanced Features
 ## 6.1 API Connection
@@ -144,7 +142,7 @@ var query = workOrders
 ### Remarks
 **1. Complex Query Handling:** The function handles complex queries involving multiple data sources, showcasing the power of LINQ in handling relational data.
 
-**2. Performance and Scalability:** With its extensive use of joins and filters, the performance may vary based on dataset size. It’s advisable to monitor performance and optimize as needed.
+**2. Performance and Scalability:** With its extensive use of joins and filters, the performance may vary based on dataset size. It's advisable to monitor performance and optimize as needed.
 
 **3. Error Handling:** Includes robust error handling to manage database connectivity or query execution issues.
 
@@ -204,13 +202,13 @@ var filteredTechnicians = technicians
 
 ### Remarks
 
-1. Performance Considerations: For large datasets, the performance of this function should be evaluated, especially since LINQ queries might become resource-intensive with an increasing amount of data.
+**1. Performance Considerations:** For large datasets, the performance of this function should be evaluated, especially since LINQ queries might become resource-intensive with an increasing amount of data.
 
-2. Scalability and Optimization: Depending on the dataset size and usage patterns, optimizations such as indexing or caching might be necessary for improved performance.
+**2. Scalability and Optimization:** Depending on the dataset size and usage patterns, optimizations such as indexing or caching might be necessary for improved performance.
 
-3. Error Handling: The function includes error handling to manage potential issues with database connectivity or query execution, ensuring that the function behaves predictably in all scenarios.
+**3. Error Handling:** The function includes error handling to manage potential issues with database connectivity or query execution, ensuring that the function behaves predictably in all scenarios.
 
-4. Use Case Applicability: This function is ideal for systems requiring precise name-based searches, such as personnel management systems, work order tracking systems, or customer service platforms.
+**4. Use Case Applicability:** This function is ideal for systems requiring precise name-based searches, such as personnel management systems, work order tracking systems, or customer service platforms.
 
 ## 6.4 Report Generation
 Designed to facilitate the creation of comprehensive reports from work order data.
