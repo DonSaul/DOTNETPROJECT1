@@ -18,6 +18,19 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             _serviceProvider = serviceProvider;
             _apiConnector = apiConnector;
         }
+
+        /// <summary>
+        /// Retrieves an array of all technicians available in the system.
+        /// </summary>
+        /// <returns>An array of Technician objects representing all technicians.</returns>
+        /// <example>
+        /// Example of how the function works:
+        ///    Output: Array of all technicians, each entry containing details like Name, TechnicianId, Address, etc.
+        /// </example>
+        /// <remarks>
+        /// This function makes an asynchronous call to retrieve all technicians.
+        /// In case of an error (e.g., network issues, server downtime), it logs the exception message and rethrows the exception.
+        /// </remarks>
         public async Task<Technician[]> GetTechniciansAsync()
         {
             try
@@ -30,6 +43,22 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Retrieves the details of a specific technician based on their unique ID.
+        /// </summary>
+        /// <param name="technicianId">The unique identifier for the technician.</param>
+        /// <returns>A Technician object containing details of the specified technician.</returns>
+        /// <example>
+        /// Here are some examples demonstrating how the function works with different inputs:
+        ///    Input: 5   Output: Details for the technician with ID 5
+        ///    Input: 10  Output: Details for the technician with ID 10
+        ///    Input: -1  Output: Exception (if negative IDs are not handled)
+        /// </example>
+        /// <remarks>
+        /// This function performs an asynchronous call to fetch details of a technician using their ID.
+        /// It handles exceptions by logging the error message and rethrowing the exception, ensuring error visibility.
+        /// </remarks>
         public async Task<Technician> GetTechnicianAsync(int technicianId)
         {
             try
@@ -89,7 +118,8 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
             Case 6: Unorderded Names
                 - Ex: "Sepulveda Mauricio"
-                - Method Not Allowed, so it should return an empty List 
+                - The function does not support searches where the order of the first and last names is reversed or mixed up. 
+                  It strictly requires the name terms to be entered in the same order as recorded in the database. 
 
             Case 7: Special Characters
                 - Ex: "O'Higgins", "François", "Jürgen"
@@ -127,7 +157,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             /* Handles NUll, Empty string ("") and WhiteSpaces, returning empty array */
 
             //technicianName = " Arturo";
-            
+
             if (string.IsNullOrWhiteSpace(technicianName))
             {
                 return new List<TechnicianDetails>();
@@ -197,7 +227,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                     TechnicianId = tech.TechnicianId,
                     Technician = tech.Name,
                     Address = tech.Address,
-                    // Añadir detalles adicionales según sea necesario
                     WorkOrders = workOrders
                                         .Where(wo => wo.TechnicianId == tech.TechnicianId)
                                         .Select(w => new WorkOrderDetails
