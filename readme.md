@@ -6,8 +6,7 @@
    2.1. [Prerequisites](#21-prerequisites) <br>
    2.2. [Initial Setup and Configuration](#22-initial-setup-and-configuration) 
 3. [Basic Usage](#3-basic-usage) <br>
-   3.1. [Running the Application](#31-running-the-application) <br>
-   3.2. [Basic Operations and Examples](#32-basic-operations-and-examples) 
+   3.1. [Basic Operations and Examples](#31-basic-operations-and-examples) 
 4. [Project Architecture](#4-project-architecture) <br>
    4.1. [Model-View-Controller (MVC)](#41-model-view-controller-mvc-pattern) <br>
    4.2. [Service Pattern](#42-service-pattern) <br>
