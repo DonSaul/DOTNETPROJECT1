@@ -1,82 +1,113 @@
 ﻿@model IEnumerable<Softserve.ProjectLab.ClientAPI.Models.WorkOrder>
 
 @{
-	ViewData["Title"] = "List";
+    ViewData["Title"] = "List";
 }
 
 <h1>Work Orders</h1>
 
 <p>
-	<a asp-action="Create">Create New</a>
-
-	<a class="btn btn-secondary ml-2" href="/api/WorkOrder/export-csv">Export to CSV</a>
+    <a asp-action="Create">Create New</a>
+    <a class="btn btn-secondary ml-2" href="/api/WorkOrder/export-csv">Export to CSV</a>
 </p>
-<div style="height:70vh; overflow:auto;">
-	<table class="table">
-		<thead style="position:sticky; background-color: #f0f0f0; top: 0px; border:0px solid">
-			<tr>
-				<th>
-					@Html.DisplayNameFor(model => model.WorkOrderName)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.TechnicianId)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.StatusId)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Duration)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.CreatedDate)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.StartTime)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.EndTime)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.WorkTypeId)
-				</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.WorkOrderName)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.TechnicianId)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.StatusId)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Duration)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.CreatedDate)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.StartTime)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.EndTime)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.WorkTypeId)
-					</td>
-					<td>
-						@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-						@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-						@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+
+<div class="container">
+    <div class="form-row mb-3">
+        <div class="col">
+            <label for="startTime">Start Time</label>
+            <input type="datetime-local" class="form-control" id="startTime" />
+        </div>
+        <div class="col">
+            <label for="endTime">End Time</label>
+            <input type="datetime-local" class="form-control" id="endTime" />
+        </div>
+        <div class="col">
+            <label for="workType">Work Type</label>
+            <input type="text" class="form-control" id="workType" />
+        </div>
+        <div class="col">
+            <label for="status">Status</label>
+            <input type="text" class="form-control" id="status" />
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-primary mt-4" id="searchButton">Search</button>
+        </div>
+    </div>
+
+    <div style="height:70vh; overflow:auto;">
+        <table class="table">
+            <thead style="position:sticky; background-color: #f0f0f0; top: 0px; border:0px solid">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.WorkOrderName)</th>
+                    <th>@Html.DisplayNameFor(model => model.TechnicianId)</th>
+                    <th>@Html.DisplayNameFor(model => model.StatusId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Duration)</th>
+                    <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.StartTime)</th>
+                    <th>@Html.DisplayNameFor(model => model.EndTime)</th>
+                    <th>@Html.DisplayNameFor(model => model.WorkTypeId)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.WorkOrderName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TechnicianId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.StatusId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Duration)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
+                        <td>@Html.DisplayFor(modelItem => item.EndTime)</td>
+                        <td>@Html.DisplayFor(modelItem => item.WorkTypeId)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#searchButton').click(function () {
+                var startTime = $('#startTime').val();
+                var endTime = $('#endTime').val();
+                var workType = $('#workType').val();
+                var status = $('#status').val();
+
+                $.ajax({
+                    url: `/api/WorkOrder/search?startTime=${startTime}&endTime=${endTime}&workType=${workType}&status=${status}`,
+                    type: 'GET',
+                    success: function (data) {
+                        console.log(data);
+                        // Actualiza la tabla con los resultados de la búsqueda
+                        var tbody = $('table tbody');
+                        tbody.empty();
+
+                        data.forEach(function (workOrder) {
+                            var row = `<tr>
+                                                       <td>${workOrder.workOrderName}</td>
+                                                       <td>${workOrder.technician}</td>
+                                                       <td>${workOrder.workType}</td>
+                                                       <td>${workOrder.endTime}</td>
+                                                       <td>${workOrder.startTime}</td>
+                                                   </tr>`;
+                            tbody.append(row);
+                        });
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+}
