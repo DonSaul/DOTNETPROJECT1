@@ -69,6 +69,9 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 var statuses = statusesTask.Result;
                 var workTypes = workTypesTask.Result;
 
+                // If end time is empty, replace it with maximum value
+                var endTimeVar = endTime.Equals(DateTimeOffset.MinValue) ? DateTimeOffset.MaxValue : endTime;
+
                 //LINQ to join work orders with statuses, technicians, and work types
 
                 var query = from wo in workOrders
@@ -77,7 +80,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                             join st in statuses on wo.StatusId equals st.Id
                             where (wo.StartTime.HasValue && wo.EndTime.HasValue &&
                                    wo.StartTime.Value >= startTime &&
-                                   wo.EndTime.Value <= endTime) &&
+                                   wo.EndTime.Value <= endTimeVar) &&
                                   (workType == "all" || wt.Name.Equals(workType, StringComparison.OrdinalIgnoreCase)) &&
                                   (status == "all" || st.Name.Equals(status, StringComparison.OrdinalIgnoreCase))
                             select new WorkOrderDetails
