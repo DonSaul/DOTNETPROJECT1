@@ -92,6 +92,7 @@ Open the .NET solution file in the DEMO2 directory with Visual Studio to open th
 Here are some examples of how you can interact with the API:
 - **Get all work order**: To get all work order, you can use the following curl command in Postman:
     - curl -X 'GET' \  'https://localhost:7178/api/WorkOrder' \  -H 'accept: application/json'
+
 ![Postman Workorder](art/Postman_Workorder.gif)
 
 
@@ -140,14 +141,6 @@ var query = workOrders
             .Select(wo => new WorkOrderDetails { ... });
 
 ``` 
-### Remarks
-**1. Complex Query Handling:** The function handles complex queries involving multiple data sources, showcasing the power of LINQ in handling relational data.
-
-**2. Performance and Scalability:** With its extensive use of joins and filters, the performance may vary based on dataset size. It's advisable to monitor performance and optimize as needed.
-
-**3. Error Handling:** Includes robust error handling to manage database connectivity or query execution issues.
-
-**4. Applicability:** Ideal for systems needing detailed insights into work orders, such as project management tools, inventory systems, or service delivery platforms.
 
 ## 6.3 Search Technician By Name
 Designed to facilitate the querying of a database or dataset to retrieve details about technicians based on their names. It provides a robust and flexible way to handle various types of name-based searches, ensuring accurate and relevant results.
@@ -198,18 +191,6 @@ var filteredTechnicians = technicians
     })
     .ToList();
 ``` 
-
-
-
-### Remarks
-
-**1. Performance Considerations:** For large datasets, the performance of this function should be evaluated, especially since LINQ queries might become resource-intensive with an increasing amount of data.
-
-**2. Scalability and Optimization:** Depending on the dataset size and usage patterns, optimizations such as indexing or caching might be necessary for improved performance.
-
-**3. Error Handling:** The function includes error handling to manage potential issues with database connectivity or query execution, ensuring that the function behaves predictably in all scenarios.
-
-**4. Use Case Applicability:** This function is ideal for systems requiring precise name-based searches, such as personnel management systems, work order tracking systems, or customer service platforms.
 
 ## 6.4 Report Generation
 Designed to facilitate the creation of comprehensive reports from work order data.
