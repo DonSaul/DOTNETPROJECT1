@@ -4,29 +4,29 @@
 1. [Introduction](#1-introduction) 
 2. [Getting Started](#2-getting-started) <br>
    2.1. [Prerequisites](#21-prerequisites) <br>
-   2.2. [Installation Guide](#installation-guide) <br>
-   2.3. [Initial Setup and Configuration](#initial-setup-and-configuration) 
-3. [Basic Usage](#basic-usage) <br>
-   3.1. [Running the Application](#running-the-application) <br>
-   3.2. [Basic Operations and Examples](#basic-operations-and-examples) 
-4. [Project Architecture](#project-architecture) <br>
-   4.1. [Model-View-Controller (MVC)](#model-view-controller) <br>
-   4.2. [Service Pattern](#service-pattern) <br>
-   4.3. [Dependency Intejection](#dependeny-injection) 
-5. [Security Features and Best Practices](#authentication-and-security) <br>  
-6. [Advanced Funcionalities](#advanced-features) <br>
-   6.1. [API Connection](#detailed-guide-on-advanced-modules) <br>
-   6.2. [Work Order Filtering](#work-order-filtering) <br>
-   6.3. [Search Technician By Name](#search-technician-by-name) <br>
-   6.4. [Report Generation](#report-generation)<br>
-   6.4. [Testing](#testing) <br>
-   6.4. [Frontend](#frontend)<br>
-7. [Error Handling](#error-handling) <br>
-   7.1 [Try Catches](#try-catches)<br>
-   7.2 [Input Validation](#input-validation)<br>
+   2.2. [Installation Guide](#22-installation-guide) <br>
+   2.3. [Initial Setup and Configuration](#23-initial-setup-and-configuration) 
+3. [Basic Usage](#3-basic-usage) <br>
+   3.1. [Running the Application](#31-running-the-application) <br>
+   3.2. [Basic Operations and Examples](#32-basic-operations-and-examples) 
+4. [Project Architecture](#4-project-architecture) <br>
+   4.1. [Model-View-Controller (MVC)](#41-model-view-controller) <br>
+   4.2. [Service Pattern](#42-service-pattern) <br>
+   4.3. [Dependency Injection](#43-dependeny-injection) 
+5. [Security Features and Best Practices](#5-security-features-and-best-practices) <br>  
+6. [Advanced Funcionalities](#6-advanced-functionalities) <br>
+   6.1. [API Connection](#61-api-connection) <br>
+   6.2. [Work Order Filtering](#62-work-order-filtering) <br>
+   6.3. [Search Technician By Name](#63-search-technician-by-name) <br>
+   6.4. [Report Generation](#64-report-generation)<br>
+   6.5. [Testing](#65-testing) <br>
+   6.6. [Frontend](#66-frontend)<br>
+7. [Error Handling](#7-error-handling) <br>
+   7.1 [Try Catches](#71-try-catches)<br>
+   7.2 [Input Validation](#72-input-validation)<br>
    
-8. [Contribution](#contribution)
-9. [License](#license)
+8. [Contribution](#8-contribution)
+9. [License](#9-license)
 
 ## 1. Introduction
 This project offers a streamlined approach to managing and querying Work Orders, along with the Technicians linked to them. Designed with focus on functionality and ease of use, the system offers advanced capabilities for filtering and searching information, thereby enhancing operational efficiency. The project's standout features include:
