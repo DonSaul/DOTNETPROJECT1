@@ -1,7 +1,7 @@
 # .NET Project LAB API
 
 ## Contents
-1. [Introduction](#1.-introduction) 
+1. [Introduction](#1-introduction) 
 2. [Getting Started](#2.-getting-started) <br>
    2.1. [Prerequisites](#2.1-prerequisites) <br>
    2.2. [Installation Guide](#installation-guide) <br>
@@ -9,7 +9,7 @@
 3. [Basic Usage](#basic-usage) <br>
    3.1. [Running the Application](#running-the-application) <br>
    3.2. [Basic Operations and Examples](#basic-operations-and-examples) 
-4. Project Architecture <br>
+4. [Project Architecture](#project-architecture) <br>
    4.1. [Model-View-Controller (MVC)](#model-view-controller) <br>
    4.2. [Service Pattern](#service-pattern) <br>
    4.3. [Dependency Intejection](#dependeny-injection) 
