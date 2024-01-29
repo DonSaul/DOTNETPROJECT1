@@ -2,8 +2,8 @@
 
 ## Contents
 1. [Introduction](#1-introduction) 
-2. [Getting Started](#2.-getting-started) <br>
-   2.1. [Prerequisites](#2.1-prerequisites) <br>
+2. [Getting Started](#2-getting-started) <br>
+   2.1. [Prerequisites](#21-prerequisites) <br>
    2.2. [Installation Guide](#installation-guide) <br>
    2.3. [Initial Setup and Configuration](#initial-setup-and-configuration) 
 3. [Basic Usage](#basic-usage) <br>
