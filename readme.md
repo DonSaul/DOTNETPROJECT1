@@ -115,8 +115,11 @@ The dependency injection pattern is used to provide object dependencies to the o
 This function is designed to retrieve detailed information about work orders based on specific criteria like time period, work type, and status. It leverages data from multiple sources to present a comprehensive view of each work order.
 ### Functionality Description
 **1. Time Frame Filtering:** Filters work orders based on a specified start and end time.
+
 **2. Work Type Filtering:** Allows filtering of work orders based on a specific type of work. Includes an option to select 'all' types.
+
 **3. Status Filtering:** Permits filtering by the status of work orders, with the ability to choose 'all' statuses.
+
 **4. Data Joining:** Joins data from separate entities, such as technicians, work types, and statuses, to form a complete picture of each work order.
 ### LINQ Usage
 The function employs LINQ for its data processing needs, particularly using the following methods:
