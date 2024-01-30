@@ -1,0 +1,124 @@
+﻿@model IEnumerable<Softserve.ProjectLab.ClientAPI.Models.WorkOrder>
+
+@{
+	ViewData["Title"] = "List";
+}
+
+<section class="container">
+	@*<a asp-action="Create">Create New</a>*@
+	<div style="display:flex; justify-content:space-between; align-items:center;">
+		<h1>Work Orders</h1>
+		<button class="btn btn-secondary ml-2" href="/api/WorkOrder/export-csv">Export to CSV</button>
+
+	</div>
+	<div class="accordion" id="searchAccordion">
+		<div class="accordion-item mb-2">
+			<h2 class="accordion-header" id="headingOne">
+				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+					Search Work Orders
+				</button>
+			</h2>
+			<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#searchAccordion">
+				<div class="accordion-body">
+					<form class="form-row mb-3">
+						<div class="row">
+							<div class="col">
+								<label for="startTime" style="font-weight:600;">Start Time</label>
+								<input type="datetime-local" class="form-control" id="startTime" />
+							</div>
+							<div class="col">
+								<label for="endTime" style="font-weight:600;">End Time</label>
+								<input type="datetime-local" class="form-control" id="endTime" />
+							</div>
+							<div class="col">
+								<label for="workType" style="font-weight:600;">Work Type</label>
+								<input type="text" class="form-control" id="workType" placeholder="all" />
+							</div>
+							<div class="col">
+								<label for="status" style="font-weight:600;">Status</label>
+								<input type="text" class="form-control" id="status" placeholder="all" />
+							</div>
+							<div class="col">
+								<button type="button" class="btn btn-primary mt-4" style="width:100%;" id="searchButton">Search</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="height:70vh; overflow:auto; border-radius:5px;">
+		<table class="table">
+			<thead style="position:sticky; background-color: #f0f0f0; top: 0px; border:0px solid">
+				<tr>
+					<th>@Html.DisplayNameFor(model => model.WorkOrderName)</th>
+					<th>@Html.DisplayNameFor(model => model.TechnicianId)</th>
+					<th>@Html.DisplayNameFor(model => model.WorkTypeId)</th>
+					<th>@Html.DisplayNameFor(model => model.EndTime)</th>
+					<th>@Html.DisplayNameFor(model => model.StartTime)</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>@Html.DisplayFor(modelItem => item.WorkOrderName)</td>
+						<td>@Html.DisplayFor(modelItem => item.TechnicianId)</td>
+						<td>@Html.DisplayFor(modelItem => item.WorkTypeId)</td>
+						<td>@Html.DisplayFor(modelItem => item.EndTime)</td>
+						<td>@Html.DisplayFor(modelItem => item.StartTime)</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</section>
+
+@section Scripts {
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('#searchButton').click(function () {
+				var startTime = $('#startTime').val();
+				var endTime = $('#endTime').val();
+				var workType = $('#workType').val();
+				var status = $('#status').val();
+
+				$.ajax({
+					url: '/api/WorkOrderDetails',
+					type: 'GET',
+					dataType: 'json',
+					data: {
+						startTime: startTime,
+						endTime: endTime,
+						workType: workType,
+						status: status
+					},
+					success: function (data) {
+						console.log(data);
+						// Asegurarse de que la tabla se vacíe antes de agregar nuevos datos
+						var tbody = $('table tbody');
+						tbody.empty();
+
+						// Iterar sobre cada 'workOrder' y agregar los datos a la tabla
+						data.forEach(function (workOrder) {
+							var row = `<tr>
+															   <td>${workOrder.workOrderName}</td>
+															   <td>${workOrder.technician}</td>
+															   <td>${workOrder.workType}</td>
+															   <td>${workOrder.endTime ? workOrder.endTime : 'N/A'}</td>
+															   <td>${workOrder.startTime ? workOrder.startTime : 'N/A'}</td>
+														   </tr>`;
+							tbody.append(row);
+						});
+					},
+					error: function (error) {
+						console.error(error);
+					}
+				});
+			});
+		});
+	</script>
+}

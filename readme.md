@@ -112,6 +112,25 @@ The dependency injection pattern is used to provide object dependencies to the o
 
 # 6. Advanced functionalities
 ## 6.1 API Connection
+### Functionality Description
+This project includes a dedicated module, called `APIConnector.cs`, for setting up and managing connections with various resources like Technician, WorkOrders, Status, and WorkType from the WorkOrders API. This module is fundamental for the application, as it oversees the management of HTTP requests and responses to and from the WorkOrders API.
+
+### Module Capabilities
+1. **HTTP Client Management**: Uses `HttpClient` for sending HTTP requests and receiving responses from the API, ensuring smooth communication.
+
+2. **Retry Logic**: Adds a retry mechanism to address temporary failures in API calls. It typically retries a request up to three times with a set delay, boosting dependability.
+
+3. **Response Handling**: Processes and checks API responses, assuring successful requests and appropriate error management.
+
+4. **Generic Data Fetching**: Capable of retrieving data of any type (`T`) from the API, accommodating different data models effectively.
+
+#### Libraries Used
+1. `System.Net.Http`: Essential for initiating HTTP requests and processing responses.
+
+2. `Newtonsoft.Json`: Chosen for its strong capabilities in serializing and deserializing JSON data, ensuring broad compatibility across various .NET versions and platforms.
+
+3. `IHttpClientFactory`: Utilized for creating `HttpClient` instances. This method improves the management of `HttpClientHandler` life cycles and supports socket pooling, leading to better efficiency.
+
 ## 6.2 Work Order Filtering
 This function is designed to retrieve detailed information about work orders based on specific criteria like time period, work type, and status. It leverages data from multiple sources to present a comprehensive view of each work order.
 ### Functionality Description
@@ -143,11 +162,8 @@ var query = workOrders
                 wo.StartTime.Value >= startTime &&
                 wo.EndTime.Value <= endTime &&
                 (workType == "all" || wt.Name.Equals (workType,StringComparison.OrdinalIgnoreCase)) &&                  
-               (status == "all" || st.Name.Equals(status,StringComparison.OrdinalIgnoreCase))
-
-                
-             )
-            .Select(wo => new WorkOrderDetails { ... });
+               (status == "all" || st.Name.Equals(status,StringComparison.OrdinalIgnoreCase))                
+             ).Select(wo => new WorkOrderDetails { ... });
 
 ``` 
 
@@ -215,14 +231,79 @@ Designed to facilitate the creation of comprehensive reports from work order dat
 
 ### LINQ Usage
 
-### Remarks
 
 ## 6.5 Testing
+The tests focus on ensuring the correctness and functionality of various services within the application, including StatusService, TechnicianService, WorkOrderService, and WorkTypeService. 
+
+### Status Service Test
+#### Test: `GetStatusesAsync_ShouldReturnStatuses`
+- **Purpose**: Verifies that the `StatusService` retrieves and returns a list of status objects.
+- **Method**: Mocks `IApiConnector` to simulate API responses for status data.
+- **Key Assertions**: Checks non-null response, correct number of status objects, and accuracy of properties.
+
+### Technician Service Test
+#### Test: `GetTechniciansAsync_ShouldReturnTechnicians`
+- **Purpose**: Confirms that `TechnicianService` retrieves a list of technicians.
+- **Method**: Uses mock `IApiConnector` for technician data emulation.
+- **Key Assertions**: Ensures non-null response and correctness of technician data.
+
+#### Test: `GetTechnicianAsync_ShouldReturnTechnicianById`
+- **Purpose**: Tests retrieval of a specific technician by ID.
+- **Method**: Mocks API call to return a predefined technician object.
+- **Key Assertions**: Verifies non-null response with accurate technician details for valid IDs, handles invalid IDs.
+
+  #### Test: `GetTechnicianByNameAsync_ShouldReturnTechniciansByName`
+- **Purpose**: Tests finding technicians by name.
+- **Method**: Sets up mocked responses with specific technician data.
+- **Key Assertions**: Checks for non-null responses, correct technician count, and detail accuracy based on name.
+
+### WorkOrderServiceTest
+#### Test: `GetWorkOrdersAsync_ShouldReturnWorkOrders`
+- **Purpose**: Ensures `WorkOrderService` fetches and returns work orders.
+- **Method**: Mocks `IApiConnector` with predefined work order data.
+- **Key Assertions**: Confirms non-null list of work orders with accurate details.
+
+#### Test: `GetWorkOrderAsync_ShouldReturnWorkOrdersByWorkOrderName`
+- **Purpose**: Tests fetching work orders by name.
+- **Method**: Uses mocked API responses for individual work order retrieval.
+- **Key Assertions**: Ensures correct work order retrieval based on name, handles non-existent names and empty inputs.
+
+### WorkTypeTest
+#### Test: `GetWorkTypesAsync_ShouldReturnWorkTypes`
+- **Purpose**: Verifies `WorkTypeService` retrieves and returns work type information.
+- **Method**: Mocks API connector to return a list of work types.
+- **Key Assertions**: Checks for non-null response, correct count of work types, and accuracy of ID and name.
+
+All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
+
 ## 6.6 Frontend
 
 # 7. Error Handling
 ## 7.1 Try Catches
 ## 7.2 Input Validation
+Input validation in the application is performed both on the client (frontend) and server (backend) sides, ensuring robust data integrity and improving user experience.
+
+### Front End Validation
+The frontend validation focuses on immediate user feedback and guides users to enter valid data.
+1. **Work Orders**: 
+2. **Technician**: 
+3. **CSV Report Generation**: 
+
+### Backend Validation
+The backend validation is more about data integrity and preventing invalid data from being processed or stored.
+1. **Work Orders Services**: 
+   - `GetWorkOrdersAsync`: Primarily fetches work order data without direct input validation as it doesn't take parameters.
+   - `GetWorkOrderAsync`: Validates `workOrderName` for null or empty values before making an API call. It ensures that only meaningful strings are processed.
+   - `GetWorkOrderDetailsAsync` (Overloaded with parameters): Validates `startTime`, `endTime`, `workType`, and `status`. It ensures that the time range is valid and the strings for work type and status are processed correctly (e.g., handling the "all" case).
+
+2. **Technician Services**:
+   - `GetTechniciansAsync`: Retrieves all technicians without specific input validation due to the lack of parameters.
+   - `GetTechnicianAsync`: The method seamlessly integrates with existing validation protocols for `technicianId` within the broader API framework, ensuring data integrity and operational coherence.
+   - `GetTechnicianByName`: Performs comprehensive validation by rigorously checking for null, empty, or whitespace-only strings in the `technicianName` parameter. It is designed to handle various cases with precision, including ensuring an exact match, maintaining case insensitivity, and accommodating special characters in names.
+
+4. **CSV Report Generation**: On the backend, validation in the context of CSV report generation, particularly in functions like `GetWorkOrderReports`, ensures data integrity and logical consistency, even though it does not directly handle user inputs. The function performs implicit validations, such as:
+   - Ensuring the inclusion of work orders only with valid `StartTime` and `EndTime` values, using LINQ where clause to filter out incomplete records.
+   - Maintaining data joining integrity by combining work orders with corresponding technicians, work types, and statuses, thereby validating the existence and relevance of the joined data.
 
 # 8. Contribution
 This project reflects the collective efforts in the Softserve .NET project lab. The focus has been on backend and frontend development, with notable advancements in key areas like Work Order Queries and Technician Search. Utilization of .NET and Blazor technologies has been instrumental in enhancing project functionality. The project has evolved through problem-solving, innovation, and a commitment to learning and improvement. Future enhancements are anticipated to further develop the project's capabilities, ensuring ongoing progress and efficiency.

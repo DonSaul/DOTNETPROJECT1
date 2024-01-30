@@ -82,5 +82,13 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-    }
+
+		[HttpGet("/WorkOrder/List")]
+		public async Task<IActionResult> List()
+		{
+			var technicians = await _workOrderService.GetWorkOrdersAsync();
+
+			return View(technicians);
+		}
+	}
 }
