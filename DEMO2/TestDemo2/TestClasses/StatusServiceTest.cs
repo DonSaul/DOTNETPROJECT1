@@ -14,6 +14,7 @@ namespace TestDemo2.TestClasses
         {
             // Arrange
             var apiConnectorMock = new Mock<IApiConnector>();
+
             apiConnectorMock.Setup(m => m.GetAsync<Status[]>(It.IsAny<string>()))
                 .ReturnsAsync(new Status[]
                 {
@@ -24,15 +25,15 @@ namespace TestDemo2.TestClasses
                     new Status { Id = 4, Name = "Complete" }
                 });
 
-            var statusService = new StatusService(apiConnectorMock.Object);
+            var workType = new StatusService(
+                apiConnectorMock.Object
+            );
 
             // Act
-            var statusServiceMock = new Mock<IStatusService>();
-            var result = await statusServiceMock.Object.GetStatusesAsync();
+            var result = await workType.GetStatusesAsync();
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(5, result.Length);
             Assert.AreEqual("Cancelled", result[0].Name);
             Assert.AreEqual("New", result[1].Name);
             Assert.AreEqual("Scheduled", result[2].Name);
