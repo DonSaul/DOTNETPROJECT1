@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Softserve.ProjectLab.ClientAPI.Services
 {
-    public class ApiConnector
+    public class ApiConnector : IApiConnector
     {
         private readonly HttpClient _client;
         private readonly int _maxRetries;
@@ -17,7 +17,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             _delay = delay ?? TimeSpan.FromSeconds(3);
         }
 
-        public async Task<T> GetAsync<T>(string endpoint)
+        public virtual async Task<T> GetAsync<T>(string endpoint)
         {
             for (int count = 0; count < _maxRetries; count++)
             {
