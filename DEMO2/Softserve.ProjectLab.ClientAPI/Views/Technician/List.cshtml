@@ -6,45 +6,106 @@
 
 <h1>Technicians</h1>
 
-<p>
-	<a asp-action="Create">Create New</a>
-</p>
-<div style="height:70vh; overflow:auto;">
-	<table class="table">
-		<thead style="position:sticky; background-color: #f0f0f0; top: 0px; border:0px solid">
-			<tr>
-				<th>
-					@Html.DisplayNameFor(model => model.TechnicianId)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Name)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Address)
-				</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
+@*
+ <p>
+ 	<a asp-action="Create">Create New</a>
+ </p>
+*@
+
+<section class="container">
+	<div class="d-flex align-items-center">
+		@using (Html.BeginForm("GetTechnicianByName", "Technician", FormMethod.Get, new { id = "searchForm" }))
+		{
+		//@Html.TextBox("technicianName")
+			<input type="text" id="technicianName" class="form-control search-input me-2" name="technicianName" pattern="^[a-zA-Z\s]*$" title="Only enter letters and spaces." />
+			<input type="submit" class="btn btn-primary" value="Search by Name" />
+		}
+	</div>
+
+	<div style="height:70vh; overflow:auto; border-radius:10px;">
+		<table class="table" id="technicianTable">
+			<thead style="position:sticky; background-color: #f0f0f0; top: 0px; border:0px solid">
 				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.TechnicianId)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Name)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Address)
-					</td>
-					<td>
-						@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-						@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-						@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-					</td>
+					<th>
+						ID
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Name)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Address)
+					</th>
+					<th></th>
 				</tr>
-			}
-		</tbody>
-	</table>
-</div>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.TechnicianId)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Name)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Address)
+						</td>
+						<td>
+							@Html.ActionLink("Details", "Details", new { item.TechnicianId })
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</section>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$('#searchForm').on('submit', function (e) {
+				// console.log('submitting form');
+				e.preventDefault();
+				var technicianName = $(this).find('input[name="technicianName"]').val().trim();
+				// console.log(technicianName)
+
+				let url;
+				if (technicianName.length === 0) {
+					url = '/api/Technician/';
+				}
+				else {
+					const enteredName = encodeURIComponent(technicianName);
+					url = '/api/Technician/TechnicianByName/' + enteredName;
+				}
+
+				$.ajax({
+					url: url,
+					type: 'GET',
+					success: function (data) {
+						// Clear the table
+						$('#technicianTable tbody').empty();
+
+						// Add new rows to the table
+						$.each(data, function (i, item) {
+							var row = $('<tr>').append(
+								$('<td>').text(item.technicianId),
+								$('<td>').text(item.technician || item.name),
+								$('<td>').text(item.address),
+								$('<td>').html('<a href="/Technician/Details/' + item.technicianId + '">Details</a>')
+							);
+
+							$('#technicianTable tbody').append(row);
+						});
+					},
+					error: function (error) {
+						// Handle error
+						console.log(error);
+						//$('#technicianTable tbody').empty();
+
+					}
+				});
+			});
+		});
+	</script>
+}

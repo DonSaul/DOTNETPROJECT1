@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using Softserve.ProjectLab.ClientAPI.Models;
 using Softserve.ProjectLab.ClientAPI.Services;
 using System.Net;
@@ -73,5 +74,26 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             
             return View(technicians);
         }
-    }
+
+		[HttpGet("/Technician/Details/{technicianID}")]
+		public async Task<IActionResult> Details(int technicianID)
+        {
+            var technician = await _technicianService.GetTechnicianAsync(technicianID);
+            if (technician == null)
+            {
+				return NotFound();
+			}
+
+            var technicianWithWorkOrders = await _technicianService.GetTechnicianByNameAsync(technician.Name);
+            
+
+            var query = from tech in technicianWithWorkOrders
+                        where technician.TechnicianId == technicianID
+                        select tech;
+
+            var res = query.First();
+
+            return View(res);
+        }
+	}
  }
