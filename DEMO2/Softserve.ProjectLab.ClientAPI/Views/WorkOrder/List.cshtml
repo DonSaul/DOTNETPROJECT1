@@ -12,25 +12,39 @@
 </p>
 
 <div class="container">
-    <div class="form-row mb-3">
-        <div class="col">
-            <label for="startTime">Start Time</label>
-            <input type="datetime-local" class="form-control" id="startTime" />
-        </div>
-        <div class="col">
-            <label for="endTime">End Time</label>
-            <input type="datetime-local" class="form-control" id="endTime" />
-        </div>
-        <div class="col">
-            <label for="workType">Work Type</label>
-            <input type="text" class="form-control" id="workType" />
-        </div>
-        <div class="col">
-            <label for="status">Status</label>
-            <input type="text" class="form-control" id="status" />
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-primary mt-4" id="searchButton">Search</button>
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Buscar Órdenes de Trabajo
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="form-row mb-3">
+                        <div class="col">
+                            <label for="startTime">Start Time</label>
+                            <input type="datetime-local" class="form-control" id="startTime" />
+                        </div>
+                        <div class="col">
+                            <label for="endTime">End Time</label>
+                            <input type="datetime-local" class="form-control" id="endTime" />
+                        </div>
+                        <div class="col">
+                            <label for="workType">Work Type</label>
+                            <input type="text" class="form-control" id="workType" />
+                        </div>
+                        <div class="col">
+                            <label for="status">Status</label>
+                            <input type="text" class="form-control" id="status" />
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-primary mt-4" id="searchButton">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -40,32 +54,21 @@
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.WorkOrderName)</th>
                     <th>@Html.DisplayNameFor(model => model.TechnicianId)</th>
-                    <th>@Html.DisplayNameFor(model => model.StatusId)</th>
-                    <th>@Html.DisplayNameFor(model => model.Duration)</th>
-                    <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
-                    <th>@Html.DisplayNameFor(model => model.StartTime)</th>
-                    <th>@Html.DisplayNameFor(model => model.EndTime)</th>
                     <th>@Html.DisplayNameFor(model => model.WorkTypeId)</th>
-                    <th></th>
+                    <th>@Html.DisplayNameFor(model => model.EndTime)</th>
+                    <th>@Html.DisplayNameFor(model => model.StartTime)</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.WorkOrderName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.TechnicianId)</td>
-                        <td>@Html.DisplayFor(modelItem => item.StatusId)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Duration)</td>
-                        <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                        <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
-                        <td>@Html.DisplayFor(modelItem => item.EndTime)</td>
-                        <td>@Html.DisplayFor(modelItem => item.WorkTypeId)</td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                        </td>
+                        <th>@Html.DisplayFor(modelItem => item.WorkOrderName)</th>
+                        <th>@Html.DisplayFor(modelItem => item.TechnicianId)</th>
+                        <th>@Html.DisplayFor(modelItem => item.WorkTypeId)</th>
+                        <th>@Html.DisplayFor(modelItem => item.EndTime)</th>
+                        <th>@Html.DisplayFor(modelItem => item.StartTime)</th>
                     </tr>
                 }
             </tbody>
@@ -84,22 +87,30 @@
                 var status = $('#status').val();
 
                 $.ajax({
-                    url: `/api/WorkOrder/search?startTime=${startTime}&endTime=${endTime}&workType=${workType}&status=${status}`,
+                    url: '/api/WorkOrderDetails',
                     type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        startTime: startTime,
+                        endTime: endTime,
+                        workType: workType,
+                        status: status
+                    },
                     success: function (data) {
                         console.log(data);
-                        // Actualiza la tabla con los resultados de la búsqueda
+                        // Asegurarse de que la tabla se vacíe antes de agregar nuevos datos
                         var tbody = $('table tbody');
                         tbody.empty();
 
+                        // Iterar sobre cada 'workOrder' y agregar los datos a la tabla
                         data.forEach(function (workOrder) {
                             var row = `<tr>
-                                                       <td>${workOrder.workOrderName}</td>
-                                                       <td>${workOrder.technician}</td>
-                                                       <td>${workOrder.workType}</td>
-                                                       <td>${workOrder.endTime}</td>
-                                                       <td>${workOrder.startTime}</td>
-                                                   </tr>`;
+                               <td>${workOrder.workOrderName}</td>
+                               <td>${workOrder.technician}</td>
+                               <td>${workOrder.workType}</td>
+                               <td>${workOrder.endTime ? workOrder.endTime : 'N/A'}</td>
+                               <td>${workOrder.startTime ? workOrder.startTime : 'N/A'}</td>
+                           </tr>`;
                             tbody.append(row);
                         });
                     },
