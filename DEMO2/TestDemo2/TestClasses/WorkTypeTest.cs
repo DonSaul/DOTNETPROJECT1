@@ -21,7 +21,7 @@ public class WorkTypeTest
                     new WorkType { Id = 2, Name = "Quote" },
                     new WorkType { Id = 3, Name = "Maintenance" }
                 });
-            //var workTypeService = new WorkTypeService(apiConnectorMock.Object);
+
             var workTypeServiceMock = new Mock<IWorkTypeService>();
             // Act
             var result = await workTypeServiceMock.Object.GetWorkTypesAsync();

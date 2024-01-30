@@ -27,7 +27,6 @@ namespace TestDemo2.TestClasses
             var statusService = new StatusService(apiConnectorMock.Object);
 
             // Act
-            //var result = await statusService.GetStatusesAsync();
             var statusServiceMock = new Mock<IStatusService>();
             var result = await statusServiceMock.Object.GetStatusesAsync();
 
