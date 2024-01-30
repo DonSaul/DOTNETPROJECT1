@@ -4,7 +4,6 @@
 	ViewData["Title"] = "List";
 }
 
-<h1>Technicians</h1>
 
 @*
  <p>
@@ -13,6 +12,7 @@
 *@
 
 <section class="container">
+	<h1>Technicians</h1>
 	<div class="d-flex align-items-center">
 		@using (Html.BeginForm("GetTechnicianByName", "Technician", FormMethod.Get, new { id = "searchForm" }))
 		{
@@ -22,7 +22,7 @@
 		}
 	</div>
 
-	<div style="height:70vh; overflow:auto; border-radius:10px;">
+	<div style="height:70vh; overflow:auto; border-radius:5px;">
 		<table class="table" id="technicianTable">
 			<thead style="position:sticky; background-color: #f0f0f0; top: 0px; border:0px solid">
 				<tr>
