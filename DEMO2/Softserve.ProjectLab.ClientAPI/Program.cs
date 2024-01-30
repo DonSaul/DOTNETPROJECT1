@@ -3,7 +3,9 @@ using Softserve.ProjectLab.ClientAPI.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+// commenting this line because it is redundant with .AddControllersWithViews()
+// builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -28,7 +30,20 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // view error page
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
+
+//exclusively for views
+app.UseStaticFiles();
+app.UseRouting();
+app.MapControllerRoute(
+  name: "default",
+  pattern: "{controller=Home}/{action=Index}/{id?}"
+);
+
 
 app.UseHttpsRedirection();
 
