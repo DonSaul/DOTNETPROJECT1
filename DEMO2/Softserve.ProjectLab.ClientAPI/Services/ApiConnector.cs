@@ -29,6 +29,10 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                     string body = await response.Content.ReadAsStringAsync();
                     return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(body);
                 }
+                catch (HttpIOException)
+                {
+                    return default(T);
+                }
                 catch (Exception ex)
                 {
                     if (count == _maxRetries)
@@ -44,6 +48,10 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
         private async Task HandleResponseAsync(HttpResponseMessage response)
         {
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                throw new HttpIOException(HttpRequestError.ResponseEnded);
+            }
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Error: {response.StatusCode} - {response.ReasonPhrase}");

@@ -5,9 +5,9 @@ using Softserve.ProjectLab.ClientAPI.Services;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/api/[controller]")]
     [ApiController]
-    public class WorkOrderDetailsController : ControllerBase
+    public class WorkOrderDetailsController : Controller
     {
         private readonly IWorkOrderDetailsService _workOrderDetailsService;
 
@@ -47,5 +47,19 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-    }
+
+		[HttpGet("/WorkOrder/List")]
+		public async Task<IActionResult> List()
+		{
+			var viewModel = await _workOrderDetailsService.GetWorkOrderViewModelAsync();
+
+			var workOrders = viewModel.WorkOrders;
+
+			ViewBag.Statuses = viewModel.Statuses;
+			ViewBag.WorkTypes = viewModel.WorkTypes;
+
+			return View(workOrders);
+		}
+
+	}
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Softserve.ProjectLab.ClientAPI.Models.WorkOrder>
+﻿@model IEnumerable<Softserve.ProjectLab.ClientAPI.Models.WorkOrderDetails>
 
 @{
 	ViewData["Title"] = "List";
@@ -8,7 +8,7 @@
 	@*<a asp-action="Create">Create New</a>*@
 	<div style="display:flex; justify-content:space-between; align-items:center;">
 		<h1>Work Orders</h1>
-		<button class="btn btn-secondary ml-2" href="/api/WorkOrder/export-csv">Export to CSV</button>
+		<a class="btn btn-secondary ml-2" href="/api/WorkOrder/export-csv">Export to CSV</a>
 
 	</div>
 	<div class="accordion" id="searchAccordion">
@@ -32,11 +32,27 @@
 							</div>
 							<div class="col">
 								<label for="workType" style="font-weight:600;">Work Type</label>
-								<input type="text" class="form-control" id="workType" placeholder="all" />
+								<select class="form-select" id="workType">
+									<option value="all">All</option>
+									@{
+										foreach (var item in ViewBag.WorkTypes)
+										{
+												<option value="@item.Name">@item.Name</option>
+										}
+									}
+								</select>
 							</div>
 							<div class="col">
 								<label for="status" style="font-weight:600;">Status</label>
-								<input type="text" class="form-control" id="status" placeholder="all" />
+								<select class="form-select" id="status">
+									<option value="all">All</option>
+									@{
+										foreach (var item in ViewBag.Statuses)
+										{
+												<option value="@item.Name">@item.Name</option>
+										}
+									}
+								</select>
 							</div>
 							<div class="col">
 								<button type="button" class="btn btn-primary mt-4" style="width:100%;" id="searchButton">Search</button>
@@ -53,8 +69,9 @@
 			<thead style="position:sticky; background-color: #f0f0f0; top: 0px; border:0px solid">
 				<tr>
 					<th>@Html.DisplayNameFor(model => model.WorkOrderName)</th>
-					<th>@Html.DisplayNameFor(model => model.TechnicianId)</th>
-					<th>@Html.DisplayNameFor(model => model.WorkTypeId)</th>
+					<th>@Html.DisplayNameFor(model => model.Technician)</th>
+					<th>@Html.DisplayNameFor(model => model.WorkType)</th>
+					<th>@Html.DisplayNameFor(model => model.Status)</th>
 					<th>@Html.DisplayNameFor(model => model.EndTime)</th>
 					<th>@Html.DisplayNameFor(model => model.StartTime)</th>
 				</tr>
@@ -65,8 +82,9 @@
 				{
 					<tr>
 						<td>@Html.DisplayFor(modelItem => item.WorkOrderName)</td>
-						<td>@Html.DisplayFor(modelItem => item.TechnicianId)</td>
-						<td>@Html.DisplayFor(modelItem => item.WorkTypeId)</td>
+						<td>@Html.DisplayFor(modelItem => item.Technician)</td>
+						<td>@Html.DisplayFor(modelItem => item.WorkType)</td>
+						<td>@Html.DisplayFor(modelItem => item.Status)</td>
 						<td>@Html.DisplayFor(modelItem => item.EndTime)</td>
 						<td>@Html.DisplayFor(modelItem => item.StartTime)</td>
 					</tr>
@@ -102,13 +120,17 @@
 						var tbody = $('table tbody');
 						tbody.empty();
 
+						if (data.length == 0)
+							tbody.append('<tr><td colspan="5" style="text-align:center;">No results found</td></tr>');
+
 						// Iterar sobre cada 'workOrder' y agregar los datos a la tabla
 						data.forEach(function (workOrder) {
 							var row = `<tr>
 															   <td>${workOrder.workOrderName}</td>
 															   <td>${workOrder.technician}</td>
 															   <td>${workOrder.workType}</td>
-															   <td>${workOrder.endTime ? workOrder.endTime : 'N/A'}</td>
+																<td>${workOrder.status}</td>
+																	   <td>${workOrder.endTime ? workOrder.endTime : 'N/A'}</td>
 															   <td>${workOrder.startTime ? workOrder.startTime : 'N/A'}</td>
 														   </tr>`;
 							tbody.append(row);

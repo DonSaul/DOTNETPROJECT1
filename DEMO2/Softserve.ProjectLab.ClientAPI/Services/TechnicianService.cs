@@ -100,7 +100,8 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                             WorkOrderName = w.WorkOrderName,
                             Technician = tech.Name,
                             WorkType = workTypes.Where(wt => wt.Id == w.WorkTypeId).First().Name,
-                            EndTime = w.EndTime.HasValue ? (DateTimeOffset)w.EndTime.Value : (DateTimeOffset?)null,
+							Status = statuses.Where(s => s.Id == w.StatusId).First().Name,
+							EndTime = w.EndTime.HasValue ? (DateTimeOffset)w.EndTime.Value : (DateTimeOffset?)null,
                             StartTime = w.StartTime.HasValue ? (DateTimeOffset)w.StartTime.Value : (DateTimeOffset?)null
                         }).ToArray()
                 }).ToList();
