@@ -32,8 +32,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// commenting this line because it is redundant with .AddControllersWithViews()
-// builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -76,11 +74,8 @@ app.MapControllerRoute(
   pattern: "{controller=Home}/{action=Index}/{id?}"
 );
 
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.MapControllers();
 
 app.Run();

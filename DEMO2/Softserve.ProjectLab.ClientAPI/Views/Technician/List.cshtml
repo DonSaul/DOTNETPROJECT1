@@ -4,19 +4,11 @@
 	ViewData["Title"] = "List";
 }
 
-
-@*
- <p>
- 	<a asp-action="Create">Create New</a>
- </p>
-*@
-
 <section class="container">
 	<h1>Technicians</h1>
 	<div class="d-flex align-items-center">
 		@using (Html.BeginForm("GetTechnicianByName", "Technician", FormMethod.Get, new { id = "searchForm" }))
 		{
-		//@Html.TextBox("technicianName")
 			<input type="text" id="technicianName" class="form-control search-input me-2" name="technicianName" pattern="^[a-zA-Z\s]*$" title="Only enter letters and spaces." />
 			<input type="submit" class="btn btn-primary" value="Search by Name" />
 		}
@@ -65,10 +57,8 @@
 	<script>
 		$(document).ready(function () {
 			$('#searchForm').on('submit', function (e) {
-				// console.log('submitting form');
 				e.preventDefault();
 				var technicianName = $(this).find('input[name="technicianName"]').val().trim();
-				// console.log(technicianName)
 
 				let url;
 				if (technicianName.length === 0) {
@@ -83,10 +73,8 @@
 					url: url,
 					type: 'GET',
 					success: function (data) {
-						// Clear the table
 						$('#technicianTable tbody').empty();
 
-						// Add new rows to the table
 						$.each(data, function (i, item) {
 							var row = $('<tr>').append(
 								$('<td>').text(item.technicianId),
@@ -99,10 +87,7 @@
 						});
 					},
 					error: function (error) {
-						// Handle error
 						console.log(error);
-						//$('#technicianTable tbody').empty();
-
 					}
 				});
 			});
