@@ -57,7 +57,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 var statusService = _serviceProvider.GetService(typeof(IStatusService)) as IStatusService;
                 var workTypeService = _serviceProvider.GetService(typeof(IWorkTypeService)) as IWorkTypeService;
 
-
                 var workOrdersTask = workOrderService.GetWorkOrdersAsync();
                 var techniciansTask = GetTechniciansAsync();
                 var statusesTask = statusService.GetStatusesAsync();
@@ -73,7 +72,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 var searchTerms = technicianName.Trim().ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
                 var filteredTechnicians = technicians
-
                 .Where(t => {
                     var techNameWords = t.Name.ToLowerInvariant().Split(' ');
                     int searchTermIndex = 0;
@@ -96,16 +94,15 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                     Technician = tech.Name,
                     Address = tech.Address,
                     WorkOrders = workOrders
-                                        .Where(wo => wo.TechnicianId == tech.TechnicianId)
-                                        .Select(w => new WorkOrderDetails
-                                        {
-                                            WorkOrderName = w.WorkOrderName,
-                                            Technician = tech.Name,
-                                            WorkType = workTypes.Where(wt => wt.Id == w.WorkTypeId).First().Name,
-                                            //     Status =        statuses.Where(s => s.Id == w.StatusId).First().Name,
-                                            EndTime = w.EndTime.HasValue ? (DateTimeOffset)w.EndTime.Value : (DateTimeOffset?)null,
-                                            StartTime = w.StartTime.HasValue ? (DateTimeOffset)w.StartTime.Value : (DateTimeOffset?)null
-                                        }).ToArray()
+                        .Where(wo => wo.TechnicianId == tech.TechnicianId)
+                        .Select(w => new WorkOrderDetails
+                        {
+                            WorkOrderName = w.WorkOrderName,
+                            Technician = tech.Name,
+                            WorkType = workTypes.Where(wt => wt.Id == w.WorkTypeId).First().Name,
+                            EndTime = w.EndTime.HasValue ? (DateTimeOffset)w.EndTime.Value : (DateTimeOffset?)null,
+                            StartTime = w.StartTime.HasValue ? (DateTimeOffset)w.StartTime.Value : (DateTimeOffset?)null
+                        }).ToArray()
                 }).ToList();
 
                 return filteredTechnicians;

@@ -32,17 +32,17 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 var workTypes = workTypesTask.Result;
 
                 var query = from wo in workOrders
-                            join tech in technicians on wo.TechnicianId equals tech.TechnicianId
-                            join wt in workTypes on wo.WorkTypeId equals wt.Id
-                            join st in statuses on wo.StatusId equals st.Id
-                            select new WorkOrderDetails
-                            {
-                                WorkOrderName = wo.WorkOrderName,
-                                Technician = tech.Name,
-                                WorkType = wt.Name,
-                                EndTime = wo.EndTime.HasValue ? wo.EndTime.Value : (DateTimeOffset?)null,
-                                StartTime = wo.StartTime.HasValue ? wo.StartTime.Value : (DateTimeOffset?)null
-                            };
+                    join tech in technicians on wo.TechnicianId equals tech.TechnicianId
+                    join wt in workTypes on wo.WorkTypeId equals wt.Id
+                    join st in statuses on wo.StatusId equals st.Id
+                    select new WorkOrderDetails
+                    {
+                        WorkOrderName = wo.WorkOrderName,
+                        Technician = tech.Name,
+                        WorkType = wt.Name,
+                        EndTime = wo.EndTime.HasValue ? wo.EndTime.Value : (DateTimeOffset?)null,
+                        StartTime = wo.StartTime.HasValue ? wo.StartTime.Value : (DateTimeOffset?)null
+                    };
 
                 return query.ToList();
             }
@@ -69,25 +69,23 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 var statuses = statusesTask.Result;
                 var workTypes = workTypesTask.Result;
 
-                //LINQ to join work orders with statuses, technicians, and work types
-
                 var query = from wo in workOrders
-                            join tech in technicians on wo.TechnicianId equals tech.TechnicianId
-                            join wt in workTypes on wo.WorkTypeId equals wt.Id
-                            join st in statuses on wo.StatusId equals st.Id
-                            where (wo.StartTime.HasValue && wo.EndTime.HasValue &&
-                                   wo.StartTime.Value >= startTime &&
-                                   wo.EndTime.Value <= endTime) &&
-                                  (workType == "all" || wt.Name.Equals(workType, StringComparison.OrdinalIgnoreCase)) &&
-                                  (status == "all" || st.Name.Equals(status, StringComparison.OrdinalIgnoreCase))
-                            select new WorkOrderDetails
-                            {
-                                WorkOrderName = wo.WorkOrderName,
-                                Technician = tech.Name,
-                                WorkType = wt.Name,
-                                EndTime = wo.EndTime.HasValue ? wo.EndTime.Value : (DateTimeOffset?)null,
-                                StartTime = wo.StartTime.HasValue ? wo.StartTime.Value : (DateTimeOffset?)null
-                            };
+                    join tech in technicians on wo.TechnicianId equals tech.TechnicianId
+                    join wt in workTypes on wo.WorkTypeId equals wt.Id
+                    join st in statuses on wo.StatusId equals st.Id
+                    where (wo.StartTime.HasValue && wo.EndTime.HasValue &&
+                            wo.StartTime.Value >= startTime &&
+                            wo.EndTime.Value <= endTime) &&
+                            (workType == "all" || wt.Name.Equals(workType, StringComparison.OrdinalIgnoreCase)) &&
+                            (status == "all" || st.Name.Equals(status, StringComparison.OrdinalIgnoreCase))
+                    select new WorkOrderDetails
+                    {
+                        WorkOrderName = wo.WorkOrderName,
+                        Technician = tech.Name,
+                        WorkType = wt.Name,
+                        EndTime = wo.EndTime.HasValue ? wo.EndTime.Value : (DateTimeOffset?)null,
+                        StartTime = wo.StartTime.HasValue ? wo.StartTime.Value : (DateTimeOffset?)null
+                    };
 
                 return query.ToList();
             }
@@ -97,7 +95,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 throw;
             }
         }
-
 
         public Task<List<WorkOrderDetails>> GetWorkOrderDetailsByTechnicianAsync(string technicianName)
         {

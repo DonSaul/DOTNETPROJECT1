@@ -6,5 +6,4 @@ namespace Softserve.ProjectLab.ClientAPI.Services
     {
         Task<T> GetAsync<T>(string endpoint);
     }
-
 }

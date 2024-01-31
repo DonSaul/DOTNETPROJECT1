@@ -2,7 +2,6 @@
 {
     public class ReportData
     {
-        // Ingresamos las propiedades que necesitamos para la creacion del reporte
         public string WorkOrderName { get; set; }
         public string Status { get; set; }
         public string TechnicianName { get; set; }

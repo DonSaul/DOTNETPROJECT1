@@ -9,6 +9,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         private readonly IStatusService _statusService;
         private readonly ITechnicianService _technicianService;
         private readonly IWorkTypeService _workTypeService;
+
         public WorkOrderService(IApiConnector apiConnector, IHttpClientFactory httpClientFactory, IStatusService statusService, ITechnicianService technicianService, IWorkTypeService workTypeService)
         {
             _apiConnector = apiConnector ?? throw new ArgumentNullException(nameof(apiConnector));
@@ -16,6 +17,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             _technicianService = technicianService;
             _workTypeService = workTypeService;
         }
+
         public async Task<WorkOrder[]> GetWorkOrdersAsync()
         {
             try
@@ -27,8 +29,8 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 Console.WriteLine($"Error with GetAllWorkOrders: {ex.Message}");
                 throw;
             }
-
         }
+
         public async Task<WorkOrder> GetWorkOrderAsync(string workOrderName)
         {
             try
@@ -56,24 +58,22 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             var statuses = statusesTask.Result;
             var workTypes = workTypesTask.Result;
 
-            //LINQ to join work orders with statuses, technicians, and work types
-
             var query = from wo in workOrders
-                        join tech in technicians on wo.TechnicianId equals tech.TechnicianId
-                        join wt in workTypes on wo.WorkTypeId equals wt.Id
-                        join st in statuses on wo.StatusId equals st.Id
-                        where wo.EndTime.HasValue && wo.StartTime.HasValue
-                        select new ReportData
-                        {
-                            WorkOrderName = wo.WorkOrderName,
-                            TechnicianName = tech.Name,
-                            WorkType = wt.Name,
-                            Status = st.Name,
-                            EndTime = wo.EndTime.Value,
-                            StartTime =  wo.StartTime.Value,
-                            CreatedDate = wo.CreatedDate,
-                            Duration = wo.EndTime.Value - wo.StartTime.Value,
-                        };
+                join tech in technicians on wo.TechnicianId equals tech.TechnicianId
+                join wt in workTypes on wo.WorkTypeId equals wt.Id
+                join st in statuses on wo.StatusId equals st.Id
+                where wo.EndTime.HasValue && wo.StartTime.HasValue
+                select new ReportData
+                {
+                    WorkOrderName = wo.WorkOrderName,
+                    TechnicianName = tech.Name,
+                    WorkType = wt.Name,
+                    Status = st.Name,
+                    EndTime = wo.EndTime.Value,
+                    StartTime =  wo.StartTime.Value,
+                    CreatedDate = wo.CreatedDate,
+                    Duration = wo.EndTime.Value - wo.StartTime.Value,
+                };
             return query.ToList();
         }
 

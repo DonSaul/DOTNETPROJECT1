@@ -19,5 +19,4 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             return await _apiConnector.GetAsync<WorkType[]>(ApiUrls.GetWorkType);
         }
     }
-
 }
