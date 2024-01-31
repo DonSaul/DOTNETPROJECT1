@@ -83,12 +83,5 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             }
         }
 
-		[HttpGet("/WorkOrder/List")]
-		public async Task<IActionResult> List()
-		{
-			var technicians = await _workOrderService.GetWorkOrdersAsync();
-
-			return View(technicians);
-		}
 	}
 }

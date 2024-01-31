@@ -40,6 +40,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                                 WorkOrderName = wo.WorkOrderName,
                                 Technician = tech.Name,
                                 WorkType = wt.Name,
+                                Status = st.Name,
                                 EndTime = wo.EndTime.HasValue ? wo.EndTime.Value : (DateTimeOffset?)null,
                                 StartTime = wo.StartTime.HasValue ? wo.StartTime.Value : (DateTimeOffset?)null
                             };
@@ -85,6 +86,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                                 WorkOrderName = wo.WorkOrderName,
                                 Technician = tech.Name,
                                 WorkType = wt.Name,
+                                Status = st.Name,
                                 EndTime = wo.EndTime.HasValue ? wo.EndTime.Value : (DateTimeOffset?)null,
                                 StartTime = wo.StartTime.HasValue ? wo.StartTime.Value : (DateTimeOffset?)null
                             };
@@ -98,8 +100,27 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             }
         }
 
+		public async Task<WorkOrderViewModel> GetWorkOrderViewModelAsync()
+		{
+			var workOrdersTask = GetWorkOrderDetailsAsync();
+			var statusesTask = _statusService.GetStatusesAsync();
+			var workTypesTask = _workTypeService.GetWorkTypesAsync();
 
-        public Task<List<WorkOrderDetails>> GetWorkOrderDetailsByTechnicianAsync(string technicianName)
+			await Task.WhenAll(workOrdersTask, statusesTask, workTypesTask);
+
+			var workOrders = workOrdersTask.Result;
+			var statuses = statusesTask.Result;
+			var workTypes = workTypesTask.Result;
+
+			return new WorkOrderViewModel
+			{
+				WorkOrders = workOrders,
+				Statuses = statuses,
+				WorkTypes = workTypes
+			};
+		}
+
+		public Task<List<WorkOrderDetails>> GetWorkOrderDetailsByTechnicianAsync(string technicianName)
         {
             throw new NotImplementedException();
         }
