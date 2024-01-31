@@ -110,6 +110,42 @@ The dependency injection pattern is used to provide object dependencies to the o
 
 # 5. Security features and best practices
 
+This section outlines key security strategies and design patterns implemented in the application, ranging from the fundamental MVC pattern that enhances structural integrity to specific technical measures like secure HttpClient usage and meticulous exception handling.
+
+1. **MVC Pattern Usage**: The application's use of the Model-View-Controller (MVC) design pattern contributes to its security. MVC separates concerns, reducing risks like over-posting and facilitating centralized input validation, thus bolstering the application’s defense against common vulnerabilities.
+
+2. **Base Address Configuration**: The ApiConnector class uses an HttpClient with a configured base address. This is a good practice as it centralizes the base URL for API requests, making it easier to manage and ensuring that requests are directed to the correct endpoint. 
+
+3. **Constructor Injection**: Dependency injection is used in the constructor to inject the HttpClient. This is a good design pattern, making the class more modular and testable. It also helps with the management of the HttpClient lifecycle.
+
+4. **HttpClient Usage**: The ApiConnector class uses an instance of HttpClient for making API requests. The HttpClient is a recommended and efficient way to perform HTTP operations. Ensure that the client is properly configured and managed, especially regarding security features like timeouts and handling of sensitive data.
+
+5. **Custom Methods for API Requests**: The class encapsulates specific methods for making API requests, such as GetAsync and PostAsync. This abstraction provides a clear and maintainable interface for making different types of requests. Ensure that these methods handle responses and errors appropriately, including proper validation and error handling.
+
+6. **Service Abstraction**: The ApiConnector class implements an IApiConnector interface. This abstraction allows for easy substitution of the implementation, supporting better unit testing and adherence to the dependency inversion principle.
+
+7. **HttpClient Factory**: The class does not explicitly manage the lifecycle of the HttpClient, which suggests that it may be relying on the HttpClientFactory introduced in ASP.NET Core. The factory manages the creation and disposal of HttpClient instances, reducing the risk of socket exhaustion and improving performance and security.
+
+8. **Exception Handling**: The ApiConnector class includes exception handling for HttpRequestException. Proper exception handling is crucial for robust and secure communication with APIs. However, it's important to handle exceptions with care, avoiding the exposure of sensitive information in error messages.
+
+9. **Async/Await Pattern**: The methods in the ApiConnector class use the asynchronous programming pattern (async/await). This can contribute to better responsiveness and scalability in the application.
+
+10. **HTTPS Usage**: The application is configured to use HTTPS, as indicated by the usage of UseHttpsRedirection() middleware. This ensures that data exchanged between the client and server is encrypted, enhancing security.
+
+11. **CORS Configuration**: Cross-Origin Resource Sharing (CORS) is configured with a specific policy named "AllowSpecificOrigin," which allows requests from "https://localhost." This helps control which domains can access resources on the server, preventing unauthorized cross-origin requests.
+
+12. **Swagger Integration**: Swagger is integrated into the project, allowing for interactive API documentation. While this is not a direct security feature, it aids developers in understanding the API and facilitates testing. Ensure that Swagger is disabled or protected in production environments to prevent unauthorized access.
+
+13. **Dependency Injection**: The code uses dependency injection to register and resolve services. This promotes a modular and testable design, which indirectly contributes to security by facilitating code maintainability and reducing the risk of vulnerabilities.
+
+14. **HttpClient Configuration**: An HttpClient is configured with a base address. This is a good practice for managing API requests, and it's important to validate and sanitize inputs when using external URLs.
+    
+15. **Configuration Isolation**: Configuration settings, such as the base address for the API client and allowed hosts, are stored in the appsettings.json file. Proper configuration management helps in maintaining sensitive information securely.
+
+16. **Error Handling**: The error handling approach is considered, with a generic error page displayed in development mode. However, ensure that detailed error information is not exposed in a production environment for security reasons.
+
+17. **Minimal Logging of Sensitive Information**: The logging configuration in appsettings.json suggests that sensitive information is not logged at an extensive level, which is a good practice for security.
+
 # 6. Advanced functionalities
 ## 6.1 API Connection
 ### Functionality Description
