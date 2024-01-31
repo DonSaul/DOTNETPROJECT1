@@ -320,10 +320,16 @@ All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTy
 Input validation in the application is performed both on the client (frontend) and server (backend) sides, ensuring robust data integrity and improving user experience.
 
 ### Front End Validation
-The frontend validation focuses on immediate user feedback and guides users to enter valid data.
-1. **Work Orders**: 
-2. **Technician**: 
-3. **CSV Report Generation**: 
+Front-end validation focuses on immediate user feedback and guides users to enter valid data, especially in features like Search Technician by Name and Work Order filtering.
+
+1. **Search Technician by Name**:
+   - **Character Restrictions**: The input field is designed to accept only word characters and spaces. This restriction prevents the entry of special characters that could potentially cause errors or security vulnerabilities.
+   - **Empty Search Handling**: If a user conducts a search with an empty input, the system performs a call to retrieve all technicians. This feature ensures that the user is still presented with relevant data, preventing confusion or a blank response.
+
+2. **Work Orders**:
+   - **Date Selection**: Date pickers are used for selecting time ranges. These intuitive controls help prevent the entry of invalid dates and enhance the overall user experience.
+   - **Dropdown Selectors**: Dropdown selectors are implemented for fields such as work type and status, rather than open text inputs. This design choice limits user input to predefined, valid options, thereby reducing the likelihood of errors or invalid data submissions.
+
 
 ### Backend Validation
 The backend validation is more about data integrity and preventing invalid data from being processed or stored.
