@@ -1,11 +1,40 @@
 using Softserve.ProjectLab.ClientAPI.Services;
+using Softserve.ProjectLab.ClientAPI.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+var configuration = builder.Configuration;
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHsts(options =>
+    {
+        options.IncludeSubDomains = true;
+        options.MaxAge = TimeSpan.FromDays(365);
+        options.Preload = true;
+    });
+}
+
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.HttpsPort = 443;
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("https://localhost")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
+// commenting this line because it is redundant with .AddControllersWithViews()
+// builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -16,7 +45,7 @@ builder.Services.AddHttpClient("apiClient", client =>
 });
 
 // This is where you would register your custom services
-builder.Services.AddScoped<ApiConnector>();
+builder.Services.AddScoped<IApiConnector, ApiConnector>();
 builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<ITechnicianService, TechnicianService>();
@@ -30,11 +59,27 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // view error page
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowSpecificOrigin");
 
-app.UseAuthorization();
+//exclusively for views
+app.UseStaticFiles();
+app.UseRouting();
+app.MapControllerRoute(
+  name: "default",
+  pattern: "{controller=Home}/{action=Index}/{id?}"
+);
+
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.MapControllers();
 

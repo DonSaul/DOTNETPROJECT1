@@ -7,11 +7,11 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 {
     public class StatusService : IStatusService
     {
-        private readonly ApiConnector _apiConnector;
+        private readonly IApiConnector _apiConnector;
 
-        public StatusService(ApiConnector apiConnector)
+        public StatusService(IApiConnector apiConnector)
         {
-            _apiConnector = apiConnector;
+            _apiConnector = apiConnector ?? throw new ArgumentNullException(nameof(apiConnector));
         }
 
         public async Task<Status[]> GetStatusesAsync()
