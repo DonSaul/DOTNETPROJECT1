@@ -8,9 +8,10 @@
 3. [Basic Usage](#3-basic-usage) <br>
    3.1. [Basic Operations and Examples](#31-basic-operations-and-examples) 
 4. [Project Architecture](#4-project-architecture) <br>
-   4.1. [Model-View-Controller (MVC)](#41-model-view-controller-mvc-pattern) <br>
+   4.1. [Model-View-Controller (MVC)](#41-model-view-controller-mvc-architecture) <br>
    4.2. [Service Pattern](#42-service-pattern) <br>
-   4.3. [Dependency Injection](#43-dependency-injection) 
+   4.3. [Dependency Injection](#43-dependency-injection)<br>
+   4.4. [Benefits](#44-Benefits)
 5. [Security Features and Best Practices](#5-security-features-and-best-practices) <br>  
 6. [Advanced Functionalities](#6-advanced-functionalities) <br>
    6.1. [API Connection](#61-api-connection) <br>
@@ -22,7 +23,7 @@
 7. [Error Handling](#7-error-handling) <br>
    7.1 [Try Catches](#71-try-catches)<br>
    7.2 [Input Validation](#72-input-validation)<br>
-   
+
 8. [Contribution](#8-contribution)
 9. [License](#9-license)
 
@@ -91,22 +92,58 @@ Open the .NET solution file in the DEMO2 directory with Visual Studio to open th
 
 Here are some examples of how you can interact with the API:
 - **Get all work orders**: To get all work orders, you can use the following curl command in Postman:
-    - curl -X 'GET' \  'https://localhost:7178/api/WorkOrder' \  -H 'accept: application/json'
+    - curl -X 'GET' \
+    'https://localhost:7178/api/WorkOrder' \
+    -H 'accept: application/json'
+
 
 ![Postman Workorder](art/Postman_Workorder.gif)
 
+- **Get all work order details**: To get all work order details, you can use the following curl command in Postman:
+	- curl -X 'GET' \
+    "https://localhost:7178/api/WorkOrderDetails/all \
+    -H 'accept: application/json'
 
+- **Get filter work order details** : To get work order details filter by startTime, endTime, workType and status, you can use the following curl command in Postman:
+    - curl -X 'GET' \
+    "https://localhost:7178/api/WorkOrderDetails?startTime=`$start_time`&endTime=`$end_time`&workType=`$work_type`&status=`$status"` \
+    -H 'accept: application/json' \
+    - Replace `$start_time`, `$end_time`, `$work_type` and `$status` with the desired values. 
+
+For more information while the project is running, the Swagger user interface can be access via the '/swagger' route on your local server. In this case, it would be [https://localhost:7178/swagger](https://localhost:7178/swagger). In the Swagger interface, you will find a list of all the API routes available in the application. You can expand each route to see the details, such as the supported HTTP methods (GET, POST, etc.), the expected input parameters, and the response formats. You can also test the routes directly in the Swagger interface, which is very useful for debugging and development.
 # 4. Project Architecture
-The project uses the MVC, Service and Dependency Injection design patterns.
-## 4.1 Model-View-Controller (MVC) Pattern
-The MVC pattern was chosen because it helps separate the application logic, making code management and maintenance easier. This pattern is used to divide an application into three interconnected parts: the model, the view, and the controller.
-- The model contains the application data.
-- The view presents the data to the user.
-- The controller handles the user's interaction with the application.
+This project utilizes the Model-View-Controller (MVC) architecture, the Service pattern, and the Dependency Injection pattern.
+## 4.1 Model-View-Controller (MVC) Architecture
+
+**The MVC architecture** was chosen for its ability to separate the application logic from the presentation, making code management and maintenance easier. This separation allows for more agile development and facilitates collaboration between teams.
+
+
+**Implementation:**
+In the project, the MVC architecture is implemented using the ASP.NET MVC framework. The three main components of MVC are defined as follows:
+
+- Model: Contains the business logic and application data.
+- View: Presents information to the user through web interfaces.
+- Controller: Manages user interaction with the application, processing requests and responses.
 ## 4.2 Service Pattern
-The service pattern is used to encapsulate business logic in-service classes. Service classes are used in controllers to perform business logic tasks.
+**The service pattern** encapsulates business logic in independent classes called "services." This encapsulation facilitates code reuse and improves system modularity.\
+
+**Implementation:**
+Services are implemented as independent classes that encapsulate specific business logic. Controllers interact with services to perform tasks such as data retrieval, user management, or specific process execution
+
+
 ## 4.3 Dependency Injection
-The dependency injection pattern is used to provide object dependencies to the objects that need them. Dependency injection allows for looser coupling and more modular code.
+**The dependency injection pattern** decouples system components by providing them with the dependencies they need through an IoC container. This facilitates the creation of independent unit tests and improves code flexibility.
+
+**Implementation:**
+The project uses constructor dependency injection to provide the necessary dependencies to the different components. The IoC container is responsible for creating and managing dependency instances.
+
+## 4.4 Benefits
+The implementation of the mentioned architectures and design patterns has yielded the following benefits:
+
+- **Modularity and flexibility:** The code is more modular and flexible, making it easier to maintain and evolve.
+- **Separation of concerns:** Business logic, presentation, and data management are clearly separated, improving code readability and maintainability.
+- **Ease of testing:** The implemented architecture and patterns facilitate the creation of independent unit tests.
+- **Scalability:** The MVC architecture and service pattern allow the application to be scaled horizontally by adding new web servers or services as needed.
 
 # 5. Security features and best practices
 
@@ -260,14 +297,28 @@ Designed to facilitate the creation of comprehensive reports from work order dat
 
 **2. Data Processing:** Once the data is retrieved, it is processed and joined together to form a comprehensive report. This involves transforming the data into a suitable format and organizing the data in a way that is easy to understand.
 
-**3. CSV Export:** The `WorkOrderController` controller exports the report data as a CSV file. This CSV file can be downloaded and used for further analysis or record-keeping.
-
-**4. Error Handling:** The function includes error handling to manage potential issues with data retrieval or processing, ensuring that the function behaves predictably in all scenarios.
+**3. CSV Export:** Exports the report data as a CSV file. This CSV file can be downloaded and used for further analysis or record-keeping.
 
 
 ### LINQ Usage
+The function employs LINQ for its data processing needs, particularly using the following methods:
 
+**1. Join Operations:** Utilizes LINQ's join clause to merge data from technicians, work types, and statuses with work orders.
 
+**2. Where Clause:** The Where clause is used to filter the work orders to include only those where both StartTime and EndTime have a value.
+
+**3. Select Projection:** Uses select to project the filtered data into the ReportData structure.
+
+**Pseudocode Example:**
+``` csharp
+var query = workOrders
+            .Join(technicians, ...)
+            .Join(workTypes, ...)
+            .Join(statuses, ...)
+            .Where(wo.EndTime.HasValue && wo.StartTime.HasValue
+             ).Select(wo => new ReportData { ... });
+
+``` 
 ## 6.5 Testing
 The tests focus on ensuring the correctness and functionality of various services within the application, including StatusService, TechnicianService, WorkOrderService, and WorkTypeService. 
 
