@@ -110,7 +110,7 @@ Here are some examples of how you can interact with the API:
     -H 'accept: application/json' \
     - Replace `$start_time`, `$end_time`, `$work_type` and `$status` with the desired values. 
 
-For more information while the project is running, the Swagger user interface can be access via the '/swagger' route on your local server. In this case, it would be [https://localhost:7178/swagger](https://localhost:7178/swagger). In the Swagger interface, you will find a list of all the API routes available in the application. You can expand each route to see the details, such as the supported HTTP methods (GET, POST, etc.), the expected input parameters, and the response formats. You can also test the routes directly in the Swagger interface, which is very useful for debugging and development.
+For more information while the project is running, the Swagger user interface can be accessed  via the '/swagger' route on your local server. In this case, it would be [https://localhost:7178/swagger](https://localhost:7178/swagger). In the Swagger interface, you will find a list of all the API routes available in the application. You can expand each route to see the details, such as the supported HTTP methods (GET, POST, etc.), the expected input parameters, and the response formats. You can also test the routes directly in the Swagger interface, which is very useful for debugging and development.
 # 4. Project Architecture
 This project utilizes the Model-View-Controller (MVC) architecture, the Service pattern, and the Dependency Injection pattern.
 ## 4.1 Model-View-Controller (MVC) Architecture
@@ -125,7 +125,7 @@ In the project, the MVC architecture is implemented using the ASP.NET MVC framew
 - View: Presents information to the user through web interfaces.
 - Controller: Manages user interaction with the application, processing requests and responses.
 ## 4.2 Service Pattern
-**The service pattern** encapsulates business logic in independent classes called "services." This encapsulation facilitates code reuse and improves system modularity.\
+**The service pattern** encapsulates business logic in independent classes called "services." This encapsulation facilitates code reuse and improves system modularity.
 
 **Implementation:**
 Services are implemented as independent classes that encapsulate specific business logic. Controllers interact with services to perform tasks such as data retrieval, user management, or specific process execution
