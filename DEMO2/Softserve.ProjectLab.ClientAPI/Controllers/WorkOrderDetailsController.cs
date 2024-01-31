@@ -53,13 +53,10 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
 		{
 			var viewModel = await _workOrderDetailsService.GetWorkOrderViewModelAsync();
 
-
 			var workOrders = viewModel.WorkOrders;
-			var statuses = viewModel.Statuses;
-			var workTypes = viewModel.WorkTypes;
 
-			ViewBag.Statuses = statuses;
-			ViewBag.WorkTypes = workTypes;
+			ViewBag.Statuses = viewModel.Statuses;
+			ViewBag.WorkTypes = viewModel.WorkTypes;
 
 			return View(workOrders);
 		}

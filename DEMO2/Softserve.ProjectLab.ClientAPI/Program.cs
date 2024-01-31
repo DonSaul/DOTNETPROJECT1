@@ -3,8 +3,35 @@ using Softserve.ProjectLab.ClientAPI.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// commenting this line because it is redundant with .AddControllersWithViews()
-// builder.Services.AddControllers();
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+var configuration = builder.Configuration;
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHsts(options =>
+    {
+        options.IncludeSubDomains = true;
+        options.MaxAge = TimeSpan.FromDays(365);
+        options.Preload = true;
+    });
+}
+
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.HttpsPort = 443;
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("https://localhost")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,6 +63,9 @@ if (app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseHttpsRedirection();
+app.UseCors("AllowSpecificOrigin");
+
 //exclusively for views
 app.UseStaticFiles();
 app.UseRouting();
@@ -44,11 +74,8 @@ app.MapControllerRoute(
   pattern: "{controller=Home}/{action=Index}/{id?}"
 );
 
-
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseAuthentication();
 app.MapControllers();
 
 app.Run();

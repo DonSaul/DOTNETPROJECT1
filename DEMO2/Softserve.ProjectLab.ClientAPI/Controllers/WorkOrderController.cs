@@ -53,8 +53,6 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             }
         }
 
-
-
         [HttpGet("export-csv")]
         public async Task<IActionResult> ExportWorkOrderReportsToCsv()
         {

@@ -49,6 +49,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("TechnicianByName/{technicianName}")]
         public async Task<IActionResult> Get(string technicianName)
         {
@@ -67,6 +68,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
 		[HttpGet("/Technician/List")]
 		public async Task<IActionResult> List() 
         {             
@@ -86,7 +88,6 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
 
             var technicianWithWorkOrders = await _technicianService.GetTechnicianByNameAsync(technician.Name);
             
-
             var query = from tech in technicianWithWorkOrders
                         where technician.TechnicianId == technicianID
                         select tech;

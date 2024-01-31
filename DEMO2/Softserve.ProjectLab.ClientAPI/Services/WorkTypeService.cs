@@ -11,7 +11,6 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
         public WorkTypeService(IApiConnector apiConnector)
         {
-            _apiConnector = apiConnector;
             _apiConnector = apiConnector ?? throw new ArgumentNullException(nameof(apiConnector));
         }
 
@@ -20,5 +19,4 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             return await _apiConnector.GetAsync<WorkType[]>(ApiUrls.GetWorkType);
         }
     }
-
 }

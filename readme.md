@@ -27,9 +27,9 @@
 9. [License](#9-license)
 
 ## 1. Introduction
-This project offers a streamlined approach to managing and querying Work Orders, along with the Technicians linked to them. Designed with focus on functionality and ease of use, the system offers advanced capabilities for filtering and searching information, thereby enhancing operational efficiency. The project's standout features include:
+This project offers a streamlined approach to managing and querying Work Orders, along with the Technicians linked to them. Designed with a focus on functionality and ease of use, the system offers advanced capabilities for filtering and searching information, thereby enhancing operational efficiency. The project's standout features include:
 
-**Work Order Queries:** This feature enables comprehensive searches for Work Orders. Users can filter and explore data using various criteria.
+**Work Order Queries:** This feature enables comprehensive searches for Work Orders. Users can filter and explore the data using various criteria.
 
 **Technician Search:** A key aspect of the project is the capability to locate Technicians and display their related Work Orders, aiding in rapid personnel identification.
 
@@ -90,7 +90,7 @@ Open the .NET solution file in the DEMO2 directory with Visual Studio to open th
 
 
 Here are some examples of how you can interact with the API:
-- **Get all work order**: To get all work order, you can use the following curl command in Postman:
+- **Get all work orders**: To get all work orders, you can use the following curl command in Postman:
     - curl -X 'GET' \  'https://localhost:7178/api/WorkOrder' \  -H 'accept: application/json'
 
 ![Postman Workorder](art/Postman_Workorder.gif)
@@ -110,8 +110,63 @@ The dependency injection pattern is used to provide object dependencies to the o
 
 # 5. Security features and best practices
 
+This section outlines key security strategies and design patterns implemented in the application, ranging from the fundamental MVC pattern that enhances structural integrity to specific technical measures like secure HttpClient usage and meticulous exception handling.
+
+1. **MVC Pattern Usage**: The application's use of the Model-View-Controller (MVC) design pattern contributes to its security. MVC separates concerns, reducing risks like over-posting and facilitating centralized input validation, thus bolstering the application’s defense against common vulnerabilities.
+
+2. **Base Address Configuration**: The ApiConnector class uses an HttpClient with a configured base address. This is a good practice as it centralizes the base URL for API requests, making it easier to manage and ensuring that requests are directed to the correct endpoint. 
+
+3. **Constructor Injection**: Dependency injection is used in the constructor to inject the HttpClient. This is a good design pattern, making the class more modular and testable. It also helps with the management of the HttpClient lifecycle.
+
+4. **HttpClient Usage**: The ApiConnector class uses an instance of HttpClient for making API requests. The HttpClient is a recommended and efficient way to perform HTTP operations. Ensure that the client is properly configured and managed, especially regarding security features like timeouts and handling of sensitive data.
+
+5. **Custom Methods for API Requests**: The class encapsulates specific methods for making API requests, such as GetAsync and PostAsync. This abstraction provides a clear and maintainable interface for making different types of requests. Ensure that these methods handle responses and errors appropriately, including proper validation and error handling.
+
+6. **Service Abstraction**: The ApiConnector class implements an IApiConnector interface. This abstraction allows for easy substitution of the implementation, supporting better unit testing and adherence to the dependency inversion principle.
+
+7. **HttpClient Factory**: The class does not explicitly manage the lifecycle of the HttpClient, which suggests that it may be relying on the HttpClientFactory introduced in ASP.NET Core. The factory manages the creation and disposal of HttpClient instances, reducing the risk of socket exhaustion and improving performance and security.
+
+8. **Exception Handling**: The ApiConnector class includes exception handling for HttpRequestException. Proper exception handling is crucial for robust and secure communication with APIs. However, it's important to handle exceptions with care, avoiding the exposure of sensitive information in error messages.
+
+9. **Async/Await Pattern**: The methods in the ApiConnector class use the asynchronous programming pattern (async/await). This can contribute to better responsiveness and scalability in the application.
+
+10. **HTTPS Usage**: The application is configured to use HTTPS, as indicated by the usage of UseHttpsRedirection() middleware. This ensures that data exchanged between the client and server is encrypted, enhancing security.
+
+11. **CORS Configuration**: Cross-Origin Resource Sharing (CORS) is configured with a specific policy named "AllowSpecificOrigin," which allows requests from "https://localhost." This helps control which domains can access resources on the server, preventing unauthorized cross-origin requests.
+
+12. **Swagger Integration**: Swagger is integrated into the project, allowing for interactive API documentation. While this is not a direct security feature, it aids developers in understanding the API and facilitates testing. Ensure that Swagger is disabled or protected in production environments to prevent unauthorized access.
+
+13. **Dependency Injection**: The code uses dependency injection to register and resolve services. This promotes a modular and testable design, which indirectly contributes to security by facilitating code maintainability and reducing the risk of vulnerabilities.
+
+14. **HttpClient Configuration**: An HttpClient is configured with a base address. This is a good practice for managing API requests, and it's important to validate and sanitize inputs when using external URLs.
+    
+15. **Configuration Isolation**: Configuration settings, such as the base address for the API client and allowed hosts, are stored in the appsettings.json file. Proper configuration management helps in maintaining sensitive information securely.
+
+16. **Error Handling**: The error handling approach is considered, with a generic error page displayed in development mode. However, ensure that detailed error information is not exposed in a production environment for security reasons.
+
+17. **Minimal Logging of Sensitive Information**: The logging configuration in appsettings.json suggests that sensitive information is not logged at an extensive level, which is a good practice for security.
+
 # 6. Advanced functionalities
 ## 6.1 API Connection
+### Functionality Description
+This project includes a dedicated module, called `APIConnector.cs`, for setting up and managing connections with various resources like Technician, WorkOrders, Status, and WorkType from the WorkOrders API. This module is fundamental for the application, as it oversees the management of HTTP requests and responses to and from the WorkOrders API.
+
+### Module Capabilities
+1. **HTTP Client Management**: Uses `HttpClient` for sending HTTP requests and receiving responses from the API, ensuring smooth communication.
+
+2. **Retry Logic**: Adds a retry mechanism to address temporary failures in API calls. It typically retries a request up to three times with a set delay, boosting dependability.
+
+3. **Response Handling**: Processes and checks API responses, ensuring successful requests and appropriate error management.
+
+4. **Generic Data Fetching**: Capable of retrieving data of any type (`T`) from the API, accommodating different data models effectively.
+
+#### Libraries Used
+1. `System.Net.Http`: Essential for initiating HTTP requests and processing responses.
+
+2. `Newtonsoft.Json`: Was chosen for its strong capabilities in serializing and deserializing JSON data, ensuring broad compatibility across various .NET versions and platforms.
+
+3. `IHttpClientFactory`: Utilized for creating `HttpClient` instances. This method improves the management of `HttpClientHandler` life cycles and supports socket pooling, leading to better efficiency.
+
 ## 6.2 Work Order Filtering
 This function is designed to retrieve detailed information about work orders based on specific criteria like time period, work type, and status. It leverages data from multiple sources to present a comprehensive view of each work order.
 ### Functionality Description
@@ -143,11 +198,8 @@ var query = workOrders
                 wo.StartTime.Value >= startTime &&
                 wo.EndTime.Value <= endTime &&
                 (workType == "all" || wt.Name.Equals (workType,StringComparison.OrdinalIgnoreCase)) &&                  
-               (status == "all" || st.Name.Equals(status,StringComparison.OrdinalIgnoreCase))
-
-                
-             )
-            .Select(wo => new WorkOrderDetails { ... });
+               (status == "all" || st.Name.Equals(status,StringComparison.OrdinalIgnoreCase))                
+             ).Select(wo => new WorkOrderDetails { ... });
 
 ``` 
 
@@ -215,14 +267,79 @@ Designed to facilitate the creation of comprehensive reports from work order dat
 
 ### LINQ Usage
 
-### Remarks
 
 ## 6.5 Testing
+The tests focus on ensuring the correctness and functionality of various services within the application, including StatusService, TechnicianService, WorkOrderService, and WorkTypeService. 
+
+### Status Service Test
+#### Test: `GetStatusesAsync_ShouldReturnStatuses`
+- **Purpose**: Verifies that the `StatusService` retrieves and returns a list of status objects.
+- **Method**: Mocks `IApiConnector` to simulate API responses for status data.
+- **Key Assertions**: Checks non-null response, correct number of status objects, and accuracy of properties.
+
+### Technician Service Test
+#### Test: `GetTechniciansAsync_ShouldReturnTechnicians`
+- **Purpose**: Confirms that `TechnicianService` retrieves a list of technicians.
+- **Method**: Uses a mock `IApiConnector` for technician data emulation.
+- **Key Assertions**: Ensures non-null response and correctness of technician data.
+
+#### Test: `GetTechnicianAsync_ShouldReturnTechnicianById`
+- **Purpose**: Tests the retrieval of a specific technician by ID.
+- **Method**: Mocks an API call to return a predefined technician object.
+- **Key Assertions**: Verifies non-null response with accurate technician details for valid IDs, handles invalid IDs.
+
+  #### Test: `GetTechnicianByNameAsync_ShouldReturnTechniciansByName`
+- **Purpose**: Tests finding technicians by name.
+- **Method**: Sets up mocked responses with specific technician data.
+- **Key Assertions**: Checks for non-null responses, correct technician count, and detail accuracy based on name.
+
+### WorkOrderServiceTest
+#### Test: `GetWorkOrdersAsync_ShouldReturnWorkOrders`
+- **Purpose**: Ensures `WorkOrderService` fetches and returns work orders.
+- **Method**: Mocks `IApiConnector` with predefined work order data.
+- **Key Assertions**: Confirms a non-null list of work orders with accurate details.
+
+#### Test: `GetWorkOrderAsync_ShouldReturnWorkOrdersByWorkOrderName`
+- **Purpose**: Tests fetching work orders by name.
+- **Method**: Uses mocked API responses for individual work order retrieval.
+- **Key Assertions**: Ensures correct work order retrieval based on name, handles non-existent names and empty inputs.
+
+### WorkTypeTest
+#### Test: `GetWorkTypesAsync_ShouldReturnWorkTypes`
+- **Purpose**: Verifies `WorkTypeService` retrieves and returns work type information.
+- **Method**: Mocks an API connector to return a list of work types.
+- **Key Assertions**: Checks for non-null response, correct count of work types, and accuracy of ID and name.
+
+All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
+
 ## 6.6 Frontend
 
 # 7. Error Handling
 ## 7.1 Try Catches
 ## 7.2 Input Validation
+Input validation in the application is performed both on the client (frontend) and server (backend) sides, ensuring robust data integrity and improving user experience.
+
+### Front End Validation
+The frontend validation focuses on immediate user feedback and guides users to enter valid data.
+1. **Work Orders**: 
+2. **Technician**: 
+3. **CSV Report Generation**: 
+
+### Backend Validation
+The backend validation is more about data integrity and preventing invalid data from being processed or stored.
+1. **Work Orders Services**: 
+   - `GetWorkOrdersAsync`: Primarily fetches work order data without direct input validation as it doesn't take parameters.
+   - `GetWorkOrderAsync`: Validates `workOrderName` for null or empty values before making an API call. It ensures that only meaningful strings are processed.
+   - `GetWorkOrderDetailsAsync` (Overloaded with parameters): Validates `startTime`, `endTime`, `workType`, and `status`. It ensures that the time range is valid and the strings for work type and status are processed correctly (e.g., handling the "all" case).
+
+2. **Technician Services**:
+   - `GetTechniciansAsync`: Retrieves all technicians without specific input validation due to the lack of parameters.
+   - `GetTechnicianAsync`: The method seamlessly integrates with existing validation protocols for `technicianId` within the broader API framework, ensuring data integrity and operational coherence.
+   - `GetTechnicianByName`: Performs comprehensive validation by rigorously checking for null, empty, or whitespace-only strings in the `technicianName` parameter. It is designed to handle various cases with precision, including ensuring an exact match, maintaining case insensitivity, and accommodating special characters in names.
+
+4. **CSV Report Generation**: On the backend, validation in the context of CSV report generation, particularly in functions like `GetWorkOrderReports`, ensures data integrity and logical consistency, even though it does not directly handle user inputs. The function performs implicit validations, such as:
+   - Ensuring the inclusion of work orders only with valid `StartTime` and `EndTime` values, using LINQ where clause to filter out incomplete records.
+   - Maintaining data joining integrity by combining work orders with corresponding technicians, work types, and statuses, thereby validating the existence and relevance of the joined data.
 
 # 8. Contribution
 This project reflects the collective efforts in the Softserve .NET project lab. The focus has been on backend and frontend development, with notable advancements in key areas like Work Order Queries and Technician Search. Utilization of .NET and Blazor technologies has been instrumental in enhancing project functionality. The project has evolved through problem-solving, innovation, and a commitment to learning and improvement. Future enhancements are anticipated to further develop the project's capabilities, ensuring ongoing progress and efficiency.
