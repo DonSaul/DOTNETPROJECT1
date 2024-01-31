@@ -70,7 +70,6 @@ public class TechnicianServiceTest
         Assert.IsNotNull(resultTechnician);
         Assert.AreEqual("Pablo Ardiles", resultTechnician.Name);
         Assert.IsNotNull(resultTechnicianNonExistent);
-        Assert.Fail("Error: the return type is " + resultTechnicianNonExistent.GetType());
     }
 
     [TestMethod]

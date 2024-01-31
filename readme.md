@@ -27,9 +27,9 @@
 9. [License](#9-license)
 
 ## 1. Introduction
-This project offers a streamlined approach to managing and querying Work Orders, along with the Technicians linked to them. Designed with focus on functionality and ease of use, the system offers advanced capabilities for filtering and searching information, thereby enhancing operational efficiency. The project's standout features include:
+This project offers a streamlined approach to managing and querying Work Orders, along with the Technicians linked to them. Designed with a focus on functionality and ease of use, the system offers advanced capabilities for filtering and searching information, thereby enhancing operational efficiency. The project's standout features include:
 
-**Work Order Queries:** This feature enables comprehensive searches for Work Orders. Users can filter and explore data using various criteria.
+**Work Order Queries:** This feature enables comprehensive searches for Work Orders. Users can filter and explore the data using various criteria.
 
 **Technician Search:** A key aspect of the project is the capability to locate Technicians and display their related Work Orders, aiding in rapid personnel identification.
 
@@ -90,7 +90,7 @@ Open the .NET solution file in the DEMO2 directory with Visual Studio to open th
 
 
 Here are some examples of how you can interact with the API:
-- **Get all work order**: To get all work order, you can use the following curl command in Postman:
+- **Get all work orders**: To get all work orders, you can use the following curl command in Postman:
     - curl -X 'GET' \  'https://localhost:7178/api/WorkOrder' \  -H 'accept: application/json'
 
 ![Postman Workorder](art/Postman_Workorder.gif)
@@ -156,14 +156,14 @@ This project includes a dedicated module, called `APIConnector.cs`, for setting 
 
 2. **Retry Logic**: Adds a retry mechanism to address temporary failures in API calls. It typically retries a request up to three times with a set delay, boosting dependability.
 
-3. **Response Handling**: Processes and checks API responses, assuring successful requests and appropriate error management.
+3. **Response Handling**: Processes and checks API responses, ensuring successful requests and appropriate error management.
 
 4. **Generic Data Fetching**: Capable of retrieving data of any type (`T`) from the API, accommodating different data models effectively.
 
 #### Libraries Used
 1. `System.Net.Http`: Essential for initiating HTTP requests and processing responses.
 
-2. `Newtonsoft.Json`: Chosen for its strong capabilities in serializing and deserializing JSON data, ensuring broad compatibility across various .NET versions and platforms.
+2. `Newtonsoft.Json`: Was chosen for its strong capabilities in serializing and deserializing JSON data, ensuring broad compatibility across various .NET versions and platforms.
 
 3. `IHttpClientFactory`: Utilized for creating `HttpClient` instances. This method improves the management of `HttpClientHandler` life cycles and supports socket pooling, leading to better efficiency.
 
@@ -280,12 +280,12 @@ The tests focus on ensuring the correctness and functionality of various service
 ### Technician Service Test
 #### Test: `GetTechniciansAsync_ShouldReturnTechnicians`
 - **Purpose**: Confirms that `TechnicianService` retrieves a list of technicians.
-- **Method**: Uses mock `IApiConnector` for technician data emulation.
+- **Method**: Uses a mock `IApiConnector` for technician data emulation.
 - **Key Assertions**: Ensures non-null response and correctness of technician data.
 
 #### Test: `GetTechnicianAsync_ShouldReturnTechnicianById`
-- **Purpose**: Tests retrieval of a specific technician by ID.
-- **Method**: Mocks API call to return a predefined technician object.
+- **Purpose**: Tests the retrieval of a specific technician by ID.
+- **Method**: Mocks an API call to return a predefined technician object.
 - **Key Assertions**: Verifies non-null response with accurate technician details for valid IDs, handles invalid IDs.
 
   #### Test: `GetTechnicianByNameAsync_ShouldReturnTechniciansByName`
@@ -297,7 +297,7 @@ The tests focus on ensuring the correctness and functionality of various service
 #### Test: `GetWorkOrdersAsync_ShouldReturnWorkOrders`
 - **Purpose**: Ensures `WorkOrderService` fetches and returns work orders.
 - **Method**: Mocks `IApiConnector` with predefined work order data.
-- **Key Assertions**: Confirms non-null list of work orders with accurate details.
+- **Key Assertions**: Confirms a non-null list of work orders with accurate details.
 
 #### Test: `GetWorkOrderAsync_ShouldReturnWorkOrdersByWorkOrderName`
 - **Purpose**: Tests fetching work orders by name.
@@ -307,7 +307,7 @@ The tests focus on ensuring the correctness and functionality of various service
 ### WorkTypeTest
 #### Test: `GetWorkTypesAsync_ShouldReturnWorkTypes`
 - **Purpose**: Verifies `WorkTypeService` retrieves and returns work type information.
-- **Method**: Mocks API connector to return a list of work types.
+- **Method**: Mocks an API connector to return a list of work types.
 - **Key Assertions**: Checks for non-null response, correct count of work types, and accuracy of ID and name.
 
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
