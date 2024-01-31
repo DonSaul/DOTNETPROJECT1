@@ -313,6 +313,28 @@ The tests focus on ensuring the correctness and functionality of various service
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
 
 ## 6.6 Frontend
+### 6.6 Frontend
+
+The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
+
+#### Work Order Filter view
+![SoftServe Project Lab Demo 2 - Work Orders View](art/WorkOrderView.PNG)
+
+*Caption: SoftServe Project Lab Demo 2 - Work Orders View*
+
+#### Technician View
+![Softserve Project Lab Demo 2 - Technicians View](art/TechnicianListView.PNG)
+
+*Softserve Project Lab Demo 2 - Technicians View*
+#### Technician View
+![Softserve Project Lab Demo 2 - Technicians View](art/TechnicianInputValidation.PNG)
+
+*Softserve Project Lab Demo 2 - Technician View, Input Validation*
+
+#### Technician Details view
+![SoftServe Project Lab Demo 2 - Technician Details View](art/TechnicianDetailView.PNG)
+
+*SoftServe Project Lab Demo 2 - Technician Details View*
 
 # 7. Error Handling
 ## 7.1 Try Catches
