@@ -58,6 +58,11 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 
 		public async Task<List<WorkOrderDetails>> GetWorkOrderDetailsAsync(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
 		{
+			if(endTime < startTime || startTime > endTime)
+			{
+                throw new ArgumentException();
+            }
+
 			try
 			{
 				var workOrdersTask = _workOrderService.GetWorkOrdersAsync();

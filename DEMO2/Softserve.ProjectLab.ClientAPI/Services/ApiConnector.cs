@@ -35,7 +35,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 }
                 catch (Exception ex)
                 {
-                    if (count == _maxRetries)
+                    if (count == (_maxRetries - 1))
                     {
                         throw new ArgumentNullException(ex.Message);
                     }
@@ -46,7 +46,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
             throw new InvalidOperationException("Retry has reached an unexpected state. Please consult your IT department.");
         }
 
-        private async Task HandleResponseAsync(HttpResponseMessage response)
+        public async Task HandleResponseAsync(HttpResponseMessage response)
         {
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
