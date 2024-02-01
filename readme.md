@@ -361,13 +361,25 @@ The tests focus on ensuring the correctness and functionality of various service
 - **Method**: Mocks an API connector to return a list of work types.
 - **Key Assertions**: Checks for non-null response, correct count of work types, and accuracy of ID and name.
 
+### Fine Code Coverage
+Fine Code Coverage is utilized to evaluate how much of the source code is covered by automated tests, aiming to identify untested sections for improvement.
+
+- **Coverage Results**: The application achieved an 82.4% code coverage, indicating a comprehensive testing strategy that extensively covers the codebase.
+- **Excluded Modules**: Certain modules were excluded from coverage analysis for specific reasons:
+   - **Migrations**: Contains default, auto-generated files.
+   - **View Models**: Excluded due to the planned migration to React.js, making current tests less relevant.
+   - **Program**: The build file, considered private and typically not needing tests.
+
+ <img src="art/FineCodeCoverageResults.PNG" alt="SoftServe Project Lab Demo 2 - Technician Details View">
+
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
+
 
 ## 6.6 Frontend
 The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
 #### Work Order Filter view
-<img src="art/WorkOrderView.PNG" alt="SoftServe Project Lab Demo 2 - Work Orders View" style="border: 1px solid #718096;">
+<img src="art/WorkOrderView.PNG" alt="SoftServe Project Lab Demo 2 - Work Orders View" >
 
 *SoftServe Project Lab Demo 2 - Work Orders View*
 
@@ -376,12 +388,12 @@ The frontend for this project, developed using Blazor, offers a dynamic and intu
 
 *Softserve Project Lab Demo 2 - Technicians View*
 
-<img src="art/TechnicianInputValidation.PNG" alt="Softserve Project Lab Demo 2 - Technician View, Input Validation" style="border: 1px solid #718096;">
+<img src="art/TechnicianInputValidation.PNG" alt="Softserve Project Lab Demo 2 - Technician View, Input Validation" >
 
 *Softserve Project Lab Demo 2 - Technician View, Input Validation*
 
 #### Technician Details view
-<img src="art/TechnicianDetailView.PNG" alt="SoftServe Project Lab Demo 2 - Technician Details View" style="border: 1px solid #718096;">
+<img src="art/TechnicianDetailView.PNG" alt="SoftServe Project Lab Demo 2 - Technician Details View" >
 
 *SoftServe Project Lab Demo 2 - Technician Details View*
 
