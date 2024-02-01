@@ -48,6 +48,27 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             }
         }
 
+		[HttpGet("{workOrderName}")]
+		[ProducesResponseType(typeof(WorkOrderDetails), StatusCodes.Status200OK)]
+		[Produces("application/json")]
+		public async Task<IActionResult> Get(string workOrderName)
+		{
+			try
+			{
+				var workOrderDetails = await _workOrderDetailsService.GetWorkOrderDetailsByNameAsync(workOrderName);
+				if (workOrderDetails == null)
+				{
+					return NotFound();
+				}
+
+				return Ok(workOrderDetails);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
 		[HttpGet("/WorkOrder/List")]
 		public async Task<IActionResult> List()
 		{
