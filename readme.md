@@ -370,7 +370,7 @@ Fine Code Coverage is utilized to evaluate how much of the source code is covere
    - **View Models**: Excluded due to the planned migration to React.js, making current tests less relevant.
    - **Program**: The build file, considered private and typically not needing tests.
 
- <img src="art/FineCodeCoverageResults.PNG" alt="SoftServe Project Lab Demo 2 - Fine Code Coverage Results">
+ <img src="art/FineCodeCoverageResult.PNG" alt="SoftServe Project Lab Demo 2 - Fine Code Coverage Results">
  *SoftServe Project Lab Demo 2 - Fine Code Coverage Results*
 
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
