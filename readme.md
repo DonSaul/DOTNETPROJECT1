@@ -364,10 +364,6 @@ The tests focus on ensuring the correctness and functionality of various service
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
 
 ## 6.6 Frontend
-### 6.6 Frontend
-
-The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
-### 6.6 Frontend
 
 The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
