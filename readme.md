@@ -149,7 +149,7 @@ The implementation of the mentioned architectures and design patterns has yielde
 
 This section outlines key security strategies and design patterns implemented in the application, ranging from the fundamental MVC pattern that enhances structural integrity to specific technical measures like secure HttpClient usage and meticulous exception handling.
 
-1. **MVC Pattern Usage**: The application's use of the Model-View-Controller (MVC) design pattern contributes to its security. MVC separates concerns, reducing risks like over-posting and facilitating centralized input validation, thus bolstering the applications defense against common vulnerabilities.
+1. **MVC Pattern Usage**: The application's use of the Model-View-Controller (MVC) design pattern contributes to its security. MVC separates concerns, reducing risks like over-posting and facilitating centralized input validation, thus bolstering the application's defense against common vulnerabilities.
 
 2. **Base Address Configuration**: The ApiConnector class uses an HttpClient with a configured base address. This is a good practice as it centralizes the base URL for API requests, making it easier to manage and ensuring that requests are directed to the correct endpoint. 
 
@@ -322,6 +322,7 @@ var query = workOrders
 ## 6.5 Testing
 The tests focus on ensuring the correctness and functionality of various services within the application, including StatusService, TechnicianService, WorkOrderService, and WorkTypeService. 
 
+
 ### Status Service Test
 #### Test: `GetStatusesAsync_ShouldReturnStatuses`
 - **Purpose**: Verifies that the `StatusService` retrieves and returns a list of status objects.
@@ -379,13 +380,13 @@ All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTy
 ## 6.6 Frontend
 The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
-#### Work Order Filter view
-<img src="art/WorkOrderView.PNG" alt="SoftServe Project Lab Demo 2 - Work Orders View" >
+#### Work Orders view
+<img src="art/work_orders_view.gif" alt="SoftServe Project Lab Demo 2 - Work Orders View" >
 
 *SoftServe Project Lab Demo 2 - Work Orders View*
 
 #### Technician View
-<img src="art/TechnicianListView.PNG" alt="Softserve Project Lab Demo 2 - Technicians View" style="border: 1px solid #718096;">
+<img src="art/technician_view.gif" alt="Softserve Project Lab Demo 2 - Technicians View">
 
 *Softserve Project Lab Demo 2 - Technicians View*
 
