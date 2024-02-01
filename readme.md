@@ -401,6 +401,50 @@ The frontend for this project, developed using Blazor, offers a dynamic and intu
 
 # 7. Error Handling
 ## 7.1 Try Catches
+In this project, we use `try-catch` blocks to handle errors and exceptions that may occur during code execution. This allows us to control the flow of the program and provide meaningful responses in case something goes wrong.
+
+### Services
+
+In our services, such as `WorkOrderService`, `TechnicianService`, `StatusService`, `WorkTypeService`, and `ApiConnector`, we use `try-catch` blocks to handle errors that may occur when making API requests. If an error occurs, we log the error message and then throw the exception so it can be handled further up the call stack.
+
+For example, here's how we handle errors in `WorkOrderService`:
+``` csharp
+public async Task<WorkOrder[]> GetWorkOrdersAsync()
+{
+    try
+    {    
+        return await _apiConnector.GetAsync<WorkOrder[]>(ApiUrls.GetAllWorkOrders);
+    }
+    catch(Exception ex)
+    {
+        Console.WriteLine($"Error with GetAllWorkOrders: {ex.Message}");
+        throw;
+    }
+}
+```
+### Controllers 
+In our controllers, such as `WorkOrderController`, `TechnicianController`, and `WorkOrderDetailsController`, we also use `try-catch` blocks to handle errors. However, instead of just logging the error and throwing the exception, we return an HTTP error response to the client.
+
+For example, here's how we handle errors in `WorkOrderController`:
+``` csharp
+[HttpGet]
+[ProducesResponseType(typeof(List<WorkOrder>), StatusCodes.Status200OK)]
+[Produces("application/json")]
+public async Task<IActionResult> Get()
+{
+    try
+   {
+       var workOrders = await _workOrderService.GetWorkOrdersAsync();
+                return Ok(workOrders);
+    }
+            catch (Exception ex)
+    {
+                return BadRequest(ex.Message);
+    }
+}
+```
+This approach allows us to handle errors proactively and ensure that our program can recover from unexpected errors gracefully.
+
 ## 7.2 Input Validation
 Input validation in the application is performed both on the client (frontend) and server (backend) sides, ensuring robust data integrity and improving user experience.
 
