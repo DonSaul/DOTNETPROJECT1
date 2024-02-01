@@ -149,7 +149,7 @@ The implementation of the mentioned architectures and design patterns has yielde
 
 This section outlines key security strategies and design patterns implemented in the application, ranging from the fundamental MVC pattern that enhances structural integrity to specific technical measures like secure HttpClient usage and meticulous exception handling.
 
-1. **MVC Pattern Usage**: The application's use of the Model-View-Controller (MVC) design pattern contributes to its security. MVC separates concerns, reducing risks like over-posting and facilitating centralized input validation, thus bolstering the application’s defense against common vulnerabilities.
+1. **MVC Pattern Usage**: The application's use of the Model-View-Controller (MVC) design pattern contributes to its security. MVC separates concerns, reducing risks like over-posting and facilitating centralized input validation, thus bolstering the application's defense against common vulnerabilities.
 
 2. **Base Address Configuration**: The ApiConnector class uses an HttpClient with a configured base address. This is a good practice as it centralizes the base URL for API requests, making it easier to manage and ensuring that requests are directed to the correct endpoint. 
 
