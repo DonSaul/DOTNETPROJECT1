@@ -169,7 +169,7 @@
 				var workOrderName = $("#workOrderNameFilter").val();
 
 				$.ajax({
-					url: "/api/WorkOrder/" + workOrderName,
+					url: "/api/WorkOrderDetails/" + workOrderName,
 					type: "GET",
 					contentType: "application/json",
 					success: function (data) {
@@ -181,9 +181,9 @@
 						// Devolvemos el unico objeto que retorna el endpoint
 						var row = `<tr>
 											   <td>${data.workOrderName}</td>
-											   <td>${data.technicianName || 'N/A'}</td>
-											   <td>${data.workTypeName || 'N/A'}</td>
-											   <td>${data.statusName || 'N/A'}</td>
+											   <td>${data.technician || 'N/A'}</td>
+											   <td>${data.workType || 'N/A'}</td>
+											   <td>${data.status || 'N/A'}</td>
 											   <td>${data.endTime || 'N/A'}</td>
 											   <td>${data.startTime || 'N/A'}</td>
 										   </tr>`;
