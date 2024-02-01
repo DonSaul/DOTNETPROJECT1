@@ -11,6 +11,7 @@
 		<a class="btn btn-secondary ml-2" href="/api/WorkOrder/export-csv">Export to CSV</a>
 
 	</div>
+
 	<div class="accordion" id="searchAccordion">
 		<div class="accordion-item mb-2">
 			<h2 class="accordion-header" id="headingOne">
@@ -37,7 +38,7 @@
 									@{
 										foreach (var item in ViewBag.WorkTypes)
 										{
-												<option value="@item.Name">@item.Name</option>
+											<option value="@item.Name">@item.Name</option>
 										}
 									}
 								</select>
@@ -49,7 +50,7 @@
 									@{
 										foreach (var item in ViewBag.Statuses)
 										{
-												<option value="@item.Name">@item.Name</option>
+											<option value="@item.Name">@item.Name</option>
 										}
 									}
 								</select>
@@ -59,6 +60,23 @@
 							</div>
 						</div>
 					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="accordion-item mb-2">
+		<h2 class="accordion-header" id="headingTwo">
+			<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+				Search by Work Order Name
+			</button>
+		</h2>
+		<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#searchAccordion">
+			<div class="accordion-body">
+				<div class="mb-3">
+					<label for="workOrderNameFilter">Work Order Name:</label>
+					<input type="text" class="form-control" id="workOrderNameFilter" placeholder="Enter Work Order Name">
+					<button class="btn btn-primary mt-2" id="btnBuscar">Search</button>
 				</div>
 			</div>
 		</div>
@@ -126,13 +144,13 @@
 						// Iterar sobre cada 'workOrder' y agregar los datos a la tabla
 						data.forEach(function (workOrder) {
 							var row = `<tr>
-															   <td>${workOrder.workOrderName}</td>
-															   <td>${workOrder.technician}</td>
-															   <td>${workOrder.workType}</td>
-																<td>${workOrder.status}</td>
-																	   <td>${workOrder.endTime ? workOrder.endTime : 'N/A'}</td>
-															   <td>${workOrder.startTime ? workOrder.startTime : 'N/A'}</td>
-														   </tr>`;
+																	   <td>${workOrder.workOrderName}</td>
+																	   <td>${workOrder.technician}</td>
+																	   <td>${workOrder.workType}</td>
+																		<td>${workOrder.status}</td>
+																			   <td>${workOrder.endTime ? workOrder.endTime : 'N/A'}</td>
+																	   <td>${workOrder.startTime ? workOrder.startTime : 'N/A'}</td>
+																   </tr>`;
 							tbody.append(row);
 						});
 					},
@@ -142,5 +160,42 @@
 				});
 			});
 		});
+	</script>
+
+
+	<script>
+		$(document).ready(function () {
+			$("#btnBuscar").click(function () {
+				var workOrderName = $("#workOrderNameFilter").val();
+
+				$.ajax({
+					url: "/api/WorkOrderDetails/" + workOrderName,
+					type: "GET",
+					contentType: "application/json",
+					success: function (data) {
+						console.log(data);
+						// Funcion que vacia la tabla antes de agregar nuevos datos
+						var tbody = $('table tbody');
+						tbody.empty();
+
+						// Devolvemos el unico objeto que retorna el endpoint
+						var row = `<tr>
+											   <td>${data.workOrderName}</td>
+											   <td>${data.technician || 'N/A'}</td>
+											   <td>${data.workType || 'N/A'}</td>
+											   <td>${data.status || 'N/A'}</td>
+											   <td>${data.endTime || 'N/A'}</td>
+											   <td>${data.startTime || 'N/A'}</td>
+										   </tr>`;
+						tbody.append(row);
+					},
+					error: function (xhr, status, error) {
+						console.error(error);
+						alert("Error al realizar la búsqueda");
+					}
+				});
+			});
+		});
+
 	</script>
 }

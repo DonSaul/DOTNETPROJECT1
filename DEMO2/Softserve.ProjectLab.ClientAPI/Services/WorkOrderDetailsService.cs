@@ -104,6 +104,35 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 			}
 		}
 
+		public async Task<WorkOrderDetails> GetWorkOrderDetailsByNameAsync(string WorkOrderName)
+		{
+			try
+			{
+				var workOrder = await _workOrderService.GetWorkOrderAsync(WorkOrderName);
+				var technicians = await _technicianService.GetTechnicianAsync(workOrder.TechnicianId);
+				var statuses = await _statusService.GetStatusesAsync();
+				var workTypes = await _workTypeService.GetWorkTypesAsync();
+
+				var status = statuses.FirstOrDefault(s => s.Id == workOrder.StatusId);
+				var workType = workTypes.FirstOrDefault(wt => wt.Id == workOrder.WorkTypeId);
+
+				return new WorkOrderDetails
+				{
+					WorkOrderName = workOrder.WorkOrderName,
+					Technician = technicians.Name,
+					WorkType = workType?.Name ?? "",
+					Status = status?.Name ?? "",
+					EndTime = workOrder.EndTime ?? (DateTimeOffset?)null,
+					StartTime = workOrder.StartTime ?? (DateTimeOffset?)null
+				};
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error : {ex.Message}");
+				throw;
+			}
+		}
+
 		public async Task<WorkOrderViewModel> GetWorkOrderViewModelAsync()
 		{
 			var workOrdersTask = GetWorkOrderDetailsAsync();
