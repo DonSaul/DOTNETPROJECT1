@@ -34,7 +34,7 @@ This project offers a streamlined approach to managing and querying Work Orders,
 
 **Technician Search:** A key aspect of the project is the capability to locate Technicians and display their related Work Orders, aiding in rapid personnel identification.
 
-**Customized Report Generation:** The system is equipped to compile data into well-organized, structured reports.
+**Report Generation:** The system is equipped to compile data into well-organized, structured reports.
 
 In terms of architecture, the project consists of two primary segments: Back-end and Front-end, designed to work together to provide a comprehensive solution. The Back-end, developed with .NET technologies, is responsible for communication with the Work Order API and plays a crucial role in the handling and processing of data.  The Front-end, built using Blazor - a .NET framework for creating interactive user interfaces with C# - allows users to interact intuitively with the system's functionalities. This integration facilitates access to and management of Work Orders and Technician information.
 
@@ -101,7 +101,7 @@ Here are some examples of how you can interact with the API:
 
 - **Get all work order details**: To get all work order details, you can use the following curl command in Postman:
 	- curl -X 'GET' \
-    "https://localhost:7178/api/WorkOrderDetails/all \
+    "https://localhost:7178/api/WorkOrderDetails/all" \
     -H 'accept: application/json'
 
 - **Get filter work order details** : To get work order details filter by startTime, endTime, workType and status, you can use the following curl command in Postman:
@@ -145,7 +145,7 @@ The implementation of the mentioned architectures and design patterns has yielde
 - **Ease of testing:** The implemented architecture and patterns facilitate the creation of independent unit tests.
 - **Scalability:** The MVC architecture and service pattern allow the application to be scaled horizontally by adding new web servers or services as needed.
 
-# 5. Security features and best practices
+# 5. Security Features and Best Practices
 
 This section outlines key security strategies and design patterns implemented in the application, ranging from the fundamental MVC pattern that enhances structural integrity to specific technical measures like secure HttpClient usage and meticulous exception handling.
 
