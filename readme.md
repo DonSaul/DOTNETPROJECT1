@@ -320,47 +320,35 @@ var query = workOrders
 
 ``` 
 ## 6.5 Testing
-The tests focus on ensuring the correctness and functionality of various services within the application, including StatusService, TechnicianService, WorkOrderService, and WorkTypeService. 
+The tests focus on ensuring the correctness and functionality of various services within the application and controllers. In the tests for various services and controllers, mocking is used extensively to replicate the behavior of external API calls, database interactions, and even internal service responses.
+
+### What is Mocking?
+
+Mocking involves creating objects that simulate the behavior of real objects in a controlled way. It's used extensively in unit testing to ensure a component can be tested in isolation from its dependencies. This technique is critical for verifying the internal logic of a component without relying on its external dependencies.
+
+### Benefits of Mocking
+
+Mocking is crucial for several reasons:
+
+1. **Isolation of Test Environment**: Ensures tests are isolated from external changes like API endpoint changes or database schema updates, helping accurately identify the source of test failures.
+2. **Controlled Data**: Supplies tests with controlled data to cover a wide range of scenarios, including edge cases, ensuring thorough testing of component behavior.
+3. **Efficiency**: Reduces the time tests take to run by eliminating the overhead of real network calls or database interactions, making the development process more efficient.
+4. **Error and Edge Case Testing**: Allows for the simulation of error conditions and edge cases that are difficult to generate in a real environment, testing system resilience.
 
 
-### Status Service Test
-#### Test: `GetStatusesAsync_ShouldReturnStatuses`
-- **Purpose**: Verifies that the `StatusService` retrieves and returns a list of status objects.
-- **Method**: Mocks `IApiConnector` to simulate API responses for status data.
-- **Key Assertions**: Checks non-null response, correct number of status objects, and accuracy of properties.
+### Testing Components Overview
 
-### Technician Service Test
-#### Test: `GetTechniciansAsync_ShouldReturnTechnicians`
-- **Purpose**: Confirms that `TechnicianService` retrieves a list of technicians.
-- **Method**: Uses a mock `IApiConnector` for technician data emulation.
-- **Key Assertions**: Ensures non-null response and correctness of technician data.
-
-#### Test: `GetTechnicianAsync_ShouldReturnTechnicianById`
-- **Purpose**: Tests the retrieval of a specific technician by ID.
-- **Method**: Mocks an API call to return a predefined technician object.
-- **Key Assertions**: Verifies non-null response with accurate technician details for valid IDs, handles invalid IDs.
-
-  #### Test: `GetTechnicianByNameAsync_ShouldReturnTechniciansByName`
-- **Purpose**: Tests finding technicians by name.
-- **Method**: Sets up mocked responses with specific technician data.
-- **Key Assertions**: Checks for non-null responses, correct technician count, and detail accuracy based on name.
-
-### WorkOrderServiceTest
-#### Test: `GetWorkOrdersAsync_ShouldReturnWorkOrders`
-- **Purpose**: Ensures `WorkOrderService` fetches and returns work orders.
-- **Method**: Mocks `IApiConnector` with predefined work order data.
-- **Key Assertions**: Confirms a non-null list of work orders with accurate details.
-
-#### Test: `GetWorkOrderAsync_ShouldReturnWorkOrdersByWorkOrderName`
-- **Purpose**: Tests fetching work orders by name.
-- **Method**: Uses mocked API responses for individual work order retrieval.
-- **Key Assertions**: Ensures correct work order retrieval based on name, handles non-existent names and empty inputs.
-
-### WorkTypeTest
-#### Test: `GetWorkTypesAsync_ShouldReturnWorkTypes`
-- **Purpose**: Verifies `WorkTypeService` retrieves and returns work type information.
-- **Method**: Mocks an API connector to return a list of work types.
-- **Key Assertions**: Checks for non-null response, correct count of work types, and accuracy of ID and name.
+| Test Component                 | Key Assertions                                                                                                         |
+|--------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| **ApiConnectorTest**           | Verifies connector parses responses and handles errors correctly.                                                       |
+| **StatusServiceTest**          | Confirms non-null response and accuracy of status objects.                                                              |
+| **TechnicianControllerTest**   | Focuses on routing, status code responses, and data accuracy.                                                           |
+| **TechnicianServiceTest**      | Ensures correct handling of non-null responses and data integrity.                                                     |
+| **WorkOrderControllerTest**    | Asserts correct HTTP status codes and response content.                                                                 |
+| **WorkOrderDetailsServiceTest**| Verifies completeness and accuracy of work order details.                                                               |
+| **WorkOrderServiceTest**       | Confirms non-null list of work orders with accurate details.                                                            |
+| **WorkTypeTest**               | Checks for non-null response, correct count, and accuracy of ID and name.                                               |
+| **WorkOrderDetailsControllerTest** | Ensures responses are accurate, complete, and properly formatted, including error scenarios.                          |
 
 ### Fine Code Coverage
 Fine Code Coverage is utilized to evaluate how much of the source code is covered by automated tests, aiming to identify untested sections for improvement.
@@ -390,14 +378,7 @@ The frontend for this project, developed using Blazor, offers a dynamic and intu
 
 *Softserve Project Lab Demo 2 - Technicians View*
 
-<img src="art/TechnicianInputValidation.PNG" alt="Softserve Project Lab Demo 2 - Technician View, Input Validation" >
 
-*Softserve Project Lab Demo 2 - Technician View, Input Validation*
-
-#### Technician Details view
-<img src="art/TechnicianDetailView.PNG" alt="SoftServe Project Lab Demo 2 - Technician Details View" >
-
-*SoftServe Project Lab Demo 2 - Technician Details View*
 
 
 # 7. Error Handling
