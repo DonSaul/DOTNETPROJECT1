@@ -90,6 +90,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 						{
 							WorkOrderName = wo.WorkOrderName,
 							Technician = tech.Name,
+							Status = st.Name,
 							WorkType = wt.Name,
 							EndTime = wo.EndTime.HasValue ? wo.EndTime.Value : (DateTimeOffset?)null,
 							StartTime = wo.StartTime.HasValue ? wo.StartTime.Value : (DateTimeOffset?)null
