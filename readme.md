@@ -149,7 +149,7 @@ The implementation of the mentioned architectures and design patterns has yielde
 
 This section outlines key security strategies and design patterns implemented in the application, ranging from the fundamental MVC pattern that enhances structural integrity to specific technical measures like secure HttpClient usage and meticulous exception handling.
 
-1. **MVC Pattern Usage**: The application's use of the Model-View-Controller (MVC) design pattern contributes to its security. MVC separates concerns, reducing risks like over-posting and facilitating centralized input validation, thus bolstering the applications defense against common vulnerabilities.
+1. **MVC Pattern Usage**: The application's use of the Model-View-Controller (MVC) design pattern contributes to its security. MVC separates concerns, reducing risks like over-posting and facilitating centralized input validation, thus bolstering the application's defense against common vulnerabilities.
 
 2. **Base Address Configuration**: The ApiConnector class uses an HttpClient with a configured base address. This is a good practice as it centralizes the base URL for API requests, making it easier to manage and ensuring that requests are directed to the correct endpoint. 
 
@@ -320,74 +320,114 @@ var query = workOrders
 
 ``` 
 ## 6.5 Testing
-The tests focus on ensuring the correctness and functionality of various services within the application, including StatusService, TechnicianService, WorkOrderService, and WorkTypeService. 
+The tests focus on ensuring the correctness and functionality of various services within the application and controllers. In the tests for various services and controllers, mocking is used extensively to replicate the behavior of external API calls, database interactions, and even internal service responses.
 
-### Status Service Test
-#### Test: `GetStatusesAsync_ShouldReturnStatuses`
-- **Purpose**: Verifies that the `StatusService` retrieves and returns a list of status objects.
-- **Method**: Mocks `IApiConnector` to simulate API responses for status data.
-- **Key Assertions**: Checks non-null response, correct number of status objects, and accuracy of properties.
+### What is Mocking?
 
-### Technician Service Test
-#### Test: `GetTechniciansAsync_ShouldReturnTechnicians`
-- **Purpose**: Confirms that `TechnicianService` retrieves a list of technicians.
-- **Method**: Uses a mock `IApiConnector` for technician data emulation.
-- **Key Assertions**: Ensures non-null response and correctness of technician data.
+Mocking involves creating objects that simulate the behavior of real objects in a controlled way. It's used extensively in unit testing to ensure a component can be tested in isolation from its dependencies. This technique is critical for verifying the internal logic of a component without relying on its external dependencies.
 
-#### Test: `GetTechnicianAsync_ShouldReturnTechnicianById`
-- **Purpose**: Tests the retrieval of a specific technician by ID.
-- **Method**: Mocks an API call to return a predefined technician object.
-- **Key Assertions**: Verifies non-null response with accurate technician details for valid IDs, handles invalid IDs.
+### Benefits of Mocking
 
-  #### Test: `GetTechnicianByNameAsync_ShouldReturnTechniciansByName`
-- **Purpose**: Tests finding technicians by name.
-- **Method**: Sets up mocked responses with specific technician data.
-- **Key Assertions**: Checks for non-null responses, correct technician count, and detail accuracy based on name.
+Mocking is crucial for several reasons:
 
-### WorkOrderServiceTest
-#### Test: `GetWorkOrdersAsync_ShouldReturnWorkOrders`
-- **Purpose**: Ensures `WorkOrderService` fetches and returns work orders.
-- **Method**: Mocks `IApiConnector` with predefined work order data.
-- **Key Assertions**: Confirms a non-null list of work orders with accurate details.
+1. **Isolation of Test Environment**: Ensures tests are isolated from external changes like API endpoint changes or database schema updates, helping accurately identify the source of test failures.
+2. **Controlled Data**: Supplies tests with controlled data to cover a wide range of scenarios, including edge cases, ensuring thorough testing of component behavior.
+3. **Efficiency**: Reduces the time tests take to run by eliminating the overhead of real network calls or database interactions, making the development process more efficient.
+4. **Error and Edge Case Testing**: Allows for the simulation of error conditions and edge cases that are difficult to generate in a real environment, testing system resilience.
 
-#### Test: `GetWorkOrderAsync_ShouldReturnWorkOrdersByWorkOrderName`
-- **Purpose**: Tests fetching work orders by name.
-- **Method**: Uses mocked API responses for individual work order retrieval.
-- **Key Assertions**: Ensures correct work order retrieval based on name, handles non-existent names and empty inputs.
 
-### WorkTypeTest
-#### Test: `GetWorkTypesAsync_ShouldReturnWorkTypes`
-- **Purpose**: Verifies `WorkTypeService` retrieves and returns work type information.
-- **Method**: Mocks an API connector to return a list of work types.
-- **Key Assertions**: Checks for non-null response, correct count of work types, and accuracy of ID and name.
+### Testing Components Overview
+
+| Test Component                 | Key Assertions                                                                                                         |
+|--------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| **ApiConnectorTest**           | Verifies connector parses responses and handles errors correctly.                                                       |
+| **StatusServiceTest**          | Confirms non-null response and accuracy of status objects.                                                              |
+| **TechnicianControllerTest**   | Focuses on routing, status code responses, and data accuracy.                                                           |
+| **TechnicianServiceTest**      | Ensures correct handling of non-null responses and data integrity.                                                     |
+| **WorkOrderControllerTest**    | Asserts correct HTTP status codes and response content.                                                                 |
+| **WorkOrderDetailsServiceTest**| Verifies completeness and accuracy of work order details.                                                               |
+| **WorkOrderServiceTest**       | Confirms non-null list of work orders with accurate details.                                                            |
+| **WorkTypeTest**               | Checks for non-null response, correct count, and accuracy of ID and name.                                               |
+| **WorkOrderDetailsControllerTest** | Ensures responses are accurate, complete, and properly formatted, including error scenarios.                          |
+
+### Fine Code Coverage
+Fine Code Coverage is utilized to evaluate how much of the source code is covered by automated tests, aiming to identify untested sections for improvement.
+
+- **Coverage Results**: The application achieved an 82.4% code coverage, indicating a comprehensive testing strategy that extensively covers the codebase.
+- **Excluded Modules**: Certain modules were excluded from coverage analysis for specific reasons:
+   - **Migrations**: Contains default, auto-generated files.
+   - **View Models**: Excluded due to the planned migration to React.js, making current tests less relevant.
+   - **Program**: The build file, considered private and typically not needing tests.
+
+ <img src="art/FineCodeCoverageResult.PNG" alt="SoftServe Project Lab Demo 2 - Fine Code Coverage Results">
+ 
+ *SoftServe Project Lab Demo 2 - Fine Code Coverage Results*
 
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
+
 
 ## 6.6 Frontend
 The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
-#### Work Order Filter view
-<img src="art/WorkOrderView.PNG" alt="SoftServe Project Lab Demo 2 - Work Orders View" style="border: 1px solid #718096;">
+#### Work Orders view
+<img src="art/work_orders_view.gif" alt="SoftServe Project Lab Demo 2 - Work Orders View" >
 
 *SoftServe Project Lab Demo 2 - Work Orders View*
 
 #### Technician View
-<img src="art/TechnicianListView.PNG" alt="Softserve Project Lab Demo 2 - Technicians View" style="border: 1px solid #718096;">
+<img src="art/technician_view.gif" alt="Softserve Project Lab Demo 2 - Technicians View">
 
 *Softserve Project Lab Demo 2 - Technicians View*
 
-<img src="art/TechnicianInputValidation.PNG" alt="Softserve Project Lab Demo 2 - Technician View, Input Validation" style="border: 1px solid #718096;">
 
-*Softserve Project Lab Demo 2 - Technician View, Input Validation*
-
-#### Technician Details view
-<img src="art/TechnicianDetailView.PNG" alt="SoftServe Project Lab Demo 2 - Technician Details View" style="border: 1px solid #718096;">
-
-*SoftServe Project Lab Demo 2 - Technician Details View*
 
 
 # 7. Error Handling
 ## 7.1 Try Catches
+In this project, we use `try-catch` blocks to handle errors and exceptions that may occur during code execution. This allows us to control the flow of the program and provide meaningful responses in case something goes wrong.
+
+### Services
+
+In our services, such as `WorkOrderService`, `TechnicianService`, `StatusService`, `WorkTypeService`, and `ApiConnector`, we use `try-catch` blocks to handle errors that may occur when making API requests. If an error occurs, we log the error message and then throw the exception so it can be handled further up the call stack.
+
+For example, here's how we handle errors in `WorkOrderService`:
+``` csharp
+public async Task<WorkOrder[]> GetWorkOrdersAsync()
+{
+    try
+    {    
+        return await _apiConnector.GetAsync<WorkOrder[]>(ApiUrls.GetAllWorkOrders);
+    }
+    catch(Exception ex)
+    {
+        Console.WriteLine($"Error with GetAllWorkOrders: {ex.Message}");
+        throw;
+    }
+}
+```
+### Controllers 
+In our controllers, such as `WorkOrderController`, `TechnicianController`, and `WorkOrderDetailsController`, we also use `try-catch` blocks to handle errors. However, instead of just logging the error and throwing the exception, we return an HTTP error response to the client.
+
+For example, here's how we handle errors in `WorkOrderController`:
+``` csharp
+[HttpGet]
+[ProducesResponseType(typeof(List<WorkOrder>), StatusCodes.Status200OK)]
+[Produces("application/json")]
+public async Task<IActionResult> Get()
+{
+    try
+   {
+       var workOrders = await _workOrderService.GetWorkOrdersAsync();
+                return Ok(workOrders);
+    }
+            catch (Exception ex)
+    {
+                return BadRequest(ex.Message);
+    }
+}
+```
+This approach allows us to handle errors proactively and ensure that our program can recover from unexpected errors gracefully.
+
 ## 7.2 Input Validation
 Input validation in the application is performed both on the client (frontend) and server (backend) sides, ensuring robust data integrity and improving user experience.
 
