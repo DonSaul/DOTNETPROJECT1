@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softserve.ProjectLab.ClientAPI", "Softserve.ProjectLab.ClientAPI\Softserve.ProjectLab.ClientAPI.csproj", "{476B7FD8-5119-462E-9931-A3133D2E9FA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDemo2", "TestDemo2\TestDemo2.csproj", "{26AC9DBE-3435-41E7-B6C8-2681DCFA9BED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDemo2", "TestDemo2\TestDemo2.csproj", "{26AC9DBE-3435-41E7-B6C8-2681DCFA9BED}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "softserve.projectlab.reactfrontend", "SoftServe.ProjectLab.ReactFrontEnd\softserve.projectlab.reactfrontend.esproj", "{99BF274D-A12D-4448-9472-5B499FAE629B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,12 @@ Global
 		{26AC9DBE-3435-41E7-B6C8-2681DCFA9BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26AC9DBE-3435-41E7-B6C8-2681DCFA9BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26AC9DBE-3435-41E7-B6C8-2681DCFA9BED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99BF274D-A12D-4448-9472-5B499FAE629B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99BF274D-A12D-4448-9472-5B499FAE629B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99BF274D-A12D-4448-9472-5B499FAE629B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{99BF274D-A12D-4448-9472-5B499FAE629B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99BF274D-A12D-4448-9472-5B499FAE629B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99BF274D-A12D-4448-9472-5B499FAE629B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
