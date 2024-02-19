@@ -91,7 +91,7 @@ namespace Softserve.ProjectLab.ClientAPI.Services
                 .Select(tech => new TechnicianDetails
                 {
                     TechnicianId = tech.TechnicianId,
-                    Technician = tech.Name,
+                    Name = tech.Name,
                     Address = tech.Address,
                     WorkOrders = workOrders
                         .Where(wo => wo.TechnicianId == tech.TechnicianId)

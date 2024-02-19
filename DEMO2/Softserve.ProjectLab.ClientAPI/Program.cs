@@ -24,12 +24,14 @@ builder.Services.AddHttpsRedirection(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin", builder =>
+    options.AddPolicy("CorsPolicy", policy =>
     {
-        builder.WithOrigins("https://localhost")
-               .AllowAnyHeader()
-               .AllowAnyMethod();
-    });
+        policy.WithOrigins("https://localhost", "http://localhost:5173")
+			   .AllowAnyHeader()
+               .AllowAnyMethod()
+               .WithExposedHeaders("Access-Control-Allow-Origin");
+
+	});
 });
 
 builder.Services.AddControllersWithViews();
@@ -64,7 +66,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("CorsPolicy");
 
 //exclusively for views
 app.UseStaticFiles();
