@@ -13,16 +13,31 @@ const Technicians = () => {
   useEffect(() => {
     const getTechnicians = async () => {
       setIsLoading(true);
-      const response = await fetch("https://localhost:7178/api/Technician");
-      // console.log(response)
-      if (response.ok) {
-        // success();
-      } else {
-        return;
+      try {
+        const response = await fetch("https://localhost:7178/api/Technician");
+        if (response.ok) {
+          // success();
+          const data = await response.json();
+          setTechnicians(data);
+        } else {
+          toast.error("Failed to fetch data", {
+            position: "top-right",
+            autoClose: 5000,
+            pauseOnHover: true,
+            theme: "dark",
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Error processing data", {
+          position: "top-right",
+          autoClose: 5000,
+          pauseOnHover: true,
+          theme: "dark",
+        });
       }
+      // console.log(response)
 
-      const data = await response.json();
-      setTechnicians(data);
       setIsLoading(false);
     };
 
@@ -37,7 +52,7 @@ const Technicians = () => {
       `https://localhost:7178/api/Technician/TechnicianByName/${search}`
     );
     if (response.ok) {
-      toast.success('Filter applied successfully', {
+      toast.success("Filter applied successfully", {
         position: "top-right",
         autoClose: 2500,
         hideProgressBar: false,
@@ -46,7 +61,7 @@ const Technicians = () => {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        });
+      });
     }
     const data = await response.json();
 
@@ -83,11 +98,7 @@ const Technicians = () => {
           Search by Name
         </button>
       </div>
-      {!isLoading ? (
-        <ListTechnicians technicians={technicians} />
-      ) : (
-        <div>Loading...</div>
-      )}
+      <ListTechnicians technicians={technicians} isLoading={isLoading} />
     </section>
   );
 };

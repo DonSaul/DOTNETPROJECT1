@@ -6,11 +6,14 @@ interface Technician {
   address: string;
 }
 
-interface ListTechniciansProps {
-  technicians: Technician[];
-}
 // position:"relative", top:"5%",
-const ListTechnicians: React.FC<ListTechniciansProps> = ({ technicians }) => {
+const ListTechnicians = ({
+  technicians,
+  isLoading,
+}: {
+  technicians: Array<Technician>;
+  isLoading: boolean;
+}) => {
   return (
     <div style={{ width: "70vw" }}>
       <div style={{ overflowY: "scroll", width: "100%", height: "70vh" }}>
@@ -23,15 +26,21 @@ const ListTechnicians: React.FC<ListTechniciansProps> = ({ technicians }) => {
             </tr>
           </thead>
           <tbody>
-            {technicians.map((technician: Technician) => {
-              return (
-                <tr className="table-rows" key={technician.technicianId}>
-                  <td style={{ width: "20%" }}>{technician.technicianId}</td>
-                  <td style={{ width: "40%" }}>{technician.name}</td>
-                  <td style={{ width: "40%" }}>{technician.address}</td>
-                </tr>
-              );
-            })}
+            {!isLoading ? (
+              technicians?.map((technician: Technician) => {
+                return (
+                  <tr className="table-rows" key={technician.technicianId}>
+                    <td style={{ width: "20%" }}>{technician.technicianId}</td>
+                    <td style={{ width: "40%" }}>{technician.name}</td>
+                    <td style={{ width: "40%" }}>{technician.address}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td>Loading...</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

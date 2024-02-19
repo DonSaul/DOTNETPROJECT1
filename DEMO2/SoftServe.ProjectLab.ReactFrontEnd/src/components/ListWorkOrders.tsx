@@ -9,11 +9,13 @@ interface WorkOrder {
   startTime: string;
 }
 
-interface ListWorkOrdersProps {
-  workOrders: WorkOrder[];
-}
-
-const ListWorkOrders: React.FC<ListWorkOrdersProps> = ({ workOrders }) => {
+const ListWorkOrders = ({
+  workOrders,
+  isLoading,
+}: {
+  workOrders: Array<WorkOrder>;
+  isLoading: boolean;
+}) => {
   return (
     <div style={{ width: "70vw" }}>
       <div style={{ overflowY: "scroll", width: "100%", height: "70vh" }}>
@@ -29,18 +31,24 @@ const ListWorkOrders: React.FC<ListWorkOrdersProps> = ({ workOrders }) => {
             </tr>
           </thead>
           <tbody>
-            {workOrders.map((workOrder: WorkOrder) => {
-              return (
-                <tr className="table-rows" key={workOrder.workOrderName}>
-                  <td style={{ width: "20%" }}>{workOrder.workOrderName}</td>
-                  <td style={{ width: "20%" }}>{workOrder.technician}</td>
-                  <td style={{ width: "15%" }}>{workOrder.workType}</td>
-                  <td style={{ width: "15%" }}>{workOrder.status}</td>
-                  <td style={{ width: "15%" }}>{workOrder.startTime}</td>
-                  <td style={{ width: "15%" }}>{workOrder.endTime}</td>
-                </tr>
-              );
-            })}
+            {!isLoading ? (
+              workOrders?.map((workOrder: WorkOrder) => {
+                return (
+                  <tr className="table-rows" key={workOrder.workOrderName}>
+                    <td style={{ width: "20%" }}>{workOrder.workOrderName}</td>
+                    <td style={{ width: "20%" }}>{workOrder.technician}</td>
+                    <td style={{ width: "15%" }}>{workOrder.workType}</td>
+                    <td style={{ width: "15%" }}>{workOrder.status}</td>
+                    <td style={{ width: "15%" }}>{workOrder.startTime}</td>
+                    <td style={{ width: "15%" }}>{workOrder.endTime}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td>Loading...</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

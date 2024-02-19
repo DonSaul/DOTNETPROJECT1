@@ -28,12 +28,26 @@ const WorkOrders = () => {
   useEffect(() => {
     const getWorkOrders = async () => {
       setIsLoading(true);
-      const response = await fetch(
-        "https://localhost:7178/api/WorkOrderDetails/all"
-      );
-      // console.log(response)
-      const data = await response.json();
-      setWorkOrders(data);
+      try {
+        const response = await fetch(
+          "https://localhost:7178/api/WorkOrderDetails/all"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setWorkOrders(data);
+        } else {
+          toast.error("Failed to fetch data", {
+            position: "top-right",
+            theme: "dark",
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Error processing data", {
+          position: "top-right",
+          theme: "dark",
+        });
+      }
       setIsLoading(false);
     };
 
@@ -247,11 +261,7 @@ const WorkOrders = () => {
         </div>
       </div>
 
-      {!isLoading ? (
-        <ListWorkOrders workOrders={workOrders} />
-      ) : (
-        <div>Loading...</div>
-      )}
+      <ListWorkOrders workOrders={workOrders} isLoading={isLoading} />
     </section>
   );
 };
