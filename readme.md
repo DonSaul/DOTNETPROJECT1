@@ -397,53 +397,37 @@ The **useEffect** hook is a tool for performing side effects in functional compo
 ### Toasts
 Toasts provide feedback messages from the system, such as success or error notifications, enhancing user interaction by confirming actions or displaying errors without disrupting the user experience.
 
+### Work Order Page:
 
-### Work Order Page Functionality:
 #### Initial Loading
-**- useEffect Hook:** Triggers the initial data fetching for work orders, executing when the component mounts to the DOM.
+- **useEffect Hook:** Triggers the initial data fetching for work orders, executing when the component mounts to the DOM.
+- **getWorkOrders Function:** An asynchronous function called within useEffect to fetch Work Order data from the API.
+- **useState Hook:** Upon successful data fetching, useState updates the UI with the fetched data using setWorkOrders, which is then passed to and displayed by the ListWorkOrders component.
+- **Error Handling:** If data fetching fails, error messages are displayed using toasts, maintaining clear communication with the user.
 
-**- getWorkOrders Function:**  An asynchronous function called within useEffect to fetch Work Order data from the API.
-
-**-useState Hook:** Upon successful data fetching, useState updates the UI with the fetched data using setWorkOrders, which is then passed to and displayed by the ListWorkOrders component.
-
-**-Error Handling:** If data fetching fails, error messages are displayed using toasts, maintaining clear communication with the user.
-
-#### Search Functionality
-Initiates a request to the search API endpoint.
-
-On success, displays the fetched data in a dialog component using setFoundWorkOrder to update the state.
-
-Utilizes toasts to inform the user upon unsuccessful responses, preventing display of incorrect data.
+#### WorkOrder Search
+- Initiates a request to the search API endpoint.
+- On success, displays the fetched data in a dialog component using setFoundWorkOrder to update the state.
+- Utilizes toasts to inform the user upon unsuccessful responses, preventing display of incorrect data.
 
 #### Filter Functionality
-
-Executes a filtered search by calling the API with specific parameters.
-
-Displays a loading toast to inform the user that the data is being processed.
-
-Reuses setWorkOrders to update the UI with the filtered results, maintaining consistency in data structure and display.
+- Executes a filtered search by calling the API with specific parameters.
+- Displays a loading toast to inform the user that the data is being processed.
+- Reuses setWorkOrders to update the UI with the filtered results, maintaining consistency in data structure and display.
 
 #### CSV Exporting
-Fetches the CSV file from the API.
+- Fetches the CSV file from the API.
+- Creates a blob URL for the file and appends it to the document for downloading.
+- Automatically triggers the download link and subsequently removes it from the document to keep the UI clean.
 
-Creates a blob URL for the file and appends it to the document for downloading.
+### Technician Page:
 
-Automatically triggers the download link and subsequently removes it from the document to keep the UI clean.
-
-### Technician Page Functionality
 #### Initial Loading
-
-Similar to Work Order, the initial load uses useEffect for fetching, useState for state management, and toasts for error handling.
-
-Technician data is fetched, processed, and displayed using a similar pattern, ensuring consistency across different page functionalities.
+- Similar to the Work Order page, the initial load uses useEffect for fetching, useState for state management, and toasts for error handling.
+- Technician data is fetched, processed, and displayed using a similar pattern, ensuring consistency across different page functionalities.
 #### Search Handling
-
-Executes a search based on user input.
-
-Updates the technician data or sets an empty array using useState to indicate no results, with user feedback provided via toasts.
-
-
-
+- Executes a search based on user input.
+- Updates the technician data or sets an empty array using useState to indicate no results, with user feedback provided via toasts.
 
 ## 6.7 Frontend
 The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
