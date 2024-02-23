@@ -6,8 +6,13 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Navbar from "./components/Navbar.tsx";
 import WorkOrders from "./pages/WorkOrders.tsx";
+import { Login } from "./pages/Login.tsx";
 
 const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <Login/>,
+  },
   {
     path: "/",
     element: <App />,
