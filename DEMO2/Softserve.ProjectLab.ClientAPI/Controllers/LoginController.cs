@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Softserve.ProjectLab.ClientAPI.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -11,22 +12,22 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
     [ApiController]
     public class LoginController(IConfiguration _config) : Controller
     {
-        private static List<string[]> userPass =
+        private static List<LoginBody> userPass =
         [
-            ["User", "pass"],
-            ["admin", "admin"],
+            new LoginBody("User", "pass"),
+            new LoginBody("admin", "admin"),
         ];
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login(string user, string pass)
+        public IActionResult Login([FromBody] LoginBody body)
         {
-            bool found = userPass.Any(x => x[0].Equals(user) && x[1].Equals(pass));
+            bool found = userPass.Any(x => x.User.Equals(body.User) && x.Pass.Equals(body.Pass));
             if (!found)
             {
                 return Unauthorized("Incorrect credentials");
             }
-            return Json(new { token = GenerateToken(user) });
+            return Json(new { token = GenerateToken(body.User) });
         }
         private string GenerateToken(string user)
         {
