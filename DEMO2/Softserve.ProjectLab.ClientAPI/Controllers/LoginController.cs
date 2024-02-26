@@ -26,8 +26,7 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
             {
                 return Unauthorized("Incorrect credentials");
             }
-            
-            return Ok(GenerateToken(user));
+            return Json(new { token = GenerateToken(user) });
         }
         private string GenerateToken(string user)
         {
