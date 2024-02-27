@@ -1,4 +1,4 @@
-# .NET Project LAB API
+# CL .NET Project LAB API
 
 ## Contents
 1. [Introduction](#1-introduction) 
@@ -19,7 +19,8 @@
    6.3. [Search Technician By Name](#63-search-technician-by-name) <br>
    6.4. [Report Generation](#64-report-generation)<br>
    6.5. [Testing](#65-testing) <br>
-   6.6. [Frontend](#66-frontend)<br>
+   6.6. [Data Query](#66-data-query)<br>
+   6.7. [Frontend](#67-frontend)<br>
 7. [Error Handling](#7-error-handling) <br>
    7.1 [Try Catches](#71-try-catches)<br>
    7.2 [Input Validation](#72-input-validation)<br>
@@ -88,7 +89,7 @@ volumes:
 
 ```
 ### Starting the Service
-To initialize the service, run docker-compose up. This action will start the necessary service to access the routes containing Work Orders resources, including entities such as WorkOrder, Technician, Status, and WorkType.
+To initialize the service, run `docker-compose up`. This action will start the necessary service to access the routes containing Work Orders resources, including entities such as WorkOrder, Technician, Status, and WorkType.
 
 ### Running the .NET Server
 Open the .NET solution file in the DEMO2 directory with Visual Studio to open the project. The project, set up as a Web API, supports both HTTP and HTTPS. In Visual Studio, you can choose the running mode (HTTP or HTTPS) for added security in data transmission. This is usually done by selecting the right option in the toolbar to run the application as a Web App.
@@ -490,6 +491,38 @@ public async Task<IActionResult> Get()
 }
 ```
 This approach allows us to handle errors proactively and ensure that our program can recover from unexpected errors gracefully.
+
+### Frontend pages
+In the frontend pages: Technicians and WorkOrders sections, we implement a robust error handling strategy using try-catch blocks, similar to our backend services. This strategy includes a double layer of try-catch blocks to effectively manage any issues that may arise either during the data fetching or its subsequent handling. If the fetch operation fails or processing errors occur, we inform the user through clear, user-friendly error messages using toasts. This method ensures a seamless user experience even when unexpected errors occur, reinforcing the resilience and reliability of our application's frontend.
+
+For example, this is a function to handle Work Orders Loading in the Work Orders page:
+``` typescript
+const getWorkOrders = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https://localhost:7178/api/WorkOrderDetails/all"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setWorkOrders(data);
+        } else {
+          toast.error("Failed to fetch data", {
+            position: "top-right",
+            theme: "dark",
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Error processing data", {
+          position: "top-right",
+          theme: "dark",
+        });
+      }
+      setIsLoading(false);
+    };
+
+```
 
 ## 7.2 Input Validation
 Input validation in the application is performed both on the client (frontend) and server (backend) sides, ensuring robust data integrity and improving user experience.
