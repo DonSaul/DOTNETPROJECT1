@@ -5,48 +5,48 @@ using Softserve.ProjectLab.ClientAPI.Services;
 
 namespace Softserve.ProjectLab.ClientAPI.Controllers
 {
-	[Route("/api/[controller]")]
-	[ApiController]
-	public class WorkOrderDetailsController : Controller
-	{
-		private readonly IWorkOrderDetailsService _workOrderDetailsService;
+    [Route("/api/[controller]")]
+    [ApiController]
+    public class WorkOrderDetailsController : Controller
+    {
+        private readonly IWorkOrderDetailsService _workOrderDetailsService;
 
-		public WorkOrderDetailsController(IWorkOrderDetailsService workOrderDetailsService)
-		{
-			_workOrderDetailsService = workOrderDetailsService;
-		}
+        public WorkOrderDetailsController(IWorkOrderDetailsService workOrderDetailsService)
+        {
+            _workOrderDetailsService = workOrderDetailsService;
+        }
 
-		[HttpGet]
-		[ProducesResponseType(typeof(List<WorkOrderDetails>), StatusCodes.Status200OK)]
-		[Produces("application/json")]
-		public async Task<IActionResult> Get(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
-		{
-			try
-			{
-				var workOrderDetails = await _workOrderDetailsService.GetWorkOrderDetailsAsync(startTime, endTime, workType, status);
-				return Ok(workOrderDetails);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
-
-		[HttpGet("/api/AllWorkOrders")]
-		[ProducesResponseType(typeof(List<WorkOrderDetails>), StatusCodes.Status200OK)]
-		[Produces("application/json")]
-		public async Task<IActionResult> Get()
-		{
-			try
-			{
-				var workOrderDetails = await _workOrderDetailsService.GetWorkOrderDetailsAsync();
-				return Ok(workOrderDetails);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
+        [HttpGet]
+        [ProducesResponseType(typeof(List<WorkOrderDetails>), StatusCodes.Status200OK)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Get(DateTimeOffset startTime, DateTimeOffset endTime, string workType, string status)
+        {
+            try
+            {
+                var workOrderDetails = await _workOrderDetailsService.GetWorkOrderDetailsAsync(startTime, endTime, workType, status);
+                return Ok(workOrderDetails);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet("all")]
+        [ProducesResponseType(typeof(List<WorkOrderDetails>), StatusCodes.Status200OK)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var workOrderDetails = await _workOrderDetailsService.GetWorkOrderDetailsAsync();
+                return Ok(workOrderDetails);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 		[HttpGet("{workOrderName}")]
 		[ProducesResponseType(typeof(WorkOrderDetails), StatusCodes.Status200OK)]
@@ -80,38 +80,6 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
 			ViewBag.WorkTypes = viewModel.WorkTypes;
 
 			return View(workOrders);
-		}
-
-		[HttpGet("statuses")]
-		[ProducesResponseType(typeof(Status[]), StatusCodes.Status200OK)]
-		[Produces("application/json")]
-		public async Task<IActionResult> GetStatuses()
-		{
-			try
-			{
-				var statuses = await _workOrderDetailsService.GetStatusesAsync();
-				return Ok(statuses);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-		}
-
-		[HttpGet("workTypes")]
-		[ProducesResponseType(typeof(WorkType[]), StatusCodes.Status200OK)]
-		[Produces("application/json")]
-		public async Task<IActionResult> GetWorkTypes()
-		{
-			try
-			{
-				var workTypes = await _workOrderDetailsService.GetWorkTypesAsync();
-				return Ok(workTypes);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
 		}
 
 	}

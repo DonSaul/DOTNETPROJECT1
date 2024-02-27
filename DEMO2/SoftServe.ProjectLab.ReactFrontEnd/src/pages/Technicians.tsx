@@ -93,7 +93,7 @@ const Technicians = () => {
           display: "flex",
           width: "100%",
           alignItems: "center",
-          margin: "0.5rem 0",
+          margin: 10,
         }}
       >
         <input
