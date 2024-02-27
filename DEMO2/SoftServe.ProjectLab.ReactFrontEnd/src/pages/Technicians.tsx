@@ -48,25 +48,41 @@ const Technicians = () => {
     if (search === "") {
       return;
     }
-    const response = await fetch(
-      `https://localhost:7178/api/Technician/TechnicianByName/${search}`
-    );
-    if (response.ok) {
-      toast.success("Filter applied successfully", {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+    try {
+        const response = await fetch(
+            `https://localhost:7178/api/Technician/TechnicianByName/${search}`
+        );
+        if (response.ok) {
+            toast.success("Filter applied successfully", {
+                position: "top-right",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+            const data = await response.json();
+            setTechnicians(data);
+        } else {
+            toast.error("Failed to apply filter and recover data", {
+                position: "top-right",
+                autoClose: 5000,
+                pauseOnHover: true,
+                theme: "dark",
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        toast.error("Error with the filter", {
+            position: "top-right",
+            autoClose: 5000,
+            pauseOnHover: true,
+            theme: "dark",
+        });
     }
-    const data = await response.json();
-
-    setTechnicians(data);
-  };
+  }; 
 
   return (
     <section>
