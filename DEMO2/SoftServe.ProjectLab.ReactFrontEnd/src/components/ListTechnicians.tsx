@@ -1,4 +1,5 @@
 import "../index.css";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 interface Technician {
   technicianId: number;
@@ -14,9 +15,45 @@ const ListTechnicians = ({
   technicians: Array<Technician>;
   isLoading: boolean;
 }) => {
+  const columns: GridColDef[] = [
+    {
+      field: "technicianId",
+      headerName: "TechnicianId",
+      width: 200,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 300,
+    },
+    {
+      field: "address",
+      headerName: "Address",
+      width: 400,
+    },
+  ];
+
   return (
-    <div style={{ width: "70vw" }}>
-      <div style={{ overflowY: "scroll", width: "100%", height: "70vh" }}>
+    <div style={{ width: "70vw", height: "70vh" }}>
+      <DataGrid
+        sx={{
+          "& .MuiDataGrid-columnHeaders": {
+            fontSize: "1rem",
+          },
+        }}
+        rows={technicians}
+        columns={columns}
+        getRowId={(row) => row.technicianId}
+        pageSizeOptions={[20, 50, 100]}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 20 } },
+        }}
+        loading={isLoading}
+        localeText={{
+          noRowsLabel: "No work orders found",
+        }}
+      />
+      {/* <div style={{ overflowY: "scroll", width: "100%", height: "70vh" }}>
         <table className="content-table">
           <thead>
             <tr className="table-headers">
@@ -43,7 +80,7 @@ const ListTechnicians = ({
             )}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 };

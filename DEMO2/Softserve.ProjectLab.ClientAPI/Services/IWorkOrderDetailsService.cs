@@ -9,6 +9,9 @@ namespace Softserve.ProjectLab.ClientAPI.Services
         Task<List<WorkOrderDetails>> GetWorkOrderDetailsByTechnicianAsync(string technicianName);
 		Task<WorkOrderDetails> GetWorkOrderDetailsByNameAsync(string workOrderName);
 		Task<WorkOrderViewModel> GetWorkOrderViewModelAsync();
-    }
+        Task<Status[]> GetStatusesAsync();
+        Task<WorkType[]> GetWorkTypesAsync();
+
+	}
 }
 
