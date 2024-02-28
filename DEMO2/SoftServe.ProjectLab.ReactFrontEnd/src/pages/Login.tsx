@@ -38,6 +38,15 @@ export const Login = () => {
                 console.log(content);
                 
             }
+        }).catch(e => {
+            console.error(e);
+            
+            toast.error("A connection error ocurred", {
+                position: "top-right",
+                autoClose: 5000,
+                pauseOnHover: true,
+                theme: "dark",
+            });
         })
     }
 
