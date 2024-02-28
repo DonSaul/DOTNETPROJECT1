@@ -158,5 +158,17 @@ namespace Softserve.ProjectLab.ClientAPI.Services
 		{
 			throw new NotImplementedException();
 		}
+
+		public async Task<Status[]> GetStatusesAsync()
+		{
+			var statuses = await _statusService.GetStatusesAsync();
+			return statuses;
+		}
+
+		public async Task<WorkType[]> GetWorkTypesAsync()
+		{
+			var workTypes = await _workTypeService.GetWorkTypesAsync();
+			return workTypes;
+		}
 	}
 }

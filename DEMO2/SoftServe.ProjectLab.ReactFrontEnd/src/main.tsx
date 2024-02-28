@@ -7,6 +7,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Navbar from "./components/Navbar.tsx";
 import WorkOrders from "./pages/WorkOrders.tsx";
 import { Login } from "./pages/Login.tsx";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const darkTheme = createTheme({
+    palette: {
+        mode: "dark",
+    },
+});
 
 const router = createBrowserRouter([
   {
@@ -28,10 +35,12 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <main className="app-container">
-      <Navbar />
-      <RouterProvider router={router} />
-    </main>
-  </React.StrictMode>
+    <React.StrictMode>
+        <ThemeProvider theme={darkTheme}>
+            <main className="app-container">
+                <Navbar />
+                <RouterProvider router={router} />
+            </main>
+        </ThemeProvider>
+    </React.StrictMode>
 );

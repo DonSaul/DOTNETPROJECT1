@@ -1,4 +1,4 @@
-# .NET Project LAB API
+# CL .NET Project LAB API
 
 ## Contents
 1. [Introduction](#1-introduction) 
@@ -19,7 +19,8 @@
    6.3. [Search Technician By Name](#63-search-technician-by-name) <br>
    6.4. [Report Generation](#64-report-generation)<br>
    6.5. [Testing](#65-testing) <br>
-   6.6. [Frontend](#66-frontend)<br>
+   6.6. [Data Query](#66-data-query)<br>
+   6.7. [Frontend](#67-frontend)<br>
 7. [Error Handling](#7-error-handling) <br>
    7.1 [Try Catches](#71-try-catches)<br>
    7.2 [Input Validation](#72-input-validation)<br>
@@ -28,7 +29,10 @@
 9. [License](#9-license)
 
 ## 1. Introduction
-This project offers a streamlined approach to managing and querying Work Orders, along with the Technicians linked to them. Designed with a focus on functionality and ease of use, the system offers advanced capabilities for filtering and searching information, thereby enhancing operational efficiency. The project's standout features include:
+
+
+This project offers a streamlined approach to managing and querying Work Orders, along with the Technicians linked to them. Designed with a focus on functionality and ease of use, the system offers advanced capabilities for filtering and searching information, significantly improving operational efficiency. The project's standout features include:
+
 
 **Work Order Queries:** This feature enables comprehensive searches for Work Orders. Users can filter and explore the data using various criteria.
 
@@ -36,7 +40,7 @@ This project offers a streamlined approach to managing and querying Work Orders,
 
 **Customized Report Generation:** The system is equipped to compile data into well-organized, structured reports.
 
-In terms of architecture, the project consists of two primary segments: Back-end and Front-end, designed to work together to provide a comprehensive solution. The Back-end, developed with .NET technologies, is responsible for communication with the Work Order API and plays a crucial role in the handling and processing of data.  The Front-end, built using Blazor - a .NET framework for creating interactive user interfaces with C# - allows users to interact intuitively with the system's functionalities. This integration facilitates access to and management of Work Orders and Technician information.
+In terms of architecture, the project consists of two primary segments: Back-end and Front-end, designed to work together to provide a comprehensive solution. The Back-end, developed with .NET technologies, is responsible for communication with the Work Order API and plays a crucial role in the handling and processing of data. The Front-end, built using React JS technology, allows users to interact intuitively with the system's functionalities. This integration facilitates access to and management of Work Orders and Technician information.
 
 
 
@@ -51,6 +55,11 @@ This tool is used for creating and managing containers that bundle applications 
 ### .NET SDK Version 8.0:
 Crucial for application development using .NET
 technology, .NET SDK Version 8.0 can be obtained from Microsoft's official .NET downloads page [.NET Version 8 Download](https://dotnet.microsoft.com/es-es/download/dotnet/8.0). After installation, executing `dotnet --version` in the command line is advisable to confirm successful installation.
+
+### Node Package Manager (NPM):
+
+Critical for managing Node.js packages and project dependencies, NPM facilitates code sharing and reuse. Installation involves downloading Node.js from the [Node.js Downloads](https://nodejs.org/en/download), which includes NPM. Node.js should be chosen based on system compatibility and user recommendations. Post-installation, the presence of Node.js and NPM can be verified by executing `node --version` and `npm --version` commands, respectively, to display installed versions.
+
 
 ## 2.2 Initial Setup and Configuration
 ### Docker Setup
@@ -80,10 +89,13 @@ volumes:
 
 ```
 ### Starting the Service
-To initialize the service, run docker-compose up. This action will start the necessary service to access the routes containing Work Orders resources, including entities such as WorkOrder, Technician, Status, and WorkType.
+To initialize the service, run `docker-compose up`. This action will start the necessary service to access the routes containing Work Orders resources, including entities such as WorkOrder, Technician, Status, and WorkType.
 
-### Running the project
+### Running the .NET Server
 Open the .NET solution file in the DEMO2 directory with Visual Studio to open the project. The project, set up as a Web API, supports both HTTP and HTTPS. In Visual Studio, you can choose the running mode (HTTP or HTTPS) for added security in data transmission. This is usually done by selecting the right option in the toolbar to run the application as a Web App.
+
+### Running the User Interface
+Within the directory **SoftServe.ProjectLab.ReactFrontEnd**, execute `npm install` to install the necessary node packages. Following the completion of the installation process, initiate the command `npm run dev` to start the React application. This application utilizes Vite for an optimized development environment, enabling rapid development cycles and efficient module replacement.
 
 
 # 3. Basic Usage
@@ -365,8 +377,60 @@ Fine Code Coverage is utilized to evaluate how much of the source code is covere
 
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
 
+## 6.6 Data Query
+Data querying in the React application mainly happens on two important pages: Work Orders and Technician Pages. To understand how the data query functionalities work, it's important to know the following concepts:
 
-## 6.6 Frontend
+### Fetching
+Fetching is the process of requesting data from external sources, such as APIs, crucial for dynamic content display in React applications. It involves:
+
+**1. Making the Request:** Utilize the fetch API or third-party libraries like Axios to send requests to a server. Specify the resource URL, method (GET, POST, etc.), and any necessary options.
+
+**2. Handling the Response:** Process the server's response, typically by converting it to JSON format, to retrieve the desired data.
+
+### React Hooks
+
+Functional components use Hooks for managing state and side effects. Two of the most commonly used hooks are useState and useEffect.
+
+The **useState** hook is a fundamental feature in React, enabling state management capabilities in functional components. It provides a mechanism to create a piece of state and a function to update it. This state is preserved between re-renders of the component, allowing for dynamic tracking and modification of values, such as user inputs or application data, throughout the component's lifecycle, enhancing interactivity and user experience.
+
+The **useEffect** hook is a tool for performing side effects in functional components. It serves to execute code after the completion of render cycles, enabling operations like data fetching, subscriptions, or manually changing the DOM that are separate from the main UI render logic. Developers can specify dependencies to control when the effect runs, ensuring it executes only when certain values change, optimizing performance and resource usage.
+
+### Toasts
+Toasts provide feedback messages from the system, such as success or error notifications, enhancing user interaction by confirming actions or displaying errors without disrupting the user experience.
+
+### Work Order Page:
+
+#### Initial Loading
+- **useEffect Hook:** Triggers the initial data fetching for work orders, executing when the component mounts to the DOM.
+- **getWorkOrders Function:** An asynchronous function called within useEffect to fetch Work Order data from the API.
+- **useState Hook:** Upon successful data fetching, useState updates the UI with the fetched data using setWorkOrders, which is then passed to and displayed by the ListWorkOrders component.
+- **Error Handling:** If data fetching fails, error messages are displayed using toasts, maintaining clear communication with the user.
+
+#### WorkOrder Search
+- Initiates a request to the search API endpoint.
+- On success, displays the fetched data in a dialog component using setFoundWorkOrder to update the state.
+- Utilizes toasts to inform the user upon unsuccessful responses, preventing display of incorrect data.
+
+#### Filter Functionality
+- Executes a filtered search by calling the API with specific parameters.
+- Displays a loading toast to inform the user that the data is being processed.
+- Reuses setWorkOrders to update the UI with the filtered results, maintaining consistency in data structure and display.
+
+#### CSV Exporting
+- Fetches the CSV file from the API.
+- Creates a blob URL for the file and appends it to the document for downloading.
+- Automatically triggers the download link and subsequently removes it from the document to keep the UI clean.
+
+### Technician Page:
+
+#### Initial Loading
+- Similar to the Work Order page, the initial load uses useEffect for fetching, useState for state management, and toasts for error handling.
+- Technician data is fetched, processed, and displayed using a similar pattern, ensuring consistency across different page functionalities.
+#### Search Handling
+- Executes a search based on user input.
+- Updates the technician data or sets an empty array using useState to indicate no results, with user feedback provided via toasts.
+
+## 6.7 Frontend
 The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
 #### Work Orders view
@@ -427,6 +491,38 @@ public async Task<IActionResult> Get()
 }
 ```
 This approach allows us to handle errors proactively and ensure that our program can recover from unexpected errors gracefully.
+
+### Frontend pages
+In the frontend pages: Technicians and WorkOrders sections, we implement a robust error handling strategy using try-catch blocks, similar to our backend services. This strategy includes a double layer of try-catch blocks to effectively manage any issues that may arise either during the data fetching or its subsequent handling. If the fetch operation fails or processing errors occur, we inform the user through clear, user-friendly error messages using toasts. This method ensures a seamless user experience even when unexpected errors occur, reinforcing the resilience and reliability of our application's frontend.
+
+For example, this is a function to handle Work Orders Loading in the Work Orders page:
+``` typescript
+const getWorkOrders = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https://localhost:7178/api/WorkOrderDetails/all"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setWorkOrders(data);
+        } else {
+          toast.error("Failed to fetch data", {
+            position: "top-right",
+            theme: "dark",
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Error processing data", {
+          position: "top-right",
+          theme: "dark",
+        });
+      }
+      setIsLoading(false);
+    };
+
+```
 
 ## 7.2 Input Validation
 Input validation in the application is performed both on the client (frontend) and server (backend) sides, ensuring robust data integrity and improving user experience.
