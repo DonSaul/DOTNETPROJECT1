@@ -1,4 +1,16 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState } from 'react';
+
 const Navbar = () => {
+
+    const [isLogged, setIsLogged] = useState(false);
+
+    AsyncStorage.getItem('token').then(token => setIsLogged(!!token));
+
+    const logout = () => {
+        AsyncStorage.removeItem('token').then(() => window.location.href = "/");
+    }
+    
     return (
         <div>
             <svg
@@ -30,8 +42,15 @@ const Navbar = () => {
                     right: "35%",
                 }}
             >
-                <a href="technicians">Technicians</a>
-                <a href="workOrders">Work Orders</a>
+                {isLogged ? <>
+                    <a href="technicians">Technicians</a>
+                    <a href="workOrders">Work Orders</a>
+                    <button onClick={logout}>Logout</button>
+                </> : <>
+                    <a href="login">
+                    <button>Login</button>
+                    </a>
+                </>}
             </nav>
         </div>
     );

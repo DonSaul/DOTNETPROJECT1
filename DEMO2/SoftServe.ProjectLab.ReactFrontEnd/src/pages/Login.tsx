@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Login = () => {
     const [user, setUser] = useState("");
@@ -35,8 +36,7 @@ export const Login = () => {
             return null;
         }).then(content => {
             if (content) {
-                console.log(content);
-                
+                AsyncStorage.setItem("token", content.token).then(() => window.location.href = "/");
             }
         }).catch(e => {
             console.error(e);
