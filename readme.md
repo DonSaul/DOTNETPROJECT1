@@ -377,6 +377,38 @@ Fine Code Coverage is utilized to evaluate how much of the source code is covere
 
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
 
+## 6.5 Login
+
+Showcasing key authentication concepts, the login functionality stands as the foundation for user verification and secure access within the application.
+
+### Server Side
+
+When a user logs in, the server verifies their credentials and, upon validation, issues a JWT (JSON Web Token). This token serves as a digital pass, enabling secure access to specific parts of the application.
+
+#### Key aspects:
+
+- **User Validation:** The Login function starts by verifying if the provided username (`body.User`) and password (`body.Pass`) match any existing credentials stored in `userPass`. This is a security step to ensure that only users with valid credentials can log in.
+
+- **Unauthorized Access Handling:** If no matching credentials are found, the server responds with an "Unauthorized" status, indicating incorrect login details.
+
+- **JWT Generation:** Upon successful validation, the `GenerateToken` function is called with the username. It creates a JWT, which includes:
+  - A security key derived from a secret configured in the application settings (`_config["Jwt:Key"]`).
+  - The token issuer (`_config["Jwt:Issuer"]`) and audience (`_config["Jwt:Audience"]`), which specify who issued the token and to whom it is intended.
+  - A claim, which is a statement about the user (in this case, the user's identifier).
+  - An expiration time, set to 15 minutes from creation, to limit the token's validity period for security reasons.
+  - Signing credentials, to digitally sign the token and ensure it can be verified and hasn't been tampered with.
+
+- **Token Serialization:** The JWT is then serialized into a string format that can be sent back to the client in the JSON response. This token serves as a credential for the user to access protected resources in subsequent requests until it expires.
+
+### Client Side
+
+The client-side interface, built with React, facilitates the submission and processing of login credentials.
+
+- Manages login state and user input effectively.
+- Handles authentication through secure API interactions.
+- Provides immediate, user-friendly feedback with react-toastify.
+
+
 ## 6.6 Data Query
 Data querying in the React application mainly happens on two important pages: Work Orders and Technician Pages. To understand how the data query functionalities work, it's important to know the following concepts:
 
