@@ -58,7 +58,7 @@ technology, .NET SDK Version 8.0 can be obtained from Microsoft's official .NET 
 
 ### Node Package Manager (NPM):
 
-Critical for managing Node.js packages and project dependencies, NPM facilitates code sharing and reuse. Installation involves downloading Node.js from the [Node.js Downloads](https://nodejs.org/en/download), which includes NPM. Node.js should be chosen based on system compatibility and user recommendations. Post-installation, the presence of Node.js and NPM can be verified by executing `node --version` and `npm --version` commands, respectively, to display installed versions.
+Critical for managing Node.js packages and project dependencies, NPM facilitates code sharing and reuse. Installation involves downloadingk Node.js from the [Node.js Downloads](https://nodejs.org/en/download), which includes NPM. Node.js should be chosen based on system compatibility and user recommendations. Post-installation, the presence of Node.js and NPM can be verified by executing `node --version` and `npm --version` commands, respectively, to display installed versions.
 
 
 ## 2.2 Initial Setup and Configuration
@@ -434,14 +434,14 @@ Toasts provide feedback messages from the system, such as success or error notif
 The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
 #### Work Orders view
-<img src="art/work_orders_view.gif" alt="SoftServe Project Lab Demo 2 - Work Orders View" >
+<img src="art/demo3_workOrders_view.gif" alt="SoftServe Project Lab Demo 3 - Work Orders View" >
 
-*SoftServe Project Lab Demo 2 - Work Orders View*
+*SoftServe Project Lab Demo 3 - Work Orders View*
 
 #### Technician View
-<img src="art/technician_view.gif" alt="Softserve Project Lab Demo 2 - Technicians View">
+<img src="art/demo3_technician_view.gif" alt="Softserve Project Lab Demo 3 - Technicians View">
 
-*Softserve Project Lab Demo 2 - Technicians View*
+*Softserve Project Lab Demo 3 - Technicians View*
 
 
 
