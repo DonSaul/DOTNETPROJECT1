@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 
+
 const Navbar = () => {
 
     const [isLogged, setIsLogged] = useState(false);
@@ -11,6 +12,8 @@ const Navbar = () => {
         AsyncStorage.removeItem('token').then(() => window.location.href = "/");
     }
     
+
+
     return (
         <div>
             <svg
