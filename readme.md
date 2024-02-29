@@ -19,8 +19,9 @@
    6.3. [Search Technician By Name](#63-search-technician-by-name) <br>
    6.4. [Report Generation](#64-report-generation)<br>
    6.5. [Testing](#65-testing) <br>
-   6.6. [Data Query](#66-data-query)<br>
-   6.7. [Frontend](#67-frontend)<br>
+   6.6. [Login](#66-login) <br>
+   6.7. [Data Query](#67-data-query)<br>
+   6.8. [Frontend](#68-frontend)<br>
 7. [Error Handling](#7-error-handling) <br>
    7.1 [Try Catches](#71-try-catches)<br>
    7.2 [Input Validation](#72-input-validation)<br>
@@ -377,7 +378,7 @@ Fine Code Coverage is utilized to evaluate how much of the source code is covere
 
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
 
-## 6.5 Login
+## 6.6 Login
 
 Showcasing key authentication concepts, the login functionality stands as the foundation for user verification and secure access within the application.
 
@@ -409,7 +410,7 @@ The client-side interface, built with React, facilitates the submission and proc
 - Provides immediate, user-friendly feedback with react-toastify.
 
 
-## 6.6 Data Query
+## 6.7 Data Query
 Data querying in the React application mainly happens on two important pages: Work Orders and Technician Pages. To understand how the data query functionalities work, it's important to know the following concepts:
 
 ### Fetching
@@ -462,7 +463,7 @@ Toasts provide feedback messages from the system, such as success or error notif
 - Executes a search based on user input.
 - Updates the technician data or sets an empty array using useState to indicate no results, with user feedback provided via toasts.
 
-## 6.7 Frontend
+## 6.8 Frontend
 The frontend for this project, developed using React, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. 
 The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
