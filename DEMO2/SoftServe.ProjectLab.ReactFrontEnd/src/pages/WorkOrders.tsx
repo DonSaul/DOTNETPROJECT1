@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { apiGet } from "../services/api";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -52,11 +53,11 @@ const WorkOrders = () => {
     const getWorkOrders = async () => {
       setIsLoading(true);
       try {
-        const workOrders = fetch("https://localhost:7178/api/WorkOrderDetails/all");
-        const statuses = fetch(
+        const workOrders = apiGet("https://localhost:7178/api/WorkOrderDetails/all");
+        const statuses = apiGet(
           "https://localhost:7178/api/WorkOrderDetails/statuses"
         );
-        const workTypes = fetch(
+        const workTypes = apiGet(
           "https://localhost:7178/api/WorkOrderDetails/workTypes"
         );
 
@@ -89,7 +90,7 @@ const WorkOrders = () => {
     if (search === "") {
       return;
     }
-    const response = await fetch(
+    const response = await apiGet(
       `https://localhost:7178/api/WorkOrderDetails/${search}`
     );
     if (response.ok) {
@@ -122,11 +123,8 @@ const WorkOrders = () => {
       .tz(endDate, timezone)
       .format("YYYY-MM-DDTHH:mm:ssZ");
 
-    const fetchPromise = fetch(
-      `https://localhost:7178/api/WorkOrderDetails?startTime=${initialDate}&endTime=${finalDate}&workType=${workType}&status=${status}`,
-      {
-        method: "GET",
-      }
+    const fetchPromise = apiGet(
+      `https://localhost:7178/api/WorkOrderDetails?startTime=${initialDate}&endTime=${finalDate}&workType=${workType}&status=${status}`
     ).then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -226,7 +224,7 @@ const WorkOrders = () => {
               // create a blob URL representing the file and append it to doc,
               // click on the URL to download the file,
               // remove the link from the doc
-              fetch("https://localhost:7178/api/WorkOrder/export-csv")
+              apiGet("https://localhost:7178/api/WorkOrder/export-csv")
                 .then((response) => response.blob())
                 .then((blob) => {
                   const url = URL.createObjectURL(blob);

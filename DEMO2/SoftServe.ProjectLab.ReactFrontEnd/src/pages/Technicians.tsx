@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ListTechnicians from "../components/ListTechnicians";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { apiGet } from "../services/api";
 
 const Technicians = () => {
     const [technicians, setTechnicians] = useState([]);
@@ -14,7 +15,7 @@ const Technicians = () => {
         const getTechnicians = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch("https://localhost:7178/api/Technician");
+                const response = await apiGet("https://localhost:7178/api/Technician");
                 if (response.ok) {
                     // success();
                     const data = await response.json();
@@ -48,7 +49,7 @@ const Technicians = () => {
         if (search === "") {
             return;
         }
-        const response = await fetch(
+        const response = await apiGet(
             `https://localhost:7178/api/Technician/TechnicianByName/${search}`
         );
         if (response.ok) {
