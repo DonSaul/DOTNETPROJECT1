@@ -19,8 +19,9 @@
    6.3. [Search Technician By Name](#63-search-technician-by-name) <br>
    6.4. [Report Generation](#64-report-generation)<br>
    6.5. [Testing](#65-testing) <br>
-   6.6. [Data Query](#66-data-query)<br>
-   6.7. [Frontend](#67-frontend)<br>
+   6.6. [Login](#66-login) <br>
+   6.7. [Data Query](#67-data-query)<br>
+   6.8. [Frontend](#68-frontend)<br>
 7. [Error Handling](#7-error-handling) <br>
    7.1 [Try Catches](#71-try-catches)<br>
    7.2 [Input Validation](#72-input-validation)<br>
@@ -58,7 +59,7 @@ technology, .NET SDK Version 8.0 can be obtained from Microsoft's official .NET 
 
 ### Node Package Manager (NPM):
 
-Critical for managing Node.js packages and project dependencies, NPM facilitates code sharing and reuse. Installation involves downloading Node.js from the [Node.js Downloads](https://nodejs.org/en/download), which includes NPM. Node.js should be chosen based on system compatibility and user recommendations. Post-installation, the presence of Node.js and NPM can be verified by executing `node --version` and `npm --version` commands, respectively, to display installed versions.
+Critical for managing Node.js packages and project dependencies, NPM facilitates code sharing and reuse. Installation involves downloadingk Node.js from the [Node.js Downloads](https://nodejs.org/en/download), which includes NPM. Node.js should be chosen based on system compatibility and user recommendations. Post-installation, the presence of Node.js and NPM can be verified by executing `node --version` and `npm --version` commands, respectively, to display installed versions.
 
 
 ## 2.2 Initial Setup and Configuration
@@ -377,7 +378,39 @@ Fine Code Coverage is utilized to evaluate how much of the source code is covere
 
 All tests for the StatusService, TechnicianService, WorkOrderService, and WorkTypeService have successfully passed, confirming the reliability and correctness of these key components of the application.
 
-## 6.6 Data Query
+## 6.6 Login
+
+Showcasing key authentication concepts, the login functionality stands as the foundation for user verification and secure access within the application.
+
+### Server Side
+
+When a user logs in, the server verifies their credentials and, upon validation, issues a JWT (JSON Web Token). This token serves as a digital pass, enabling secure access to specific parts of the application.
+
+#### Key aspects:
+
+- **User Validation:** The Login function starts by verifying if the provided username (`body.User`) and password (`body.Pass`) match any existing credentials stored in `userPass`. This is a security step to ensure that only users with valid credentials can log in.
+
+- **Unauthorized Access Handling:** If no matching credentials are found, the server responds with an "Unauthorized" status, indicating incorrect login details.
+
+- **JWT Generation:** Upon successful validation, the `GenerateToken` function is called with the username. It creates a JWT, which includes:
+  - A security key derived from a secret configured in the application settings (`_config["Jwt:Key"]`).
+  - The token issuer (`_config["Jwt:Issuer"]`) and audience (`_config["Jwt:Audience"]`), which specify who issued the token and to whom it is intended.
+  - A claim, which is a statement about the user (in this case, the user's identifier).
+  - An expiration time, set to 15 minutes from creation, to limit the token's validity period for security reasons.
+  - Signing credentials, to digitally sign the token and ensure it can be verified and hasn't been tampered with.
+
+- **Token Serialization:** The JWT is then serialized into a string format that can be sent back to the client in the JSON response. This token serves as a credential for the user to access protected resources in subsequent requests until it expires.
+
+### Client Side
+
+The client-side interface, built with React, facilitates the submission and processing of login credentials.
+
+- Manages login state and user input effectively.
+- Handles authentication through secure API interactions.
+- Provides immediate, user-friendly feedback with react-toastify.
+
+
+## 6.7 Data Query
 Data querying in the React application mainly happens on two important pages: Work Orders and Technician Pages. To understand how the data query functionalities work, it's important to know the following concepts:
 
 ### Fetching
@@ -430,18 +463,19 @@ Toasts provide feedback messages from the system, such as success or error notif
 - Executes a search based on user input.
 - Updates the technician data or sets an empty array using useState to indicate no results, with user feedback provided via toasts.
 
-## 6.7 Frontend
-The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
+## 6.8 Frontend
+The frontend for this project, developed using React, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. 
+The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
 #### Work Orders view
-<img src="art/work_orders_view.gif" alt="SoftServe Project Lab Demo 2 - Work Orders View" >
+<img src="art/demo3_workOrders_view.gif" alt="SoftServe Project Lab Demo 3 - Work Orders View" >
 
-*SoftServe Project Lab Demo 2 - Work Orders View*
+*SoftServe Project Lab Demo 3 - Work Orders View*
 
 #### Technician View
-<img src="art/technician_view.gif" alt="Softserve Project Lab Demo 2 - Technicians View">
+<img src="art/demo3_technician_view.gif" alt="Softserve Project Lab Demo 3 - Technicians View">
 
-*Softserve Project Lab Demo 2 - Technicians View*
+*Softserve Project Lab Demo 3 - Technicians View*
 
 
 
