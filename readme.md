@@ -1,4 +1,4 @@
-# CL .NET Project LAB API
+# CL .NET Project LAB - Final Project
 
 ## Contents
 1. [Introduction](#1-introduction) 
