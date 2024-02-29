@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar.tsx";
 import WorkOrders from "./pages/WorkOrders.tsx";
 import { Login } from "./pages/Login.tsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 const darkTheme = createTheme({
     palette: {
@@ -18,19 +19,27 @@ const darkTheme = createTheme({
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/",
-    element: <App />,
+    element: <App />
   },
   {
     path: "/technicians",
-    element: <Technicians />,
+    element: (
+      <ProtectedRoute>
+        <Technicians />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/workorders",
-    element: <WorkOrders />,
+    element: (
+      <ProtectedRoute>
+        <WorkOrders />
+      </ProtectedRoute>
+    ),
   },
 ]);
 
