@@ -2,15 +2,15 @@
 
 ## Contents
 1. [Introduction](#1-introduction) 
-2. [Getting Started](#2-getting-started) <br>
-   2.1. [Prerequisites](#21-prerequisites) <br>
+2. [Getting Started](#2-getting-started) 
+   2.1. [Prerequisites](#21-prerequisites)
    2.2. [Initial Setup and Configuration](#22-initial-setup-and-configuration) 
-3. [Basic Usage](#3-basic-usage) <br>
+3. [Basic Usage](#3-basic-usage) 
    3.1. [Basic Operations and Examples](#31-basic-operations-and-examples) 
-4. [Project Architecture](#4-project-architecture) <br>
-   4.1. [Model-View-Controller (MVC)](#41-model-view-controller-mvc-architecture) <br>
-   4.2. [Service Pattern](#42-service-pattern) <br>
-   4.3. [Dependency Injection](#43-dependency-injection)<br>
+4. [Project Architecture](#4-project-architecture)
+   4.1. [Model-View-Controller (MVC)](#41-model-view-controller-mvc-architecture)
+   4.2. [Service Pattern](#42-service-pattern)
+   4.3. [Dependency Injection](#43-dependency-injection)
    4.4. [Benefits](#44-Benefits)
 5. [Security Features and Best Practices](#5-security-features-and-best-practices) <br>  
 6. [Advanced Functionalities](#6-advanced-functionalities) <br>
@@ -431,7 +431,8 @@ Toasts provide feedback messages from the system, such as success or error notif
 - Updates the technician data or sets an empty array using useState to indicate no results, with user feedback provided via toasts.
 
 ## 6.7 Frontend
-The frontend for this project, developed using Blazor, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
+The frontend for this project, developed using React, offers a dynamic and intuitive interface for efficient management of work orders and technicians. The work order view includes capabilities for filtering and exporting work order information, enhancing the overall functionality and user experience. 
+The Technician view provides list and search capabilities, allowing for efficient data access and management. These elements come together to create a seamless, interactive platform for effective data management and analysis. The following views provide insights into the key views of the system, showcasing their design and practical features for efficient data management:
 
 #### Work Orders view
 <img src="art/demo3_workOrders_view.gif" alt="SoftServe Project Lab Demo 3 - Work Orders View" >
