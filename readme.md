@@ -41,14 +41,14 @@ This project offers a streamlined approach to managing and querying Work Orders,
 
 **Report Generation:** The system is equipped to compile data into well-organized, structured reports.
 
-In terms of architecture, the project consists of three primary segments: Back-end and Front-end, designed to work together to provide a comprehensive solution. The Back-end, developed with .NET technologies, is responsible for communication with the Work Order API and plays a crucial role in the handling and processing of data. The Front-end, built using React JS technology, allows users to interact intuitively with the system's functionalities. This integration facilitates access to and management of Work Orders and Technician information.
+In terms of architecture, the project consists of two primary segments: Back-end and Front-end, designed to work together to provide a comprehensive solution. The Back-end, developed with .NET technologies, is responsible for communication with the Work Order API and plays a crucial role in the handling and processing of data. The Front-end, built using React JS technology, allows users to interact intuitively with the system's functionalities. This integration facilitates access to and management of Work Orders and Technician information.
 
 
 
 
 # 2. Getting Started
 ## 2.1 Prerequisites
-Before starting the project, it's important to set up the right development environment. This step involves configuring two key components that are essential for a smooth start with the system.
+Before starting the project, it's important to set up the right development environment. This step involves configuring three key components that are essential for a smooth start with the system.
 
 ### Docker:
 
