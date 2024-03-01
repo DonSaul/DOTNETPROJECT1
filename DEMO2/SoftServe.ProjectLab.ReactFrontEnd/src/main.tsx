@@ -6,27 +6,50 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Navbar from "./components/Navbar.tsx";
 import WorkOrders from "./pages/WorkOrders.tsx";
+import { Login } from "./pages/Login.tsx";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
+
+const darkTheme = createTheme({
+    palette: {
+        mode: "dark",
+    },
+});
 
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
     path: "/",
-    element: <App />,
+    element: <App />
   },
   {
     path: "/technicians",
-    element: <Technicians />,
+    element: (
+      <ProtectedRoute>
+        <Technicians />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/workorders",
-    element: <WorkOrders />,
+    element: (
+      <ProtectedRoute>
+        <WorkOrders />
+      </ProtectedRoute>
+    ),
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <main className="app-container">
-      <Navbar />
-      <RouterProvider router={router} />
-    </main>
-  </React.StrictMode>
+    <React.StrictMode>
+        <ThemeProvider theme={darkTheme}>
+            <main className="app-container">
+                <Navbar />
+                <RouterProvider router={router} />
+            </main>
+        </ThemeProvider>
+    </React.StrictMode>
 );

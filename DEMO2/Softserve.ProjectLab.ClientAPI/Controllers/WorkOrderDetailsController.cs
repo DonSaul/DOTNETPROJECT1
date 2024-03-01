@@ -82,5 +82,37 @@ namespace Softserve.ProjectLab.ClientAPI.Controllers
 			return View(workOrders);
 		}
 
+		[HttpGet("statuses")]
+		[ProducesResponseType(typeof(Status[]), StatusCodes.Status200OK)]
+		[Produces("application/json")]
+		public async Task<IActionResult> GetStatuses()
+		{
+			try
+			{
+				var statuses = await _workOrderDetailsService.GetStatusesAsync();
+				return Ok(statuses);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpGet("workTypes")]
+		[ProducesResponseType(typeof(WorkType[]), StatusCodes.Status200OK)]
+		[Produces("application/json")]
+		public async Task<IActionResult> GetWorkTypes()
+		{
+			try
+			{
+				var workTypes = await _workOrderDetailsService.GetWorkTypesAsync();
+				return Ok(workTypes);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
 	}
 }
