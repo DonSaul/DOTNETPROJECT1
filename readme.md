@@ -402,12 +402,17 @@ When a user logs in, the server verifies their credentials and, upon validation,
 - **Token Serialization:** The JWT is then serialized into a string format that can be sent back to the client in the JSON response. This token serves as a credential for the user to access protected resources in subsequent requests until it expires.
 
 ### Client Side
+The client side interface, developed using React, ensures a user-friendly and secure login experience:
 
-The client-side interface, built with React, facilitates the submission and processing of login credentials.
+**1. Interactive Login Interface:** Users are provided with an intuitive interface to submit their login credentials, which are then verified by the server.
 
-- Manages login state and user input effectively.
-- Handles authentication through secure API interactions.
-- Provides immediate, user-friendly feedback with react-toastify.
+**2. Authentication and Session Management:** After successful verification, a JWT is issued by the server and stored on the client side, maintaining the user's logged-in status and managing their session.
+
+**3. Routes Protection:** Access to certain pages is restricted based on the user's authentication status, ensuring that only logged-in users can access sensitive areas like the Technician and WorkOrders pages.
+
+**4. Redirection After Login:** Successfully logged-in users are redirected to the main page, enabling seamless access to the application's core sections.
+
+**5. Feedback Mechanisms:** The application uses mechanisms like react-toastify for immediate feedback on login attempts, improving user experience by notifying them of any login failures.
 
 
 ## 6.7 Data Query
