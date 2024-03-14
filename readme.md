@@ -59,7 +59,7 @@ technology, .NET SDK Version 8.0 can be obtained from Microsoft's official .NET 
 
 ### Node Package Manager (NPM):
 
-Critical for managing Node.js packages and project dependencies, NPM facilitates code sharing and reuse. Installation involves downloadingk Node.js from the [Node.js Downloads](https://nodejs.org/en/download), which includes NPM. Node.js should be chosen based on system compatibility and user recommendations. Post-installation, the presence of Node.js and NPM can be verified by executing `node --version` and `npm --version` commands, respectively, to display installed versions.
+Critical for managing Node.js packages and project dependencies, NPM facilitates code sharing and reuse. Installation involves downloading Node.js from the [Node.js Downloads](https://nodejs.org/en/download), which includes NPM. Node.js should be chosen based on system compatibility and user recommendations. Post-installation, the presence of Node.js and NPM can be verified by executing `node --version` and `npm --version` commands, respectively, to display installed versions.
 
 
 ## 2.2 Initial Setup and Configuration
